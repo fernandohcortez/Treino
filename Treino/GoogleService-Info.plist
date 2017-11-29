@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>807445257808-g5ceqkif3qr7q41s48uja8tb18hntl4q.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.807445257808-g5ceqkif3qr7q41s48uja8tb18hntl4q</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDXQtvP1wCMkFefeGAbEjQZb72FTOypwME</string>
+	<key>GCM_SENDER_ID</key>
+	<string>807445257808</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.fernandocortez.Treino</string>
+	<key>PROJECT_ID</key>
+	<string>treino-80280</string>
+	<key>STORAGE_BUCKET</key>
+	<string>treino-80280.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true></true>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false></false>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:807445257808:ios:7dd7ee24b60141a1</string>
+	<key>DATABASE_URL</key>
+	<string>https://treino-80280.firebaseio.com</string>
+</dict>
+</plist>
