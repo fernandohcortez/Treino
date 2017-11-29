@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B866E30184DE2A13E1909F8 /* Pods_Treino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82902081D33945100EA920BD /* Pods_Treino.framework */; };
 		91793B911FCED6B8008DC56B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91793B901FCED6B8008DC56B /* AppDelegate.swift */; };
 		91793B931FCED6B8008DC56B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91793B921FCED6B8008DC56B /* ViewController.swift */; };
 		91793B961FCED6B8008DC56B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91793B941FCED6B8008DC56B /* Main.storyboard */; };
@@ -15,6 +16,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		012090F0686E944B1EED0EC9 /* Pods-Treino.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Treino.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Treino/Pods-Treino.debug.xcconfig"; sourceTree = "<group>"; };
+		82902081D33945100EA920BD /* Pods_Treino.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Treino.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		91793B8D1FCED6B8008DC56B /* Treino.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Treino.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		91793B901FCED6B8008DC56B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		91793B921FCED6B8008DC56B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -22,6 +25,7 @@
 		91793B971FCED6B8008DC56B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		91793B9A1FCED6B9008DC56B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		91793B9C1FCED6B9008DC56B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D8CA7BAEF5533021D17DF3D0 /* Pods-Treino.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Treino.release.xcconfig"; path = "Pods/Target Support Files/Pods-Treino/Pods-Treino.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,17 +33,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B866E30184DE2A13E1909F8 /* Pods_Treino.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4BB0F7D072C86F99BA6E807B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				012090F0686E944B1EED0EC9 /* Pods-Treino.debug.xcconfig */,
+				D8CA7BAEF5533021D17DF3D0 /* Pods-Treino.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		91793B841FCED6B8008DC56B = {
 			isa = PBXGroup;
 			children = (
 				91793B8F1FCED6B8008DC56B /* Treino */,
 				91793B8E1FCED6B8008DC56B /* Products */,
+				4BB0F7D072C86F99BA6E807B /* Pods */,
+				EABAC6271C5026769EEDB287 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,14 +70,54 @@
 		91793B8F1FCED6B8008DC56B /* Treino */ = {
 			isa = PBXGroup;
 			children = (
-				91793B901FCED6B8008DC56B /* AppDelegate.swift */,
-				91793B921FCED6B8008DC56B /* ViewController.swift */,
-				91793B941FCED6B8008DC56B /* Main.storyboard */,
+				91793BA21FCED962008DC56B /* Model */,
+				91793BA31FCED969008DC56B /* Controller */,
+				91793BA41FCED96F008DC56B /* View */,
+				91793BA51FCED974008DC56B /* Supporting Files */,
 				91793B971FCED6B8008DC56B /* Assets.xcassets */,
-				91793B991FCED6B9008DC56B /* LaunchScreen.storyboard */,
 				91793B9C1FCED6B9008DC56B /* Info.plist */,
 			);
 			path = Treino;
+			sourceTree = "<group>";
+		};
+		91793BA21FCED962008DC56B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		91793BA31FCED969008DC56B /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				91793B901FCED6B8008DC56B /* AppDelegate.swift */,
+				91793B921FCED6B8008DC56B /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		91793BA41FCED96F008DC56B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				91793B991FCED6B9008DC56B /* LaunchScreen.storyboard */,
+				91793B941FCED6B8008DC56B /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		91793BA51FCED974008DC56B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		EABAC6271C5026769EEDB287 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				82902081D33945100EA920BD /* Pods_Treino.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,9 +127,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 91793B9F1FCED6B9008DC56B /* Build configuration list for PBXNativeTarget "Treino" */;
 			buildPhases = (
+				A0B252D733E0FAAF45DAA2EE /* [CP] Check Pods Manifest.lock */,
 				91793B891FCED6B8008DC56B /* Sources */,
 				91793B8A1FCED6B8008DC56B /* Frameworks */,
 				91793B8B1FCED6B8008DC56B /* Resources */,
+				8C6B7CF0CF75929325A8175D /* [CP] Embed Pods Frameworks */,
+				1B398BB9C25291ADECB05E19 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -130,6 +189,72 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1B398BB9C25291ADECB05E19 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Treino/Pods-Treino-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8C6B7CF0CF75929325A8175D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Treino/Pods-Treino-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/ChameleonFramework/ChameleonFramework.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChameleonFramework.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Treino/Pods-Treino-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A0B252D733E0FAAF45DAA2EE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Treino-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		91793B891FCED6B8008DC56B /* Sources */ = {
@@ -272,6 +397,7 @@
 		};
 		91793BA01FCED6B9008DC56B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 012090F0686E944B1EED0EC9 /* Pods-Treino.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -281,12 +407,13 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.fernandocortez.Treino;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		91793BA11FCED6B9008DC56B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D8CA7BAEF5533021D17DF3D0 /* Pods-Treino.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -296,7 +423,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.fernandocortez.Treino;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
