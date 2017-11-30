@@ -158,24 +158,42 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BackgroundHome" translatesAutoresizingMaskIntoConstraints="NO" id="8Oq-Hh-C6l">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                            </imageView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ZSp-1g-LuX">
+                                <rect key="frame" x="0.0" y="64" width="375" height="510"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="customRotinaCell" id="5Jp-wr-uWT" customClass="CustomRotinaCell" customModule="Treino" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5Jp-wr-uWT" id="Of5-Fl-fAT">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="8Oq-Hh-C6l" firstAttribute="trailing" secondItem="foV-Rc-4cQ" secondAttribute="trailing" id="0hh-6i-X8Z"/>
-                            <constraint firstItem="8Oq-Hh-C6l" firstAttribute="top" secondItem="diL-c6-OuB" secondAttribute="top" id="P2A-wf-BFh"/>
-                            <constraint firstItem="8Oq-Hh-C6l" firstAttribute="leading" secondItem="foV-Rc-4cQ" secondAttribute="leading" id="b9o-Uj-j4o"/>
-                            <constraint firstAttribute="bottom" secondItem="8Oq-Hh-C6l" secondAttribute="bottom" id="spZ-Ld-scV"/>
+                            <constraint firstItem="ZSp-1g-LuX" firstAttribute="bottom" secondItem="foV-Rc-4cQ" secondAttribute="bottom" id="KMC-2f-PbO"/>
+                            <constraint firstItem="ZSp-1g-LuX" firstAttribute="trailing" secondItem="foV-Rc-4cQ" secondAttribute="trailing" id="SYG-cI-WkO"/>
+                            <constraint firstItem="ZSp-1g-LuX" firstAttribute="top" secondItem="foV-Rc-4cQ" secondAttribute="top" id="ZGh-bS-PWH"/>
+                            <constraint firstItem="ZSp-1g-LuX" firstAttribute="leading" secondItem="foV-Rc-4cQ" secondAttribute="leading" id="pl3-EH-GPx"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="foV-Rc-4cQ"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Rotina" id="lFx-7F-eFM"/>
+                    <toolbarItems>
+                        <barButtonItem systemItem="add" id="oiZ-1p-q7Q"/>
+                    </toolbarItems>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="tableViewRotina" destination="ZSp-1g-LuX" id="Ccj-Tk-pxM"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TGv-hQ-Cnc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3358" y="820"/>
+            <point key="canvasLocation" x="3357.5999999999999" y="819.94002998500753"/>
         </scene>
         <!--Treino-->
         <scene sceneID="o9x-GO-722">
@@ -188,21 +206,46 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BackgroundHome" translatesAutoresizingMaskIntoConstraints="NO" id="tR5-S6-bhd">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WLJ-6e-fAk">
+                                <rect key="frame" x="0.0" y="64" width="375" height="489"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mkb-bt-CVj">
+                                <rect key="frame" x="9" y="565" width="357" height="42"/>
+                                <color key="backgroundColor" red="1" green="0.57810515169999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <state key="normal" title="Nova Rotina">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnNovaRotinaPressed:" destination="vTZ-B8-V3c" eventType="touchUpInside" id="IIR-BA-fsh"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="tR5-S6-bhd" firstAttribute="top" secondItem="PFF-OM-xRu" secondAttribute="top" id="23E-2V-cFW"/>
+                            <constraint firstItem="WLJ-6e-fAk" firstAttribute="top" secondItem="vx2-ce-0iS" secondAttribute="top" id="25G-Hd-ubi"/>
+                            <constraint firstItem="WLJ-6e-fAk" firstAttribute="leading" secondItem="vx2-ce-0iS" secondAttribute="leading" id="6q2-4f-Zga"/>
                             <constraint firstAttribute="bottom" secondItem="tR5-S6-bhd" secondAttribute="bottom" id="7r1-Qs-nGn"/>
+                            <constraint firstItem="mkb-bt-CVj" firstAttribute="top" secondItem="WLJ-6e-fAk" secondAttribute="bottom" constant="12" id="SEK-hk-Exn"/>
+                            <constraint firstItem="mkb-bt-CVj" firstAttribute="leading" secondItem="vx2-ce-0iS" secondAttribute="leading" constant="9" id="Ya3-jl-WJ0"/>
+                            <constraint firstItem="vx2-ce-0iS" firstAttribute="trailing" secondItem="mkb-bt-CVj" secondAttribute="trailing" constant="9" id="Yip-9p-eVz"/>
                             <constraint firstItem="tR5-S6-bhd" firstAttribute="trailing" secondItem="vx2-ce-0iS" secondAttribute="trailing" id="bXb-3L-ron"/>
                             <constraint firstItem="tR5-S6-bhd" firstAttribute="leading" secondItem="vx2-ce-0iS" secondAttribute="leading" id="eC0-NV-b0H"/>
+                            <constraint firstAttribute="bottom" secondItem="mkb-bt-CVj" secondAttribute="bottom" constant="60" id="kwM-JQ-iLn"/>
+                            <constraint firstItem="WLJ-6e-fAk" firstAttribute="trailing" secondItem="vx2-ce-0iS" secondAttribute="trailing" id="wvI-8P-4dn"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="vx2-ce-0iS"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Treino" id="yJe-dj-YPD"/>
+                    <connections>
+                        <outlet property="tableViewTreino" destination="WLJ-6e-fAk" id="h18-Xo-14i"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Ha-BZ-QQc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3359" y="116"/>
+            <point key="canvasLocation" x="3357.5999999999999" y="115.59220389805098"/>
         </scene>
         <!--Treino-->
         <scene sceneID="Dil-sk-HMb">
@@ -238,13 +281,13 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BackgroundHome" translatesAutoresizingMaskIntoConstraints="NO" id="rNI-cV-Ox9">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Nly-Fv-MFL">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="fernandohcortez@gmail.com" borderStyle="roundedRect" placeholder="Email" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Nly-Fv-MFL">
                                 <rect key="frame" x="16" y="181" width="343" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Senha" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dDy-tw-hz4">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="fer12540" borderStyle="roundedRect" placeholder="Senha" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dDy-tw-hz4">
                                 <rect key="frame" x="16" y="219" width="343" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -349,6 +392,6 @@
         <image name="BackgroundHome" width="320" height="568"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="8rq-Tj-u81"/>
+        <segue reference="4wI-8N-M5K"/>
     </inferredMetricsTieBreakers>
 </document>

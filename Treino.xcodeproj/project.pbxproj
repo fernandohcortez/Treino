@@ -20,6 +20,10 @@
 		91793BAD1FCF070C008DC56B /* TreinoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91793BAC1FCF070C008DC56B /* TreinoViewController.swift */; };
 		91793BAF1FD06188008DC56B /* HistoricoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91793BAE1FD06188008DC56B /* HistoricoViewController.swift */; };
 		91793BB11FD061BC008DC56B /* RotinaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91793BB01FD061BC008DC56B /* RotinaViewController.swift */; };
+		91E49B031FD076170065E3D3 /* Treino.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E49B021FD076170065E3D3 /* Treino.swift */; };
+		91E49B051FD076A30065E3D3 /* Rotina.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E49B041FD076A30065E3D3 /* Rotina.swift */; };
+		91E49B0F1FD07CCC0065E3D3 /* CustomRotinaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E49B0D1FD07CCC0065E3D3 /* CustomRotinaCell.swift */; };
+		91E49B101FD07CCC0065E3D3 /* CustomRotinaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91E49B0E1FD07CCC0065E3D3 /* CustomRotinaCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +43,10 @@
 		91793BAC1FCF070C008DC56B /* TreinoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreinoViewController.swift; sourceTree = "<group>"; };
 		91793BAE1FD06188008DC56B /* HistoricoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoricoViewController.swift; sourceTree = "<group>"; };
 		91793BB01FD061BC008DC56B /* RotinaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotinaViewController.swift; sourceTree = "<group>"; };
+		91E49B021FD076170065E3D3 /* Treino.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Treino.swift; sourceTree = "<group>"; };
+		91E49B041FD076A30065E3D3 /* Rotina.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rotina.swift; sourceTree = "<group>"; };
+		91E49B0D1FD07CCC0065E3D3 /* CustomRotinaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRotinaCell.swift; sourceTree = "<group>"; };
+		91E49B0E1FD07CCC0065E3D3 /* CustomRotinaCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomRotinaCell.xib; sourceTree = "<group>"; };
 		D8CA7BAEF5533021D17DF3D0 /* Pods-Treino.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Treino.release.xcconfig"; path = "Pods/Target Support Files/Pods-Treino/Pods-Treino.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -117,6 +125,8 @@
 		91793BA21FCED962008DC56B /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				91E49B021FD076170065E3D3 /* Treino.swift */,
+				91E49B041FD076A30065E3D3 /* Rotina.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -136,6 +146,7 @@
 			children = (
 				91793B991FCED6B9008DC56B /* LaunchScreen.storyboard */,
 				91793B941FCED6B8008DC56B /* Main.storyboard */,
+				91E49B061FD0795E0065E3D3 /* Custom Cell */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -147,6 +158,15 @@
 				91793BA61FCEE4BA008DC56B /* GoogleService-Info.plist */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		91E49B061FD0795E0065E3D3 /* Custom Cell */ = {
+			isa = PBXGroup;
+			children = (
+				91E49B0D1FD07CCC0065E3D3 /* CustomRotinaCell.swift */,
+				91E49B0E1FD07CCC0065E3D3 /* CustomRotinaCell.xib */,
+			);
+			path = "Custom Cell";
 			sourceTree = "<group>";
 		};
 		EABAC6271C5026769EEDB287 /* Frameworks */ = {
@@ -221,6 +241,7 @@
 			files = (
 				91793B9B1FCED6B9008DC56B /* LaunchScreen.storyboard in Resources */,
 				91793B981FCED6B8008DC56B /* Assets.xcassets in Resources */,
+				91E49B101FD07CCC0065E3D3 /* CustomRotinaCell.xib in Resources */,
 				91793B961FCED6B8008DC56B /* Main.storyboard in Resources */,
 				91793BA71FCEE4BB008DC56B /* GoogleService-Info.plist in Resources */,
 			);
@@ -300,10 +321,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				91793BAB1FCEF985008DC56B /* LoginViewController.swift in Sources */,
+				91E49B0F1FD07CCC0065E3D3 /* CustomRotinaCell.swift in Sources */,
 				91793BA91FCEF976008DC56B /* RegisterViewController.swift in Sources */,
 				91793B931FCED6B8008DC56B /* InicialViewController.swift in Sources */,
+				91E49B031FD076170065E3D3 /* Treino.swift in Sources */,
 				91793BAF1FD06188008DC56B /* HistoricoViewController.swift in Sources */,
 				91793B911FCED6B8008DC56B /* AppDelegate.swift in Sources */,
+				91E49B051FD076A30065E3D3 /* Rotina.swift in Sources */,
 				91793BB11FD061BC008DC56B /* RotinaViewController.swift in Sources */,
 				912E6C271FD066C700BCE057 /* PerfilViewController.swift in Sources */,
 				91793BAD1FCF070C008DC56B /* TreinoViewController.swift in Sources */,

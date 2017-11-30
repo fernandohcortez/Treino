@@ -7,29 +7,74 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
-class RotinaViewController: UIViewController {
+class RotinaViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    @IBOutlet weak var tableViewRotina: UITableView!
+    
+    var rotinaArray : [Rotina] = [Rotina]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        tableViewRotina.delegate = self
+        tableViewRotina.dataSource = self
+        
+        CarregarRotinas()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    //MARK : tableViewRotina Events
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return rotinaArray.count
     }
-    */
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "customRotinaCell", for : indexPath) as! CustomRotinaCell
+        
+        cell.labelNome.text = rotinaArray[indexPath.row].nome
+        cell.labelExercicios.text = "Teste Teste Teste"
+        
+        if rotinaArray[indexPath.row].status == "A" {
+            cell.status = CustomRotinaCell.StatusRotina.Ativo
+        }
+        else {
+            cell.status = CustomRotinaCell.StatusRotina.Arquivado
+        }
+        
+        
+        //if cell.senderUsername.text == Auth.auth().currentUser?.email {
+        //    cell.avatarImageView.backgroundColor = UIColor.flatMint()
+        //    cell.messageBackground.backgroundColor = UIColor.flatSkyBlue()
+        //}
+        //else {
+       //     cell.avatarImageView.backgroundColor = UIColor.flatWatermelon()
+       //     cell.messageBackground.backgroundColor = UIColor.flatGray()
+       // }
+        
+        return cell
+    }
+    
+    func CarregarRotinas() {
+        
+        let rotinaDB = Database.database().reference().child("Rotinas")
+        
+        rotinaDB.observe(.childAdded) { (snapShot) in
+
+            let rotina = Rotina()
+            rotina.nome = snapShot.value(forKey: "Nome") as! String
+            rotina.status = snapShot.value(forKey: "Status") as! String
+            rotina.observacao = snapShot.value(forKey: "Observacao") as! String
+            rotina.dataCriacao = snapShot.value(forKey: "DataCriacao") as! Date
+            rotina.dataUltimaAtualizacao = snapShot.value(forKey: "DataUltimaAtualizacao") as! Date
+            
+            self.rotinaArray.append(rotina)
+            
+            //self.configureTableView()
+            self.tableViewRotina.reloadData()
+        }
+    }
 
 }
