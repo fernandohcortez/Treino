@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2B866E30184DE2A13E1909F8 /* Pods_Treino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82902081D33945100EA920BD /* Pods_Treino.framework */; };
+		912E6C271FD066C700BCE057 /* PerfilViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 912E6C261FD066C700BCE057 /* PerfilViewController.swift */; };
 		91793B911FCED6B8008DC56B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91793B901FCED6B8008DC56B /* AppDelegate.swift */; };
 		91793B931FCED6B8008DC56B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91793B921FCED6B8008DC56B /* ViewController.swift */; };
 		91793B961FCED6B8008DC56B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91793B941FCED6B8008DC56B /* Main.storyboard */; };
@@ -17,11 +18,14 @@
 		91793BA91FCEF976008DC56B /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91793BA81FCEF976008DC56B /* RegisterViewController.swift */; };
 		91793BAB1FCEF985008DC56B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91793BAA1FCEF985008DC56B /* LoginViewController.swift */; };
 		91793BAD1FCF070C008DC56B /* TreinoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91793BAC1FCF070C008DC56B /* TreinoViewController.swift */; };
+		91793BAF1FD06188008DC56B /* HistoricoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91793BAE1FD06188008DC56B /* HistoricoViewController.swift */; };
+		91793BB11FD061BC008DC56B /* RotinaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91793BB01FD061BC008DC56B /* RotinaViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		012090F0686E944B1EED0EC9 /* Pods-Treino.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Treino.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Treino/Pods-Treino.debug.xcconfig"; sourceTree = "<group>"; };
 		82902081D33945100EA920BD /* Pods_Treino.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Treino.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		912E6C261FD066C700BCE057 /* PerfilViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfilViewController.swift; sourceTree = "<group>"; };
 		91793B8D1FCED6B8008DC56B /* Treino.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Treino.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		91793B901FCED6B8008DC56B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		91793B921FCED6B8008DC56B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -33,6 +37,8 @@
 		91793BA81FCEF976008DC56B /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		91793BAA1FCEF985008DC56B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		91793BAC1FCF070C008DC56B /* TreinoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreinoViewController.swift; sourceTree = "<group>"; };
+		91793BAE1FD06188008DC56B /* HistoricoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoricoViewController.swift; sourceTree = "<group>"; };
+		91793BB01FD061BC008DC56B /* RotinaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotinaViewController.swift; sourceTree = "<group>"; };
 		D8CA7BAEF5533021D17DF3D0 /* Pods-Treino.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Treino.release.xcconfig"; path = "Pods/Target Support Files/Pods-Treino/Pods-Treino.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -55,6 +61,27 @@
 				D8CA7BAEF5533021D17DF3D0 /* Pods-Treino.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		912E6C281FD0676100BCE057 /* Registration */ = {
+			isa = PBXGroup;
+			children = (
+				91793B921FCED6B8008DC56B /* ViewController.swift */,
+				91793BA81FCEF976008DC56B /* RegisterViewController.swift */,
+				91793BAA1FCEF985008DC56B /* LoginViewController.swift */,
+			);
+			path = Registration;
+			sourceTree = "<group>";
+		};
+		912E6C291FD0677D00BCE057 /* Principal */ = {
+			isa = PBXGroup;
+			children = (
+				91793BAC1FCF070C008DC56B /* TreinoViewController.swift */,
+				91793BB01FD061BC008DC56B /* RotinaViewController.swift */,
+				91793BAE1FD06188008DC56B /* HistoricoViewController.swift */,
+				912E6C261FD066C700BCE057 /* PerfilViewController.swift */,
+			);
+			path = Principal;
 			sourceTree = "<group>";
 		};
 		91793B841FCED6B8008DC56B = {
@@ -83,8 +110,6 @@
 				91793BA41FCED96F008DC56B /* View */,
 				91793BA51FCED974008DC56B /* Supporting Files */,
 				91793B971FCED6B8008DC56B /* Assets.xcassets */,
-				91793B9C1FCED6B9008DC56B /* Info.plist */,
-				91793BA61FCEE4BA008DC56B /* GoogleService-Info.plist */,
 			);
 			path = Treino;
 			sourceTree = "<group>";
@@ -100,10 +125,8 @@
 			isa = PBXGroup;
 			children = (
 				91793B901FCED6B8008DC56B /* AppDelegate.swift */,
-				91793B921FCED6B8008DC56B /* ViewController.swift */,
-				91793BA81FCEF976008DC56B /* RegisterViewController.swift */,
-				91793BAA1FCEF985008DC56B /* LoginViewController.swift */,
-				91793BAC1FCF070C008DC56B /* TreinoViewController.swift */,
+				912E6C281FD0676100BCE057 /* Registration */,
+				912E6C291FD0677D00BCE057 /* Principal */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -120,6 +143,8 @@
 		91793BA51FCED974008DC56B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				91793B9C1FCED6B9008DC56B /* Info.plist */,
+				91793BA61FCEE4BA008DC56B /* GoogleService-Info.plist */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -277,7 +302,10 @@
 				91793BAB1FCEF985008DC56B /* LoginViewController.swift in Sources */,
 				91793BA91FCEF976008DC56B /* RegisterViewController.swift in Sources */,
 				91793B931FCED6B8008DC56B /* ViewController.swift in Sources */,
+				91793BAF1FD06188008DC56B /* HistoricoViewController.swift in Sources */,
 				91793B911FCED6B8008DC56B /* AppDelegate.swift in Sources */,
+				91793BB11FD061BC008DC56B /* RotinaViewController.swift in Sources */,
+				912E6C271FD066C700BCE057 /* PerfilViewController.swift in Sources */,
 				91793BAD1FCF070C008DC56B /* TreinoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -418,7 +446,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ET2356X7TF;
-				INFOPLIST_FILE = Treino/Info.plist;
+				INFOPLIST_FILE = "Treino/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.fernandocortez.Treino;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -434,7 +462,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ET2356X7TF;
-				INFOPLIST_FILE = Treino/Info.plist;
+				INFOPLIST_FILE = "Treino/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.fernandocortez.Treino;
 				PRODUCT_NAME = "$(TARGET_NAME)";

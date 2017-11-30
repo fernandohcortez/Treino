@@ -47,7 +47,6 @@
                                     <color key="titleShadowColor" red="0.57414853570000002" green="0.57416242360000003" blue="0.57415497299999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="btnRegisterPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mYb-Ta-NmU"/>
                                     <segue destination="vhm-SG-5xT" kind="show" identifier="goToRegister" id="Jaa-mt-lrD"/>
                                 </connections>
                             </button>
@@ -60,8 +59,7 @@
                                     <color key="titleShadowColor" red="0.57414853570000002" green="0.57416242360000003" blue="0.57415497299999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="btnLoginPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PEZ-U7-tle"/>
-                                    <segue destination="W22-AZ-btG" kind="show" identifier="goToRegister" id="ZMj-P8-Dfv"/>
+                                    <segue destination="W22-AZ-btG" kind="show" identifier="goToLogin" id="d4X-4g-u55"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -155,7 +153,7 @@
         <!--Rotina-->
         <scene sceneID="lvG-gZ-DaZ">
             <objects>
-                <viewController title="Rotina" id="6NZ-Oj-9dv" sceneMemberID="viewController">
+                <viewController title="Rotina" id="6NZ-Oj-9dv" customClass="RotinaViewController" customModule="Treino" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="diL-c6-OuB">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -295,7 +293,7 @@
         <!--Histórico-->
         <scene sceneID="NMS-wA-Ely">
             <objects>
-                <viewController title="Histórico" id="trw-TE-KHm" sceneMemberID="viewController">
+                <viewController title="Histórico" id="trw-TE-KHm" customClass="HistoricoViewController" customModule="Treino" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="n0Z-el-QBh">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -322,7 +320,7 @@
         <!--Perfil-->
         <scene sceneID="UOv-12-lLg">
             <objects>
-                <viewController title="Perfil" id="gDW-iK-UJF" sceneMemberID="viewController">
+                <viewController title="Perfil" id="gDW-iK-UJF" customClass="PerfilViewController" customModule="Treino" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="o03-wn-8HW">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
