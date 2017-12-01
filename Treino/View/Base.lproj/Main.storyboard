@@ -159,7 +159,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ZSp-1g-LuX">
-                                <rect key="frame" x="0.0" y="64" width="375" height="510"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="553"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="customRotinaCell" id="5Jp-wr-uWT" customClass="CustomRotinaCell" customModule="Treino" customModuleProvider="target">
@@ -175,25 +175,81 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="ZSp-1g-LuX" firstAttribute="bottom" secondItem="foV-Rc-4cQ" secondAttribute="bottom" id="KMC-2f-PbO"/>
-                            <constraint firstItem="ZSp-1g-LuX" firstAttribute="trailing" secondItem="foV-Rc-4cQ" secondAttribute="trailing" id="SYG-cI-WkO"/>
-                            <constraint firstItem="ZSp-1g-LuX" firstAttribute="top" secondItem="foV-Rc-4cQ" secondAttribute="top" id="ZGh-bS-PWH"/>
-                            <constraint firstItem="ZSp-1g-LuX" firstAttribute="leading" secondItem="foV-Rc-4cQ" secondAttribute="leading" id="pl3-EH-GPx"/>
+                            <constraint firstItem="ZSp-1g-LuX" firstAttribute="top" secondItem="foV-Rc-4cQ" secondAttribute="top" id="9EC-wV-uMP"/>
+                            <constraint firstAttribute="bottom" secondItem="ZSp-1g-LuX" secondAttribute="bottom" constant="50" id="JPs-qw-LxA"/>
+                            <constraint firstItem="ZSp-1g-LuX" firstAttribute="trailing" secondItem="foV-Rc-4cQ" secondAttribute="trailing" id="P2X-iz-Lbv"/>
+                            <constraint firstItem="ZSp-1g-LuX" firstAttribute="leading" secondItem="foV-Rc-4cQ" secondAttribute="leading" id="mdP-1l-xML"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="foV-Rc-4cQ"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Rotina" id="lFx-7F-eFM"/>
-                    <toolbarItems>
-                        <barButtonItem systemItem="add" id="oiZ-1p-q7Q"/>
-                    </toolbarItems>
+                    <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="tableViewRotina" destination="ZSp-1g-LuX" id="Ccj-Tk-pxM"/>
+                        <segue destination="u9b-Gk-bxj" kind="show" identifier="goToRotinaDetalhes" id="vQ0-Dv-C33"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TGv-hQ-Cnc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3357.5999999999999" y="819.94002998500753"/>
+        </scene>
+        <!--Rotina Detalhes View Controller-->
+        <scene sceneID="ITl-8v-fbr">
+            <objects>
+                <viewController id="u9b-Gk-bxj" customClass="RotinaDetalhesViewController" customModule="Treino" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="cr8-x0-KSg">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Arquivado?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hkb-gv-QEK">
+                                <rect key="frame" x="16" y="176" width="86" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Nome Rotina" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2HC-ff-cce">
+                                <rect key="frame" x="16" y="80" width="343" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Observações" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ctM-bO-53X">
+                                <rect key="frame" x="16" y="126" width="343" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="m1h-Mh-Hlg">
+                                <rect key="frame" x="118" y="172" width="51" height="31"/>
+                            </switch>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="tYg-a7-DBj" firstAttribute="trailing" secondItem="2HC-ff-cce" secondAttribute="trailing" constant="16" id="5I7-5J-ltd"/>
+                            <constraint firstItem="m1h-Mh-Hlg" firstAttribute="top" secondItem="ctM-bO-53X" secondAttribute="bottom" constant="16" id="C5V-bd-InI"/>
+                            <constraint firstItem="m1h-Mh-Hlg" firstAttribute="leading" secondItem="Hkb-gv-QEK" secondAttribute="trailing" constant="16" id="DMu-v5-g5L"/>
+                            <constraint firstItem="tYg-a7-DBj" firstAttribute="trailing" secondItem="ctM-bO-53X" secondAttribute="trailing" constant="16" id="I8M-vV-dJL"/>
+                            <constraint firstItem="2HC-ff-cce" firstAttribute="top" secondItem="tYg-a7-DBj" secondAttribute="top" constant="16" id="M3Y-US-V0K"/>
+                            <constraint firstItem="2HC-ff-cce" firstAttribute="leading" secondItem="tYg-a7-DBj" secondAttribute="leading" constant="16" id="O95-Lx-PxC"/>
+                            <constraint firstItem="Hkb-gv-QEK" firstAttribute="leading" secondItem="tYg-a7-DBj" secondAttribute="leading" constant="16" id="OER-y8-HuB"/>
+                            <constraint firstItem="ctM-bO-53X" firstAttribute="top" secondItem="2HC-ff-cce" secondAttribute="bottom" constant="16" id="UPa-uK-XTm"/>
+                            <constraint firstItem="Hkb-gv-QEK" firstAttribute="top" secondItem="ctM-bO-53X" secondAttribute="bottom" constant="20" id="hBz-Je-EmM"/>
+                            <constraint firstItem="ctM-bO-53X" firstAttribute="leading" secondItem="tYg-a7-DBj" secondAttribute="leading" constant="16" id="iag-13-RdZ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="tYg-a7-DBj"/>
+                    </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="arquivadoSwitch" destination="m1h-Mh-Hlg" id="iyG-Nt-BGs"/>
+                        <outlet property="nomeRotinaTextField" destination="2HC-ff-cce" id="EjZ-rb-vex"/>
+                        <outlet property="observacoesTextField" destination="ctM-bO-53X" id="CN0-qb-e7v"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iEC-Nx-pJy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3357.5999999999999" y="1553.9730134932536"/>
         </scene>
         <!--Treino-->
         <scene sceneID="o9x-GO-722">
@@ -252,7 +308,7 @@
             <objects>
                 <tabBarController id="bXb-qw-wbt" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" title="Treino" id="rRP-qo-fCh">
-                        <barButtonItem key="rightBarButtonItem" title="Log Out" id="erx-JQ-khU"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="erx-JQ-khU"/>
                     </navigationItem>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="y26-Nv-77l">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>

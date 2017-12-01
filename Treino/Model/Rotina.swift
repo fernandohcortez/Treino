@@ -7,17 +7,27 @@
 //
 
 import Foundation
+import ObjectMapper
 
-class Rotina {
-
+class Rotina : Mappable {
+    
     var nome : String = ""
     var observacao : String = ""
     var status : String = ""
     var dataCriacao : Date = Date()
     var dataUltimaAtualizacao : Date = Date()
     
-    init() {
-        
+    func mapping(map: Map) {
+        nome <- map["nome"]
+        observacao <- map["observacao"]
+        status <- map["status"]
+        dataCriacao <- (map["dataCriacao"], DateTransform())
+        dataUltimaAtualizacao <- (map["dataUltimaAtualizacao"], DateTransform())
     }
-
+    
+    init() {
+    }
+    
+    required init?(map: Map) {
+    }
 }

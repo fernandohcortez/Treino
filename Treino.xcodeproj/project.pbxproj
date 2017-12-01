@@ -24,6 +24,7 @@
 		91E49B051FD076A30065E3D3 /* Rotina.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E49B041FD076A30065E3D3 /* Rotina.swift */; };
 		91E49B0F1FD07CCC0065E3D3 /* CustomRotinaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E49B0D1FD07CCC0065E3D3 /* CustomRotinaCell.swift */; };
 		91E49B101FD07CCC0065E3D3 /* CustomRotinaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91E49B0E1FD07CCC0065E3D3 /* CustomRotinaCell.xib */; };
+		91E49B121FD1E9850065E3D3 /* RotinaDetalhesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E49B111FD1E9850065E3D3 /* RotinaDetalhesViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +48,7 @@
 		91E49B041FD076A30065E3D3 /* Rotina.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rotina.swift; sourceTree = "<group>"; };
 		91E49B0D1FD07CCC0065E3D3 /* CustomRotinaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRotinaCell.swift; sourceTree = "<group>"; };
 		91E49B0E1FD07CCC0065E3D3 /* CustomRotinaCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomRotinaCell.xib; sourceTree = "<group>"; };
+		91E49B111FD1E9850065E3D3 /* RotinaDetalhesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotinaDetalhesViewController.swift; sourceTree = "<group>"; };
 		D8CA7BAEF5533021D17DF3D0 /* Pods-Treino.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Treino.release.xcconfig"; path = "Pods/Target Support Files/Pods-Treino/Pods-Treino.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,6 +88,7 @@
 			children = (
 				91793BAC1FCF070C008DC56B /* TreinoViewController.swift */,
 				91793BB01FD061BC008DC56B /* RotinaViewController.swift */,
+				91E49B111FD1E9850065E3D3 /* RotinaDetalhesViewController.swift */,
 				91793BAE1FD06188008DC56B /* HistoricoViewController.swift */,
 				912E6C261FD066C700BCE057 /* PerfilViewController.swift */,
 			);
@@ -276,6 +279,7 @@
 				"${BUILT_PRODUCTS_DIR}/ChameleonFramework/ChameleonFramework.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
 				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
@@ -286,6 +290,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChameleonFramework.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
@@ -327,6 +332,7 @@
 				91E49B031FD076170065E3D3 /* Treino.swift in Sources */,
 				91793BAF1FD06188008DC56B /* HistoricoViewController.swift in Sources */,
 				91793B911FCED6B8008DC56B /* AppDelegate.swift in Sources */,
+				91E49B121FD1E9850065E3D3 /* RotinaDetalhesViewController.swift in Sources */,
 				91E49B051FD076A30065E3D3 /* Rotina.swift in Sources */,
 				91793BB11FD061BC008DC56B /* RotinaViewController.swift in Sources */,
 				912E6C271FD066C700BCE057 /* PerfilViewController.swift in Sources */,

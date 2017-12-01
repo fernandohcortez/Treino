@@ -20,13 +20,15 @@ class TreinoViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tableViewTreino.delegate = self
         tableViewTreino.dataSource = self
         
-        //self.navigationItem.leftBarButtonItem = nil
-        //self.navigationItem.hidesBackButton = true;
-        
-        //self.navigationItem.setHidesBackButton(true, animated: false)
+        self.tabBarController?.navigationItem.hidesBackButton = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        self.tabBarController?.navigationItem.rightBarButtonItem = nil
     }
     
     @IBAction func btnNovaRotinaPressed(_ sender: UIButton) {
+    
     }
     
     //MARK: - tableViewTreino Events

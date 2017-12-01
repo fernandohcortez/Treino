@@ -13,6 +13,14 @@ class PerfilViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(btnEditarPressed)
+        )
+    }
+    
+    @objc func btnEditarPressed(sender: UIBarButtonItem) {
+        print("btnEditarPressed")
     }
 }

@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseDatabase
+import ObjectMapper
 
 class RotinaViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -21,7 +22,18 @@ class RotinaViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tableViewRotina.delegate = self
         tableViewRotina.dataSource = self
         
+        tableViewRotina.register(UINib(nibName : "CustomRotinaCell", bundle : nil), forCellReuseIdentifier: "customRotinaCell")
+        
         CarregarRotinas()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(btnIncluirPressed)
+        )
+    }
+    
+    @objc func btnIncluirPressed(sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "goToRotinaDetalhes", sender: nil)
     }
     
     //MARK : tableViewRotina Events
@@ -34,15 +46,7 @@ class RotinaViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "customRotinaCell", for : indexPath) as! CustomRotinaCell
         
-        cell.labelNome.text = rotinaArray[indexPath.row].nome
-        cell.labelExercicios.text = "Teste Teste Teste"
-        
-        if rotinaArray[indexPath.row].status == "A" {
-            cell.status = CustomRotinaCell.StatusRotina.Ativo
-        }
-        else {
-            cell.status = CustomRotinaCell.StatusRotina.Arquivado
-        }
+        cell.updateUI(rotina: rotinaArray[indexPath.row])
         
         
         //if cell.senderUsername.text == Auth.auth().currentUser?.email {
@@ -63,12 +67,14 @@ class RotinaViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         rotinaDB.observe(.childAdded) { (snapShot) in
 
-            let rotina = Rotina()
-            rotina.nome = snapShot.value(forKey: "Nome") as! String
-            rotina.status = snapShot.value(forKey: "Status") as! String
-            rotina.observacao = snapShot.value(forKey: "Observacao") as! String
-            rotina.dataCriacao = snapShot.value(forKey: "DataCriacao") as! Date
-            rotina.dataUltimaAtualizacao = snapShot.value(forKey: "DataUltimaAtualizacao") as! Date
+            let rotina = Rotina(JSONString: snapShot.value as! String)!
+            
+            
+            //rotina.nome = snapShot.value(forKey: "nome") as! String
+            //rotina.status = snapShot.value(forKey: "status") as! String
+            //rotina.observacao = snapShot.value(forKey: "observacao") as! String
+            //rotina.dataCriacao = snapShot.value(forKey: "dataCriacao") as! Date
+            //rotina.dataUltimaAtualizacao = snapShot.value(forKey: "dataUltimaAtualizacao") as! Date
             
             self.rotinaArray.append(rotina)
             
