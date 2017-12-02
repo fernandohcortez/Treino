@@ -26,7 +26,7 @@ class CustomRotinaCell: UITableViewCell {
     func updateUI(rotina: Rotina) {
         
         labelNome.text = rotina.nome
-        labelExercicios.text = ""
+        labelExercicios.text = rotina.observacao
         imageViewStatus.image = rotina.status == "A" ? UIImage(named: "StatusRotinaActive") : UIImage(named: "StatusRotinaArchived")
     }
     

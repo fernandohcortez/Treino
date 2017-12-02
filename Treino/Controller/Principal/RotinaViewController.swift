@@ -14,54 +14,67 @@ class RotinaViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
     @IBOutlet weak var tableViewRotina: UITableView!
     
-    var rotinaArray : [Rotina] = [Rotina]()
+    private var _rotinaArray : [Rotina] = [Rotina]()
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
-
-        tableViewRotina.delegate = self
-        tableViewRotina.dataSource = self
         
-        tableViewRotina.register(UINib(nibName : "CustomRotinaCell", bundle : nil), forCellReuseIdentifier: "customRotinaCell")
+        configureTableView()
         
-        CarregarRotinas()
+        carregarRotinas()
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
+        configureAddButton()
+    }
+    
+    func configureAddButton() {
+        
         self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(btnIncluirPressed)
         )
     }
     
     @objc func btnIncluirPressed(sender: UIBarButtonItem) {
+        
         performSegue(withIdentifier: "goToRotinaDetalhes", sender: nil)
     }
     
     //MARK : tableViewRotina Events
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return rotinaArray.count
+        
+        return _rotinaArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "customRotinaCell", for : indexPath) as! CustomRotinaCell
         
-        cell.updateUI(rotina: rotinaArray[indexPath.row])
-        
-        
-        //if cell.senderUsername.text == Auth.auth().currentUser?.email {
-        //    cell.avatarImageView.backgroundColor = UIColor.flatMint()
-        //    cell.messageBackground.backgroundColor = UIColor.flatSkyBlue()
-        //}
-        //else {
-       //     cell.avatarImageView.backgroundColor = UIColor.flatWatermelon()
-       //     cell.messageBackground.backgroundColor = UIColor.flatGray()
-       // }
+        cell.updateUI(rotina: _rotinaArray[indexPath.row])
         
         return cell
     }
     
-    func CarregarRotinas() {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        performSegue(withIdentifier: "goToRotinaDetalhes", sender: _rotinaArray[indexPath.row])
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        let rotinaDetalhesVC = segue.destination as! RotinaDetalhesViewController
+        
+        if segue.identifier == "goToRotinaDetalhes"
+        {
+            if let rotina = sender as? Rotina {
+                rotinaDetalhesVC.model = rotina
+            }
+        }
+    }
+    
+    func carregarRotinas() {
         
         let rotinaDB = Database.database().reference().child("Rotinas")
         
@@ -69,18 +82,37 @@ class RotinaViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
             let rotina = Rotina(JSONString: snapShot.value as! String)!
             
+            rotina.autoKey = snapShot.key
             
-            //rotina.nome = snapShot.value(forKey: "nome") as! String
-            //rotina.status = snapShot.value(forKey: "status") as! String
-            //rotina.observacao = snapShot.value(forKey: "observacao") as! String
-            //rotina.dataCriacao = snapShot.value(forKey: "dataCriacao") as! Date
-            //rotina.dataUltimaAtualizacao = snapShot.value(forKey: "dataUltimaAtualizacao") as! Date
+            self._rotinaArray.append(rotina)
             
-            self.rotinaArray.append(rotina)
+            self.configureHeightCellTableView()
             
-            //self.configureTableView()
-            self.tableViewRotina.reloadData()
+            self.recarregarTableView()
         }
+    }
+    
+    func configureTableView() {
+        
+        tableViewRotina.delegate = self
+        tableViewRotina.dataSource = self
+        
+        tableViewRotina.register(UINib(nibName : "CustomRotinaCell", bundle : nil), forCellReuseIdentifier: "customRotinaCell")
+        
+        tableViewRotina.separatorStyle = .none
+        
+        configureHeightCellTableView()
+    }
+    
+    func configureHeightCellTableView() {
+        
+        tableViewRotina.rowHeight = UITableViewAutomaticDimension
+        tableViewRotina.estimatedRowHeight = 150.0
+    }
+    
+    func recarregarTableView() {
+        
+        tableViewRotina.reloadData()
     }
 
 }

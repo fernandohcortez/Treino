@@ -20,6 +20,8 @@
 		91793BAD1FCF070C008DC56B /* TreinoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91793BAC1FCF070C008DC56B /* TreinoViewController.swift */; };
 		91793BAF1FD06188008DC56B /* HistoricoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91793BAE1FD06188008DC56B /* HistoricoViewController.swift */; };
 		91793BB11FD061BC008DC56B /* RotinaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91793BB01FD061BC008DC56B /* RotinaViewController.swift */; };
+		91D6B9CE1FD31E4A00F65538 /* BaseDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D6B9CD1FD31E4A00F65538 /* BaseDetailsViewController.swift */; };
+		91D6B9D11FD3203800F65538 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D6B9D01FD3203800F65538 /* BaseModel.swift */; };
 		91E49B031FD076170065E3D3 /* Treino.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E49B021FD076170065E3D3 /* Treino.swift */; };
 		91E49B051FD076A30065E3D3 /* Rotina.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E49B041FD076A30065E3D3 /* Rotina.swift */; };
 		91E49B0F1FD07CCC0065E3D3 /* CustomRotinaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E49B0D1FD07CCC0065E3D3 /* CustomRotinaCell.swift */; };
@@ -44,6 +46,8 @@
 		91793BAC1FCF070C008DC56B /* TreinoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreinoViewController.swift; sourceTree = "<group>"; };
 		91793BAE1FD06188008DC56B /* HistoricoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoricoViewController.swift; sourceTree = "<group>"; };
 		91793BB01FD061BC008DC56B /* RotinaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotinaViewController.swift; sourceTree = "<group>"; };
+		91D6B9CD1FD31E4A00F65538 /* BaseDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDetailsViewController.swift; sourceTree = "<group>"; };
+		91D6B9D01FD3203800F65538 /* BaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
 		91E49B021FD076170065E3D3 /* Treino.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Treino.swift; sourceTree = "<group>"; };
 		91E49B041FD076A30065E3D3 /* Rotina.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rotina.swift; sourceTree = "<group>"; };
 		91E49B0D1FD07CCC0065E3D3 /* CustomRotinaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRotinaCell.swift; sourceTree = "<group>"; };
@@ -116,6 +120,7 @@
 		91793B8F1FCED6B8008DC56B /* Treino */ = {
 			isa = PBXGroup;
 			children = (
+				91D6B9CB1FD31E1200F65538 /* Base */,
 				91793BA21FCED962008DC56B /* Model */,
 				91793BA31FCED969008DC56B /* Controller */,
 				91793BA41FCED96F008DC56B /* View */,
@@ -161,6 +166,31 @@
 				91793BA61FCEE4BA008DC56B /* GoogleService-Info.plist */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		91D6B9CB1FD31E1200F65538 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				91D6B9CF1FD3201D00F65538 /* Model */,
+				91D6B9CC1FD31E1E00F65538 /* View */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		91D6B9CC1FD31E1E00F65538 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				91D6B9CD1FD31E4A00F65538 /* BaseDetailsViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		91D6B9CF1FD3201D00F65538 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				91D6B9D01FD3203800F65538 /* BaseModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		91E49B061FD0795E0065E3D3 /* Custom Cell */ = {
@@ -327,6 +357,8 @@
 			files = (
 				91793BAB1FCEF985008DC56B /* LoginViewController.swift in Sources */,
 				91E49B0F1FD07CCC0065E3D3 /* CustomRotinaCell.swift in Sources */,
+				91D6B9D11FD3203800F65538 /* BaseModel.swift in Sources */,
+				91D6B9CE1FD31E4A00F65538 /* BaseDetailsViewController.swift in Sources */,
 				91793BA91FCEF976008DC56B /* RegisterViewController.swift in Sources */,
 				91793B931FCED6B8008DC56B /* InicialViewController.swift in Sources */,
 				91E49B031FD076170065E3D3 /* Treino.swift in Sources */,

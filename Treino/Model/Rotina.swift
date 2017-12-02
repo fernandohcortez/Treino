@@ -9,25 +9,19 @@
 import Foundation
 import ObjectMapper
 
-class Rotina : Mappable {
+class Rotina : BaseModel {
     
     var nome : String = ""
     var observacao : String = ""
-    var status : String = ""
+    var status : String = "A"
     var dataCriacao : Date = Date()
     var dataUltimaAtualizacao : Date = Date()
     
-    func mapping(map: Map) {
+    override func mapping(map: Map) {
         nome <- map["nome"]
         observacao <- map["observacao"]
         status <- map["status"]
         dataCriacao <- (map["dataCriacao"], DateTransform())
         dataUltimaAtualizacao <- (map["dataUltimaAtualizacao"], DateTransform())
-    }
-    
-    init() {
-    }
-    
-    required init?(map: Map) {
     }
 }

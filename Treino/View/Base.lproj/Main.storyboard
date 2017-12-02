@@ -162,7 +162,7 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="553"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="customRotinaCell" id="5Jp-wr-uWT" customClass="CustomRotinaCell" customModule="Treino" customModuleProvider="target">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="customRotinaCell" id="5Jp-wr-uWT">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5Jp-wr-uWT" id="Of5-Fl-fAT">
@@ -242,6 +242,7 @@
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="arquivadoLabel" destination="Hkb-gv-QEK" id="3Ih-FS-JDs"/>
                         <outlet property="arquivadoSwitch" destination="m1h-Mh-Hlg" id="iyG-Nt-BGs"/>
                         <outlet property="nomeRotinaTextField" destination="2HC-ff-cce" id="EjZ-rb-vex"/>
                         <outlet property="observacoesTextField" destination="ctM-bO-53X" id="CN0-qb-e7v"/>
