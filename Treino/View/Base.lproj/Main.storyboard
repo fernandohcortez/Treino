@@ -223,12 +223,57 @@
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="m1h-Mh-Hlg">
                                 <rect key="frame" x="118" y="172" width="51" height="31"/>
                             </switch>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0ob-DO-LsR">
+                                <rect key="frame" x="16" y="211" width="343" height="440"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="504-bg-kvX">
+                                        <rect key="frame" x="192" y="0.0" width="151" height="30"/>
+                                        <color key="backgroundColor" red="1" green="0.57810515169999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="151" id="53I-Gu-wWm"/>
+                                            <constraint firstAttribute="height" constant="30" id="MYL-Ag-U5G"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                        <state key="normal" title="Adicionar Exercícios">
+                                            <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="btnAddExercisesPressed:" destination="u9b-Gk-bxj" eventType="touchUpInside" id="qYh-uJ-AyH"/>
+                                            <segue destination="T8E-ej-f1Y" kind="show" identifier="goToExercicios" id="wYz-Xe-aZz"/>
+                                        </connections>
+                                    </button>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="f8P-1j-nKT">
+                                        <rect key="frame" x="0.0" y="38" width="343" height="402"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <prototypes>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="customRotinaExercicioCell" id="2oX-bt-wrP" customClass="CustomRotinaExercicioCell" customModule="Treino" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="28" width="343" height="44"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2oX-bt-wrP" id="cBT-gk-fe8">
+                                                    <rect key="frame" x="0.0" y="0.0" width="343" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </tableViewCellContentView>
+                                            </tableViewCell>
+                                        </prototypes>
+                                    </tableView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="f8P-1j-nKT" secondAttribute="trailing" id="B6q-bX-3xu"/>
+                                    <constraint firstAttribute="bottom" secondItem="f8P-1j-nKT" secondAttribute="bottom" id="MiA-aU-Iza"/>
+                                    <constraint firstItem="f8P-1j-nKT" firstAttribute="leading" secondItem="0ob-DO-LsR" secondAttribute="leading" id="Zis-NK-Gzg"/>
+                                    <constraint firstAttribute="trailing" secondItem="504-bg-kvX" secondAttribute="trailing" id="iLG-TZ-rst"/>
+                                    <constraint firstItem="504-bg-kvX" firstAttribute="top" secondItem="0ob-DO-LsR" secondAttribute="top" id="ody-rU-cIl"/>
+                                    <constraint firstItem="f8P-1j-nKT" firstAttribute="top" secondItem="504-bg-kvX" secondAttribute="bottom" constant="8" id="rBb-zP-iXB"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="tYg-a7-DBj" firstAttribute="trailing" secondItem="2HC-ff-cce" secondAttribute="trailing" constant="16" id="5I7-5J-ltd"/>
                             <constraint firstItem="m1h-Mh-Hlg" firstAttribute="top" secondItem="ctM-bO-53X" secondAttribute="bottom" constant="16" id="C5V-bd-InI"/>
                             <constraint firstItem="m1h-Mh-Hlg" firstAttribute="leading" secondItem="Hkb-gv-QEK" secondAttribute="trailing" constant="16" id="DMu-v5-g5L"/>
+                            <constraint firstItem="0ob-DO-LsR" firstAttribute="top" secondItem="m1h-Mh-Hlg" secondAttribute="bottom" constant="8" id="Gju-go-Vnm"/>
                             <constraint firstItem="tYg-a7-DBj" firstAttribute="trailing" secondItem="ctM-bO-53X" secondAttribute="trailing" constant="16" id="I8M-vV-dJL"/>
                             <constraint firstItem="2HC-ff-cce" firstAttribute="top" secondItem="tYg-a7-DBj" secondAttribute="top" constant="16" id="M3Y-US-V0K"/>
                             <constraint firstItem="2HC-ff-cce" firstAttribute="leading" secondItem="tYg-a7-DBj" secondAttribute="leading" constant="16" id="O95-Lx-PxC"/>
@@ -236,6 +281,9 @@
                             <constraint firstItem="ctM-bO-53X" firstAttribute="top" secondItem="2HC-ff-cce" secondAttribute="bottom" constant="16" id="UPa-uK-XTm"/>
                             <constraint firstItem="Hkb-gv-QEK" firstAttribute="top" secondItem="ctM-bO-53X" secondAttribute="bottom" constant="20" id="hBz-Je-EmM"/>
                             <constraint firstItem="ctM-bO-53X" firstAttribute="leading" secondItem="tYg-a7-DBj" secondAttribute="leading" constant="16" id="iag-13-RdZ"/>
+                            <constraint firstItem="0ob-DO-LsR" firstAttribute="leading" secondItem="tYg-a7-DBj" secondAttribute="leading" constant="16" id="lcE-Cr-8tb"/>
+                            <constraint firstItem="tYg-a7-DBj" firstAttribute="trailing" secondItem="0ob-DO-LsR" secondAttribute="trailing" constant="16" id="nkd-Vi-9K1"/>
+                            <constraint firstAttribute="bottom" secondItem="0ob-DO-LsR" secondAttribute="bottom" constant="16" id="t8X-dY-Itl"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="tYg-a7-DBj"/>
                     </view>
@@ -246,11 +294,58 @@
                         <outlet property="arquivadoSwitch" destination="m1h-Mh-Hlg" id="iyG-Nt-BGs"/>
                         <outlet property="nomeRotinaTextField" destination="2HC-ff-cce" id="EjZ-rb-vex"/>
                         <outlet property="observacoesTextField" destination="ctM-bO-53X" id="CN0-qb-e7v"/>
+                        <outlet property="tableViewExercises" destination="f8P-1j-nKT" id="P74-1H-gWY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iEC-Nx-pJy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3357.5999999999999" y="1553.9730134932536"/>
+        </scene>
+        <!--Exercicio View Controller-->
+        <scene sceneID="Xhc-96-VxO">
+            <objects>
+                <viewController id="T8E-ej-f1Y" customClass="ExercicioViewController" customModule="Treino" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="40Z-aP-zD5">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ohi-7n-iwP">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Ohi-7n-iwP" firstAttribute="trailing" secondItem="yXd-vc-aA8" secondAttribute="trailing" id="CtO-tY-eoA"/>
+                            <constraint firstItem="Ohi-7n-iwP" firstAttribute="leading" secondItem="yXd-vc-aA8" secondAttribute="leading" id="Jxa-79-EI6"/>
+                            <constraint firstAttribute="bottom" secondItem="Ohi-7n-iwP" secondAttribute="bottom" id="Mef-Hn-OCz"/>
+                            <constraint firstItem="Ohi-7n-iwP" firstAttribute="top" secondItem="yXd-vc-aA8" secondAttribute="top" id="W91-8O-CLv"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="yXd-vc-aA8"/>
+                    </view>
+                    <connections>
+                        <outlet property="tableViewExercicio" destination="Ohi-7n-iwP" id="zNE-5X-CMD"/>
+                        <segue destination="cW8-a7-gkz" kind="show" identifier="goToExerciciosDetalhes" id="Zp3-oB-h4P"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2XL-4l-afx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4359" y="1554"/>
+        </scene>
+        <!--Exercicio Detalhes View Controller-->
+        <scene sceneID="tKI-XN-Dmv">
+            <objects>
+                <viewController id="cW8-a7-gkz" customClass="ExercicioDetalhesViewController" customModule="Treino" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="iZD-bx-x46">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="9pj-of-kVv"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="h9B-Mv-sgA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5142" y="1554"/>
         </scene>
         <!--Treino-->
         <scene sceneID="o9x-GO-722">

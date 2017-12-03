@@ -10,46 +10,93 @@ import UIKit
 import FirebaseDatabase
 import ObjectMapper
 
-class RotinaDetalhesViewController: BaseDetailsViewController {
+class RotinaDetalhesViewController: BaseDetailsViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var arquivadoLabel: UILabel!
     @IBOutlet weak var arquivadoSwitch: UISwitch!
     @IBOutlet weak var nomeRotinaTextField: UITextField!
     @IBOutlet weak var observacoesTextField: UITextField!
     
+    @IBOutlet weak var tableViewExercises: UITableView!
+
     private var _rotina: Rotina!{
         get { return model as! Rotina}
     }
     
+    private var _rotinaExerciciosArray : [RotinaExercicios] = [RotinaExercicios]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        configureSaveButton()
+        configureComponents()
+
+        carregarModelTela()
+    }
+    
+    func configureComponents() {
+        
+        configureTableView()
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(btnSalvarPressed)
+        )
         
         if viewState == .Adding {
             
             model = Rotina()
             
             arquivadoSwitch.isHidden = true
+            arquivadoLabel.isHidden = true
         }
-
-        carregarModelTela()
+    }
+    
+    func configureTableView() {
+        
+        tableViewExercises.delegate = self
+        tableViewExercises.dataSource = self
+        
+        tableViewExercises.register(UINib(nibName : "CustomRotinaExercicioCell", bundle : nil), forCellReuseIdentifier: "customRotinaExercicioCell")
+        
+        tableViewExercises.separatorStyle = .none
+        
+        configureHeightCellTableView()
+    }
+    
+    func configureHeightCellTableView() {
+        
+        tableViewExercises.rowHeight = UITableViewAutomaticDimension
+        tableViewExercises.estimatedRowHeight = 150.0
+    }
+    
+    func recarregarTableView() {
+        
+        tableViewExercises.reloadData()
     }
     
     func carregarModelTela () {
         
         nomeRotinaTextField.text = _rotina.nome
         observacoesTextField.text = _rotina.observacao
+        arquivadoSwitch.isOn = _rotina.status == "Q"
         
-        let arquivado = _rotina.status == "Q"
-        arquivadoSwitch.isOn = arquivado
-        arquivadoLabel.isHidden = !arquivado
+        carregarExercicios()
     }
     
-    func configureSaveButton() {
+    func carregarExercicios() {
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(btnSalvarPressed)
-        )
+        let rotinaExercicioDB = Database.database().reference().child("RotinaExercicios")
+        
+        rotinaExercicioDB.observe(.childAdded) { (snapShot) in
+            
+            let rotinaExercicio = RotinaExercicios(JSONString: snapShot.value as! String)!
+            
+            rotinaExercicio.autoKey = snapShot.key
+            
+            self._rotinaExerciciosArray.append(rotinaExercicio)
+            
+            self.configureHeightCellTableView()
+            
+            self.recarregarTableView()
+        }
     }
     
     @objc func btnSalvarPressed(sender: UIBarButtonItem) {
@@ -100,5 +147,26 @@ class RotinaDetalhesViewController: BaseDetailsViewController {
                 }
             }
         }
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return _rotinaExerciciosArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    
+        let cell = tableView.dequeueReusableCell(withIdentifier: "customRotinaExercicioCell", for : indexPath) as! CustomRotinaExercicioCell
+        
+        cell.updateUI(rotinaExercicios: _rotinaExerciciosArray[indexPath.row])
+        
+        return cell
+        
+    }
+    
+    @IBAction func btnAddExercisesPressed(_ sender: UIButton) {
+        
+        performSegue(withIdentifier: "goToExercicios", sender: nil)
+        
     }
 }

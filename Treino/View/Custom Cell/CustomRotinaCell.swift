@@ -14,11 +14,6 @@ class CustomRotinaCell: UITableViewCell {
     @IBOutlet private weak var labelExercicios: UILabel!
     @IBOutlet private weak var imageViewStatus: UIImageView!
     
-//    private enum StatusRotina {
-  //      case Ativo
-   //     case Arquivado
-    //}
-    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
@@ -29,5 +24,4 @@ class CustomRotinaCell: UITableViewCell {
         labelExercicios.text = rotina.observacao
         imageViewStatus.image = rotina.status == "A" ? UIImage(named: "StatusRotinaActive") : UIImage(named: "StatusRotinaArchived")
     }
-    
 }
