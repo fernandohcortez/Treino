@@ -7,12 +7,13 @@
 //
 
 import UIKit
+import Firebase
 
-class ExercicioViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ExercicioViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ExercicioDetalhesDelegate {
 
     @IBOutlet weak var tableViewExercicio: UITableView!
     
-    private var _ExercicioArray : [Exercicio] = [Exercicio]()
+    private var _exercicioArray : [Exercicio] = [Exercicio]()
     
     override func viewDidLoad() {
         
@@ -20,36 +21,33 @@ class ExercicioViewController: UIViewController, UITableViewDelegate, UITableVie
         
         configureTableView()
         
+        configureAddButton()
+        
         carregarExercicios()
 
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        
-        configureAddButton()
     }
     
     func configureAddButton() {
         
-        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(btnIncluirPressed)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(btnIncluirPressed)
         )
     }
     
     @objc func btnIncluirPressed(sender: UIBarButtonItem) {
         
-        performSegue(withIdentifier: "goToRotinaDetalhes", sender: nil)
+        performSegue(withIdentifier: "goToExercicioDetalhes", sender: nil)
     }
     
     //MARK : tableViewRotina Events
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return _ExercicioArray.count
+        return _exercicioArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "customExercicioCell", for : indexPath) as! CustomExercicioCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "customRotinaExercicioCell", for : indexPath) as! CustomRotinaExercicioCell
         
         cell.updateUI(exercicio: _exercicioArray[indexPath.row])
         
@@ -67,6 +65,8 @@ class ExercicioViewController: UIViewController, UITableViewDelegate, UITableVie
         
         if segue.identifier == "goToExercicioDetalhes"
         {
+            exercicioDetalhesVC.delegate = self
+            
             if let exercicio = sender as? Exercicio {
                 exercicioDetalhesVC.model = exercicio
             }
@@ -96,7 +96,7 @@ class ExercicioViewController: UIViewController, UITableViewDelegate, UITableVie
         tableViewExercicio.delegate = self
         tableViewExercicio.dataSource = self
         
-        tableViewExercicio.register(UINib(nibName : "CustomExercicioCell", bundle : nil), forCellReuseIdentifier: "customExercicioCell")
+        tableViewExercicio.register(UINib(nibName : "CustomRotinaExercicioCell", bundle : nil), forCellReuseIdentifier: "customRotinaExercicioCell")
         
         tableViewExercicio.separatorStyle = .none
         
@@ -113,6 +113,9 @@ class ExercicioViewController: UIViewController, UITableViewDelegate, UITableVie
         
         tableViewExercicio.reloadData()
     }
-
-
+    
+    func savedExercicio() {
+        
+        recarregarTableView()
+    }
 }

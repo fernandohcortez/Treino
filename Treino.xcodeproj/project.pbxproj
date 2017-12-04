@@ -28,6 +28,8 @@
 		91D6B9D91FD49E7800F65538 /* CustomRotinaExercicioCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91D6B9D71FD49E7800F65538 /* CustomRotinaExercicioCell.xib */; };
 		91D6B9DB1FD4A8EF00F65538 /* ExercicioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D6B9DA1FD4A8EF00F65538 /* ExercicioViewController.swift */; };
 		91D6B9DD1FD4A90400F65538 /* ExercicioDetalhesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D6B9DC1FD4A90400F65538 /* ExercicioDetalhesViewController.swift */; };
+		91D6B9DF1FD581B400F65538 /* ExercicioParteCorpoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D6B9DE1FD581B400F65538 /* ExercicioParteCorpoViewController.swift */; };
+		91D6B9E31FD592A700F65538 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D6B9E21FD592A700F65538 /* String.swift */; };
 		91E49B031FD076170065E3D3 /* Treino.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E49B021FD076170065E3D3 /* Treino.swift */; };
 		91E49B051FD076A30065E3D3 /* Rotina.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E49B041FD076A30065E3D3 /* Rotina.swift */; };
 		91E49B0F1FD07CCC0065E3D3 /* CustomRotinaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E49B0D1FD07CCC0065E3D3 /* CustomRotinaCell.swift */; };
@@ -60,6 +62,8 @@
 		91D6B9D71FD49E7800F65538 /* CustomRotinaExercicioCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomRotinaExercicioCell.xib; sourceTree = "<group>"; };
 		91D6B9DA1FD4A8EF00F65538 /* ExercicioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercicioViewController.swift; sourceTree = "<group>"; };
 		91D6B9DC1FD4A90400F65538 /* ExercicioDetalhesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercicioDetalhesViewController.swift; sourceTree = "<group>"; };
+		91D6B9DE1FD581B400F65538 /* ExercicioParteCorpoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercicioParteCorpoViewController.swift; sourceTree = "<group>"; };
+		91D6B9E21FD592A700F65538 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		91E49B021FD076170065E3D3 /* Treino.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Treino.swift; sourceTree = "<group>"; };
 		91E49B041FD076A30065E3D3 /* Rotina.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rotina.swift; sourceTree = "<group>"; };
 		91E49B0D1FD07CCC0065E3D3 /* CustomRotinaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRotinaCell.swift; sourceTree = "<group>"; };
@@ -109,6 +113,7 @@
 				912E6C261FD066C700BCE057 /* PerfilViewController.swift */,
 				91D6B9DA1FD4A8EF00F65538 /* ExercicioViewController.swift */,
 				91D6B9DC1FD4A90400F65538 /* ExercicioDetalhesViewController.swift */,
+				91D6B9DE1FD581B400F65538 /* ExercicioParteCorpoViewController.swift */,
 			);
 			path = Principal;
 			sourceTree = "<group>";
@@ -134,6 +139,7 @@
 		91793B8F1FCED6B8008DC56B /* Treino */ = {
 			isa = PBXGroup;
 			children = (
+				91D6B9E01FD5928800F65538 /* Util */,
 				91D6B9CB1FD31E1200F65538 /* Base */,
 				91793BA21FCED962008DC56B /* Model */,
 				91793BA31FCED969008DC56B /* Controller */,
@@ -207,6 +213,22 @@
 				91D6B9D01FD3203800F65538 /* BaseModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		91D6B9E01FD5928800F65538 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				91D6B9E11FD5929000F65538 /* Extension */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		91D6B9E11FD5929000F65538 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				91D6B9E21FD592A700F65538 /* String.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		91E49B061FD0795E0065E3D3 /* Custom Cell */ = {
@@ -377,6 +399,7 @@
 				91793BAB1FCEF985008DC56B /* LoginViewController.swift in Sources */,
 				91E49B0F1FD07CCC0065E3D3 /* CustomRotinaCell.swift in Sources */,
 				91D6B9D11FD3203800F65538 /* BaseModel.swift in Sources */,
+				91D6B9DF1FD581B400F65538 /* ExercicioParteCorpoViewController.swift in Sources */,
 				91D6B9CE1FD31E4A00F65538 /* BaseDetailsViewController.swift in Sources */,
 				91793BA91FCEF976008DC56B /* RegisterViewController.swift in Sources */,
 				91D6B9D51FD49D6A00F65538 /* Exercicio.swift in Sources */,
@@ -391,6 +414,7 @@
 				912E6C271FD066C700BCE057 /* PerfilViewController.swift in Sources */,
 				91D6B9D31FD49B8D00F65538 /* RotinaExercicios.swift in Sources */,
 				91D6B9DD1FD4A90400F65538 /* ExercicioDetalhesViewController.swift in Sources */,
+				91D6B9E31FD592A700F65538 /* String.swift in Sources */,
 				91793BAD1FCF070C008DC56B /* TreinoViewController.swift in Sources */,
 				91D6B9D81FD49E7800F65538 /* CustomRotinaExercicioCell.swift in Sources */,
 			);

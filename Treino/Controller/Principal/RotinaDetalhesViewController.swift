@@ -163,10 +163,4 @@ class RotinaDetalhesViewController: BaseDetailsViewController, UITableViewDelega
         return cell
         
     }
-    
-    @IBAction func btnAddExercisesPressed(_ sender: UIButton) {
-        
-        performSegue(withIdentifier: "goToExercicios", sender: nil)
-        
-    }
 }

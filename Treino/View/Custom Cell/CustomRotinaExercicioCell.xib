@@ -84,7 +84,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="imageViewFotoExercicio" destination="aJV-xr-687" id="HEi-eT-trd"/>
-                <outlet property="labelNomeExercicio" destination="Mh6-Ve-L6p" id="GLK-3B-ZqO"/>
+                <outlet property="labelNomeExercicio" destination="hxU-vg-mgb" id="Hhi-JF-wHs"/>
                 <outlet property="labelReps" destination="Y6S-yE-Xf9" id="JeV-1b-944"/>
                 <outlet property="labelSets" destination="Mh6-Ve-L6p" id="4ya-Ag-2Hp"/>
             </connections>
