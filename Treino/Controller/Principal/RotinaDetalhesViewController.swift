@@ -10,7 +10,7 @@ import UIKit
 import FirebaseDatabase
 import ObjectMapper
 
-class RotinaDetalhesViewController: BaseDetailsViewController, UITableViewDelegate, UITableViewDataSource {
+class RotinaDetalhesViewController: BaseDetailsViewController, UITableViewDelegate, UITableViewDataSource, ExercicioDelegate {
 
     @IBOutlet weak var arquivadoLabel: UILabel!
     @IBOutlet weak var arquivadoSwitch: UISwitch!
@@ -162,5 +162,30 @@ class RotinaDetalhesViewController: BaseDetailsViewController, UITableViewDelega
         
         return cell
         
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "goToExercicios" {
+            
+            let ExercicioVC = segue.destination as! ExercicioViewController
+            
+            ExercicioVC.delegate = self;
+            
+        }
+    }
+    
+    func selectedExercicio(exercicioArray: [Exercicio]) {
+        
+        for exercicio in exercicioArray {
+            
+            let rotinaExercicio : RotinaExercicios = RotinaExercicios()
+            rotinaExercicio.nomeExercicio = exercicio.nomeExercicio
+            rotinaExercicio.nomeImagemExercicio = exercicio.nomeImagemExercicio
+            
+            _rotinaExerciciosArray.append(rotinaExercicio)
+        }
+        
+        recarregarTableView()
     }
 }

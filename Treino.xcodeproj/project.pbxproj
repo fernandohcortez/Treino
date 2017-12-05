@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2B866E30184DE2A13E1909F8 /* Pods_Treino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82902081D33945100EA920BD /* Pods_Treino.framework */; };
+		9127B7AE1FD6E42E00AE3617 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9127B7AD1FD6E42E00AE3617 /* Array.swift */; };
 		912E6C271FD066C700BCE057 /* PerfilViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 912E6C261FD066C700BCE057 /* PerfilViewController.swift */; };
 		91793B911FCED6B8008DC56B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91793B901FCED6B8008DC56B /* AppDelegate.swift */; };
 		91793B931FCED6B8008DC56B /* InicialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91793B921FCED6B8008DC56B /* InicialViewController.swift */; };
@@ -40,6 +41,7 @@
 /* Begin PBXFileReference section */
 		012090F0686E944B1EED0EC9 /* Pods-Treino.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Treino.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Treino/Pods-Treino.debug.xcconfig"; sourceTree = "<group>"; };
 		82902081D33945100EA920BD /* Pods_Treino.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Treino.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9127B7AD1FD6E42E00AE3617 /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		912E6C261FD066C700BCE057 /* PerfilViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfilViewController.swift; sourceTree = "<group>"; };
 		91793B8D1FCED6B8008DC56B /* Treino.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Treino.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		91793B901FCED6B8008DC56B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 			isa = PBXGroup;
 			children = (
 				91D6B9E21FD592A700F65538 /* String.swift */,
+				9127B7AD1FD6E42E00AE3617 /* Array.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -413,6 +416,7 @@
 				91793BB11FD061BC008DC56B /* RotinaViewController.swift in Sources */,
 				912E6C271FD066C700BCE057 /* PerfilViewController.swift in Sources */,
 				91D6B9D31FD49B8D00F65538 /* RotinaExercicios.swift in Sources */,
+				9127B7AE1FD6E42E00AE3617 /* Array.swift in Sources */,
 				91D6B9DD1FD4A90400F65538 /* ExercicioDetalhesViewController.swift in Sources */,
 				91D6B9E31FD592A700F65538 /* String.swift in Sources */,
 				91793BAD1FCF070C008DC56B /* TreinoViewController.swift in Sources */,

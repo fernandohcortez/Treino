@@ -9,9 +9,16 @@
 import UIKit
 import Firebase
 
+protocol ExercicioDelegate {
+    
+    func selectedExercicio(exercicioArray : [Exercicio])
+}
+
 class ExercicioViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ExercicioDetalhesDelegate {
 
     @IBOutlet weak var tableViewExercicio: UITableView!
+
+    var delegate : ExercicioDelegate?
     
     private var _exercicioArray : [Exercicio] = [Exercicio]()
     
@@ -21,21 +28,31 @@ class ExercicioViewController: UIViewController, UITableViewDelegate, UITableVie
         
         configureTableView()
         
-        configureAddButton()
+        configureDoneButton()
         
         carregarExercicios()
 
     }
     
-    func configureAddButton() {
+    func configureDoneButton() {
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(btnIncluirPressed)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(btnDonePressed)
         )
     }
     
-    @objc func btnIncluirPressed(sender: UIBarButtonItem) {
+    @objc func btnDonePressed(sender: UIBarButtonItem) {
         
-        performSegue(withIdentifier: "goToExercicioDetalhes", sender: nil)
+        let indexPathArraySelectedExercicios = tableViewExercicio.indexPathsForSelectedRows
+        
+        var selectedExerciciosArray : [Exercicio] = [Exercicio]()
+        
+        for indexPath in indexPathArraySelectedExercicios! {
+            selectedExerciciosArray.append(_exercicioArray[indexPath.row])
+        }
+        
+        delegate?.selectedExercicio(exercicioArray: selectedExerciciosArray)
+        
+        self.navigationController?.popViewController(animated: true)
     }
     
     //MARK : tableViewRotina Events
@@ -51,12 +68,45 @@ class ExercicioViewController: UIViewController, UITableViewDelegate, UITableVie
         
         cell.updateUI(exercicio: _exercicioArray[indexPath.row])
         
+        cell.accessoryType = cell.isSelected ? .checkmark : .none
+        cell.selectionStyle = .none
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        performSegue(withIdentifier: "goToExercicioDetalhes", sender: _exercicioArray[indexPath.row])
+        tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        
+        tableView.cellForRow(at: indexPath)?.accessoryType = .none
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete {
+            
+            let exercicioRef = Database.database().reference().child("Exercicios")
+            
+            let exercicioKeyRef = exercicioRef.child(_exercicioArray[indexPath.row].autoKey)
+            
+            exercicioKeyRef.removeValue() {
+                (error, reference)  in
+                
+                if let errorRemoving = error {
+                    print(errorRemoving)
+                }
+                else {
+                    print("Exercicio Removed!")
+                    
+                    //self._exercicioArray.remove(at: indexPath.row)
+                    
+                    //tableView.deleteRows(at: [indexPath], with: .automatic)
+                }
+            }
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -89,12 +139,25 @@ class ExercicioViewController: UIViewController, UITableViewDelegate, UITableVie
             
             self.recarregarTableView()
         }
+        
+        exercicioDB.observe(.childRemoved) { (snapShot) in
+                        
+            //self._exercicioArray = self._exercicioArray.filter( { $0.autoKey == snapShot.key })
+            
+            self._exercicioArray.remove({ $0.autoKey == snapShot.key })
+            
+            self.configureHeightCellTableView()
+            
+            self.recarregarTableView()
+        }
     }
     
     func configureTableView() {
         
         tableViewExercicio.delegate = self
         tableViewExercicio.dataSource = self
+        
+        tableViewExercicio.allowsMultipleSelection = true
         
         tableViewExercicio.register(UINib(nibName : "CustomRotinaExercicioCell", bundle : nil), forCellReuseIdentifier: "customRotinaExercicioCell")
         
@@ -117,5 +180,10 @@ class ExercicioViewController: UIViewController, UITableViewDelegate, UITableVie
     func savedExercicio() {
         
         recarregarTableView()
+    }
+    
+    @IBAction func btnNovoExercicioPressed(_ sender: UIButton) {
+        
+        performSegue(withIdentifier: "goToExercicioDetalhes", sender: nil)
     }
 }
