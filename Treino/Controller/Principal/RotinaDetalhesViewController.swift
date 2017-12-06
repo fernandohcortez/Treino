@@ -110,44 +110,103 @@ class RotinaDetalhesViewController: BaseDetailsViewController, UITableViewDelega
         
         _rotina.status = arquivadoSwitch.isOn ? "Q" : "A"
         
-        let rotinaRef = Database.database().reference().child("Rotinas")
+        salvarDadosBancoDados()
         
-        if viewState == .Adding {
-            
-            rotinaRef.childByAutoId().setValue(_rotina.toJSONString()) {
-                (error, reference) in
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func salvarDadosBancoDados() {
+        
+        var rotinaRef = Database.database().reference().child("Rotinas")
+        
+        rotinaRef = viewState == .Adding ? rotinaRef.childByAutoId() : rotinaRef.child(_rotina.autoKey)
+        
+        rotinaRef.runTransactionBlock(
+            { (currentData) -> TransactionResult in
                 
-                if let errorSaving = error {
-                    print(errorSaving)
-                }
-                else {
-                    print("Rotina Added!")
-                    
-                    self.arquivadoSwitch.endEditing(false)
-                    self.nomeRotinaTextField.isEnabled = true
-                    self.observacoesTextField.isEnabled = true
-                }
+                currentData.value = self._rotina.toJSON()
+                
+                return .success(withValue: currentData)
+                
+        })  { (error, completion, snapshot) in
+            
+            if let errorSaving = error {
+                print(errorSaving.localizedDescription)
             }
-        }
-        else if viewState == .Editing {
-        
-            let rotinaKeyRef =  rotinaRef.child(_rotina.autoKey)
-            
-            rotinaKeyRef.setValue(_rotina.toJSONString()) { (error, reference) in
+            else if completion {
                 
-                if let errorSaving = error {
-                    print(errorSaving)
-                }
-                else {
-                    print("Rotina Edited!")
-                    
-                    self.arquivadoSwitch.endEditing(false)
-                    self.nomeRotinaTextField.isEnabled = true
-                    self.observacoesTextField.isEnabled = true
-                }
+                print("Rotina Updated!")
+                
+                self._rotina.autoKey = (snapshot?.key)!;
+                
+                self.arquivadoSwitch.endEditing(false)
+                self.nomeRotinaTextField.isEnabled = true
+                self.observacoesTextField.isEnabled = true
             }
         }
     }
+
+//    func salvarDadosBancoDados() {
+//
+//        let rotinaRef = Database.database().reference().child("Rotinas")
+//
+//        if viewState == .Adding {
+//
+//            let rotinaAutoIdRef = rotinaRef.childByAutoId()
+//
+//            rotinaAutoIdRef.runTransactionBlock(
+//                { (currentData) -> TransactionResult in
+//
+//                    currentData.value = self._rotina.toJSON()
+//
+//                    return .success(withValue: currentData)
+//
+//            })  { (error, completion, snapshot) in
+//
+//                if let errorSaving = error {
+//                    print(errorSaving.localizedDescription)
+//                }
+//                else if completion {
+//
+//                    print("Rotina Added!")
+//
+//                    self._rotina.autoKey = (snapshot?.key)!;
+//
+//                    self.arquivadoSwitch.endEditing(false)
+//                    self.nomeRotinaTextField.isEnabled = true
+//                    self.observacoesTextField.isEnabled = true
+//                }
+//            }
+//        }
+//        else if viewState == .Editing {
+//
+//            let rotinaIdRef =  rotinaRef.child(_rotina.autoKey)
+//
+//            rotinaIdRef.runTransactionBlock(
+//                { (currentData) -> TransactionResult in
+//
+//                    currentData.value = self._rotina.toJSON()
+//
+//                    return .success(withValue: currentData)
+//
+//            })  { (error, completion, snapshot) in
+//
+//                if let errorSaving = error {
+//                    print(errorSaving.localizedDescription)
+//                }
+//                else if completion {
+//
+//                    print("Rotina Updated!")
+//
+//                    self.arquivadoSwitch.endEditing(false)
+//                    self.nomeRotinaTextField.isEnabled = true
+//                    self.observacoesTextField.isEnabled = true
+//                }
+//            }
+//
+//        }
+//    }
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -155,7 +214,7 @@ class RotinaDetalhesViewController: BaseDetailsViewController, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "customRotinaExercicioCell", for : indexPath) as! CustomRotinaExercicioCell
         
         cell.updateUI(rotinaExercicios: _rotinaExerciciosArray[indexPath.row])

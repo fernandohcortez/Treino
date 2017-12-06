@@ -14,6 +14,8 @@ class RotinaViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
     @IBOutlet weak var tableViewRotina: UITableView!
     
+    private var _rotinaRef = Database.database().reference().child("Rotinas")
+    
     private var _rotinaArray : [Rotina] = [Rotina]()
     
     override func viewDidLoad() {
@@ -22,12 +24,16 @@ class RotinaViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         configureTableView()
         
-        carregarRotinas()
+        addObserversRef()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        
+    override func viewWillAppear(_ animated: Bool) {
+
         configureAddButton()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        //removeObserversRef()
     }
     
     func configureAddButton() {
@@ -62,6 +68,29 @@ class RotinaViewController: UIViewController, UITableViewDelegate, UITableViewDa
         performSegue(withIdentifier: "goToRotinaDetalhes", sender: _rotinaArray[indexPath.row])
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete {
+            
+            let exercicioKeyRef = _rotinaRef.child(_rotinaArray[indexPath.row].autoKey)
+            
+            exercicioKeyRef.removeValue() {
+                (error, reference)  in
+                
+                if let errorRemoving = error {
+                    print(errorRemoving)
+                }
+                else {
+                    print("Exercicio Removed!")
+                    
+                    //self._exercicioArray.remove(at: indexPath.row)
+                    
+                    //tableView.deleteRows(at: [indexPath], with: .automatic)
+                }
+            }
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         let rotinaDetalhesVC = segue.destination as! RotinaDetalhesViewController
@@ -74,22 +103,49 @@ class RotinaViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
-    func carregarRotinas() {
-        
-        let rotinaDB = Database.database().reference().child("Rotinas")
-        
-        rotinaDB.observe(.childAdded) { (snapShot) in
+    func addObserversRef() {
 
-            let rotina = Rotina(JSONString: snapShot.value as! String)!
+        _rotinaRef.observe(.childAdded) { (snapShot) in
             
-            rotina.autoKey = snapShot.key
-            
-            self._rotinaArray.append(rotina)
-            
-            self.configureHeightCellTableView()
+            if let jsonArray = snapShot.value as? [String : AnyObject] {
+                
+                let rotina = Rotina(JSON: jsonArray)!
+                
+                rotina.autoKey = snapShot.key
+                
+                self._rotinaArray.append(rotina)
+            }
             
             self.recarregarTableView()
         }
+        
+        _rotinaRef.observe(.childChanged) { (snapShot) in
+            
+            if let jsonArray = snapShot.value as? [String : AnyObject] {
+                
+                let rotina = Rotina(JSON: jsonArray)!
+                
+                rotina.autoKey = snapShot.key
+                
+                if let index = self._rotinaArray.index(where: { $0.autoKey == rotina.autoKey}) {
+                    self._rotinaArray[index] = rotina
+                }
+            }
+            
+            self.recarregarTableView()
+        }
+        
+        _rotinaRef.observe(.childRemoved) { (snapShot) in
+
+            self._rotinaArray.remove({ $0.autoKey == snapShot.key })
+            
+            self.recarregarTableView()
+        }
+    }
+    
+    func removeObserversRef() {
+        
+        _rotinaRef.removeAllObservers()
     }
     
     func configureTableView() {
@@ -111,6 +167,8 @@ class RotinaViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func recarregarTableView() {
+        
+        configureHeightCellTableView()
         
         tableViewRotina.reloadData()
     }
