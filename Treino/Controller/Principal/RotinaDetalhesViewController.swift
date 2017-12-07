@@ -10,7 +10,7 @@ import UIKit
 import FirebaseDatabase
 import ObjectMapper
 
-class RotinaDetalhesViewController: BaseDetailsViewController, UITableViewDelegate, UITableViewDataSource, ExercicioDelegate {
+class RotinaDetalhesViewController: BaseDetailsViewController {
 
     @IBOutlet weak var arquivadoLabel: UILabel!
     @IBOutlet weak var arquivadoSwitch: UISwitch!
@@ -23,9 +23,14 @@ class RotinaDetalhesViewController: BaseDetailsViewController, UITableViewDelega
         get { return model as! Rotina}
     }
     
+    private let _rotinaRef = Database.database().reference().child("Rotinas")
+    
+    private let _rotinaExercicioRef = Database.database().reference().child("RotinaExercicios")
+    
     private var _rotinaExerciciosArray : [RotinaExercicios] = [RotinaExercicios]()
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
 
         configureComponents()
@@ -58,7 +63,7 @@ class RotinaDetalhesViewController: BaseDetailsViewController, UITableViewDelega
         
         tableViewExercises.separatorStyle = .none
         
-        configureHeightCellTableView()
+        //configureHeightCellTableView()
     }
     
     func configureHeightCellTableView() {
@@ -69,6 +74,8 @@ class RotinaDetalhesViewController: BaseDetailsViewController, UITableViewDelega
     
     func recarregarTableView() {
         
+        configureHeightCellTableView()
+        
         tableViewExercises.reloadData()
     }
     
@@ -78,26 +85,33 @@ class RotinaDetalhesViewController: BaseDetailsViewController, UITableViewDelega
         observacoesTextField.text = _rotina.observacao
         arquivadoSwitch.isOn = _rotina.status == "Q"
         
-        carregarExercicios()
+        _rotinaExerciciosArray = _rotina.exercicios
+        
+        recarregarTableView()
+        
+//        addObserversRef()
     }
     
-    func carregarExercicios() {
-        
-        let rotinaExercicioDB = Database.database().reference().child("RotinaExercicios")
-        
-        rotinaExercicioDB.observe(.childAdded) { (snapShot) in
-            
-            let rotinaExercicio = RotinaExercicios(JSONString: snapShot.value as! String)!
-            
-            rotinaExercicio.autoKey = snapShot.key
-            
-            self._rotinaExerciciosArray.append(rotinaExercicio)
-            
-            self.configureHeightCellTableView()
-            
-            self.recarregarTableView()
-        }
-    }
+//    func addObserversRef() {
+//
+//        _rotinaExercicioRef.observe(.childAdded) { (snapShot) in
+//
+//            let rotinaExercicio = RotinaExercicios(JSONString: snapShot.value as! String)!
+//
+//            rotinaExercicio.autoKey = snapShot.key
+//
+//            self._rotinaExerciciosArray.append(rotinaExercicio)
+//
+//            self.recarregarTableView()
+//        }
+//
+//        _rotinaExercicioRef.observe(.childRemoved) { (snapShot) in
+//
+//            self._rotinaExerciciosArray.remove({ $0.autoKey == snapShot.key })
+//
+//            self.recarregarTableView()
+//        }
+//    }
     
     @objc func btnSalvarPressed(sender: UIBarButtonItem) {
         
@@ -107,8 +121,8 @@ class RotinaDetalhesViewController: BaseDetailsViewController, UITableViewDelega
         
         _rotina.nome = nomeRotinaTextField.text!
         _rotina.observacao = observacoesTextField.text!
-        
         _rotina.status = arquivadoSwitch.isOn ? "Q" : "A"
+        _rotina.exercicios = _rotinaExerciciosArray
         
         salvarDadosBancoDados()
         
@@ -117,9 +131,7 @@ class RotinaDetalhesViewController: BaseDetailsViewController, UITableViewDelega
     
     func salvarDadosBancoDados() {
         
-        var rotinaRef = Database.database().reference().child("Rotinas")
-        
-        rotinaRef = viewState == .Adding ? rotinaRef.childByAutoId() : rotinaRef.child(_rotina.autoKey)
+        let rotinaRef = viewState == .Adding ? _rotinaRef.childByAutoId() : _rotinaRef.child(_rotina.autoKey)
         
         rotinaRef.runTransactionBlock(
             { (currentData) -> TransactionResult in
@@ -145,68 +157,20 @@ class RotinaDetalhesViewController: BaseDetailsViewController, UITableViewDelega
             }
         }
     }
-
-//    func salvarDadosBancoDados() {
-//
-//        let rotinaRef = Database.database().reference().child("Rotinas")
-//
-//        if viewState == .Adding {
-//
-//            let rotinaAutoIdRef = rotinaRef.childByAutoId()
-//
-//            rotinaAutoIdRef.runTransactionBlock(
-//                { (currentData) -> TransactionResult in
-//
-//                    currentData.value = self._rotina.toJSON()
-//
-//                    return .success(withValue: currentData)
-//
-//            })  { (error, completion, snapshot) in
-//
-//                if let errorSaving = error {
-//                    print(errorSaving.localizedDescription)
-//                }
-//                else if completion {
-//
-//                    print("Rotina Added!")
-//
-//                    self._rotina.autoKey = (snapshot?.key)!;
-//
-//                    self.arquivadoSwitch.endEditing(false)
-//                    self.nomeRotinaTextField.isEnabled = true
-//                    self.observacoesTextField.isEnabled = true
-//                }
-//            }
-//        }
-//        else if viewState == .Editing {
-//
-//            let rotinaIdRef =  rotinaRef.child(_rotina.autoKey)
-//
-//            rotinaIdRef.runTransactionBlock(
-//                { (currentData) -> TransactionResult in
-//
-//                    currentData.value = self._rotina.toJSON()
-//
-//                    return .success(withValue: currentData)
-//
-//            })  { (error, completion, snapshot) in
-//
-//                if let errorSaving = error {
-//                    print(errorSaving.localizedDescription)
-//                }
-//                else if completion {
-//
-//                    print("Rotina Updated!")
-//
-//                    self.arquivadoSwitch.endEditing(false)
-//                    self.nomeRotinaTextField.isEnabled = true
-//                    self.observacoesTextField.isEnabled = true
-//                }
-//            }
-//
-//        }
-//    }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "goToExercicios" {
+            
+            let ExercicioVC = segue.destination as! ExercicioViewController
+            
+            ExercicioVC.delegate = self;
+            
+        }
+    }
+}
+
+extension RotinaDetalhesViewController : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -220,19 +184,21 @@ class RotinaDetalhesViewController: BaseDetailsViewController, UITableViewDelega
         cell.updateUI(rotinaExercicios: _rotinaExerciciosArray[indexPath.row])
         
         return cell
-        
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
-        if segue.identifier == "goToExercicios" {
+        if editingStyle == .delete {
             
-            let ExercicioVC = segue.destination as! ExercicioViewController
+            _rotinaExerciciosArray.remove(at: indexPath.row)
             
-            ExercicioVC.delegate = self;
-            
+            recarregarTableView()
         }
+        
     }
+}
+
+extension RotinaDetalhesViewController : ExercicioDelegate {
     
     func selectedExercicio(exercicioArray: [Exercicio]) {
         
@@ -248,3 +214,5 @@ class RotinaDetalhesViewController: BaseDetailsViewController, UITableViewDelega
         recarregarTableView()
     }
 }
+
+

@@ -10,12 +10,10 @@ import UIKit
 import Firebase
 
 protocol ExercicioDetalhesDelegate {
-    
     func savedExercicio()
-    
 }
 
-class ExercicioDetalhesViewController: BaseDetailsViewController, UITableViewDataSource, UITableViewDelegate, ParteCorpoDelegate {
+class ExercicioDetalhesViewController: BaseDetailsViewController {
 
     var delegate : ExercicioDetalhesDelegate?
     
@@ -26,12 +24,13 @@ class ExercicioDetalhesViewController: BaseDetailsViewController, UITableViewDat
         get { return model as! Exercicio}
     }
     
+    private let _exercicioRef = Database.database().reference().child("Exercicios")
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
 
         configureComponents()
-        
     }
     
     func configureComponents() {
@@ -42,7 +41,6 @@ class ExercicioDetalhesViewController: BaseDetailsViewController, UITableViewDat
         )
         
         if viewState == .Adding {
-            
             model = Exercicio()
         }
         
@@ -55,10 +53,58 @@ class ExercicioDetalhesViewController: BaseDetailsViewController, UITableViewDat
         tableViewParteCorpo.dataSource = self
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "goToParteCorpo" {
+            
+            let exercicioParteCorpoVC = segue.destination as! ExercicioParteCorpoViewController
+            
+            exercicioParteCorpoVC.delegate = self
+        }
+    }
+    
+    func carregarModelTela () {
+        
+        nomeExercicioTextField.text = _exercicio.nomeExercicio
+    }
+    
+    @objc func btnSalvarPressed(sender: UIBarButtonItem) {
+        
+        nomeExercicioTextField.isEnabled = false
+        
+        _exercicio.nomeExercicio = nomeExercicioTextField.text!
+        
+        let exercicioRef = viewState == .Adding ? _exercicioRef.childByAutoId() : _exercicioRef.child(_exercicio.autoKey)
+        
+        exercicioRef.setValue(_exercicio.toJSONString()) { (error, reference) in
+            
+            if let errorSaving = error {
+                print(errorSaving)
+            }
+            else {
+                print("Exercicio Updated!")
+                
+                self.nomeExercicioTextField.isEnabled = true
+            }
+        }
+        
+        delegate?.savedExercicio()
+        
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    func recarregarTableViewParteCorpo() {
+        
+        tableViewParteCorpo.reloadData()
+    }
+}
+
+extension ExercicioDetalhesViewController: UITableViewDataSource, UITableViewDelegate {
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "parteCorpoTableCell", for: indexPath)
@@ -79,77 +125,14 @@ class ExercicioDetalhesViewController: BaseDetailsViewController, UITableViewDat
         
         tableView.reloadRows(at: [indexPath], with: .automatic)
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        if segue.identifier == "goToParteCorpo" {
-            
-            let exercicioParteCorpoVC = segue.destination as! ExercicioParteCorpoViewController
-            
-            exercicioParteCorpoVC.delegate = self
-        }
-        
-    }
-    
-    func carregarModelTela () {
-        
-        nomeExercicioTextField.text = _exercicio.nomeExercicio
-    }
-    
-    @objc func btnSalvarPressed(sender: UIBarButtonItem) {
-        
-        nomeExercicioTextField.isEnabled = false
-        
-        _exercicio.nomeExercicio = nomeExercicioTextField.text!
-        
-        let exercicioRef = Database.database().reference().child("Exercicios")
-        
-        if viewState == .Adding {
-            
-            exercicioRef.childByAutoId().setValue(_exercicio.toJSONString()) {
-                (error, reference) in
-                
-                if let errorSaving = error {
-                    print(errorSaving)
-                }
-                else {
-                    print("Exercicio Added!")
-                    
-                    self.nomeExercicioTextField.isEnabled = true
-                }
-            }
-        }
-        else if viewState == .Editing {
-            
-            let exercicioKeyRef =  exercicioRef.child(_exercicio.autoKey)
-            
-            exercicioKeyRef.setValue(_exercicio.toJSONString()) { (error, reference) in
-                
-                if let errorSaving = error {
-                    print(errorSaving)
-                }
-                else {
-                    print("Exercicio Edited!")
-                    
-                    self.nomeExercicioTextField.isEnabled = true
-                }
-            }
-        }
-        
-        delegate?.savedExercicio()
-        
-        self.navigationController?.popViewController(animated: true)
-    }
+}
+
+extension ExercicioDetalhesViewController: ParteCorpoDelegate {
     
     func selectedParteCorpo(parteCorpo: String) {
         
         _exercicio.parteCorpo = parteCorpo
         
         recarregarTableViewParteCorpo()
-    }
-    
-    func recarregarTableViewParteCorpo() {
-        
-        tableViewParteCorpo.reloadData()
     }
 }

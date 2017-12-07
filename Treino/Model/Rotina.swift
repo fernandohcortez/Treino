@@ -17,11 +17,14 @@ class Rotina : BaseModel {
     var dataCriacao : Date = Date()
     var dataUltimaAtualizacao : Date = Date()
     
+    var exercicios : [RotinaExercicios] = [RotinaExercicios]()
+    
     override func mapping(map: Map) {
         nome <- map["nome"]
         observacao <- map["observacao"]
         status <- map["status"]
         dataCriacao <- (map["dataCriacao"], DateTransform())
         dataUltimaAtualizacao <- (map["dataUltimaAtualizacao"], DateTransform())
+        exercicios <- (map["exercicios"])
     }
 }
