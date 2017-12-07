@@ -10,16 +10,17 @@ import UIKit
 import Firebase
 
 protocol ExercicioDelegate {
-    
     func selectedExercicio(exercicioArray : [Exercicio])
 }
 
-class ExercicioViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ExercicioDetalhesDelegate {
+class ExercicioViewController: UIViewController {
 
     @IBOutlet weak var tableViewExercicio: UITableView!
-
+    
     var delegate : ExercicioDelegate?
     
+    private let _exercicioRef = Database.database().reference().child("Exercicios")
+
     private var _exercicioArray : [Exercicio] = [Exercicio]()
     
     override func viewDidLoad() {
@@ -30,8 +31,7 @@ class ExercicioViewController: UIViewController, UITableViewDelegate, UITableVie
         
         configureDoneButton()
         
-        carregarExercicios()
-
+        addObserversRef()
     }
     
     func configureDoneButton() {
@@ -55,60 +55,6 @@ class ExercicioViewController: UIViewController, UITableViewDelegate, UITableVie
         self.navigationController?.popViewController(animated: true)
     }
     
-    //MARK : tableViewRotina Events
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return _exercicioArray.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "customRotinaExercicioCell", for : indexPath) as! CustomRotinaExercicioCell
-        
-        cell.updateUI(exercicio: _exercicioArray[indexPath.row])
-        
-        cell.accessoryType = cell.isSelected ? .checkmark : .none
-        cell.selectionStyle = .none
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-    }
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        
-        tableView.cellForRow(at: indexPath)?.accessoryType = .none
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        
-        if editingStyle == .delete {
-            
-            let exercicioRef = Database.database().reference().child("Exercicios")
-            
-            let exercicioKeyRef = exercicioRef.child(_exercicioArray[indexPath.row].autoKey)
-            
-            exercicioKeyRef.removeValue() {
-                (error, reference)  in
-                
-                if let errorRemoving = error {
-                    print(errorRemoving)
-                }
-                else {
-                    print("Exercicio Removed!")
-                    
-                    //self._exercicioArray.remove(at: indexPath.row)
-                    
-                    //tableView.deleteRows(at: [indexPath], with: .automatic)
-                }
-            }
-        }
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         let exercicioDetalhesVC = segue.destination as! ExercicioDetalhesViewController
@@ -123,11 +69,9 @@ class ExercicioViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
-    func carregarExercicios() {
+    func addObserversRef() {
         
-        let exercicioDB = Database.database().reference().child("Exercicios")
-        
-        exercicioDB.observe(.childAdded) { (snapShot) in
+        _exercicioRef.observe(.childAdded) { (snapShot) in
             
             let exercicio = Exercicio(JSONString: snapShot.value as! String)!
             
@@ -140,9 +84,7 @@ class ExercicioViewController: UIViewController, UITableViewDelegate, UITableVie
             self.recarregarTableView()
         }
         
-        exercicioDB.observe(.childRemoved) { (snapShot) in
-                        
-            //self._exercicioArray = self._exercicioArray.filter( { $0.autoKey == snapShot.key })
+        _exercicioRef.observe(.childRemoved) { (snapShot) in
             
             self._exercicioArray.remove({ $0.autoKey == snapShot.key })
             
@@ -177,13 +119,65 @@ class ExercicioViewController: UIViewController, UITableViewDelegate, UITableVie
         tableViewExercicio.reloadData()
     }
     
-    func savedExercicio() {
-        
-        recarregarTableView()
-    }
-    
     @IBAction func btnNovoExercicioPressed(_ sender: UIButton) {
         
         performSegue(withIdentifier: "goToExercicioDetalhes", sender: nil)
     }
 }
+
+extension ExercicioViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return _exercicioArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "customRotinaExercicioCell", for : indexPath) as! CustomRotinaExercicioCell
+        
+        cell.updateUI(exercicio: _exercicioArray[indexPath.row])
+        
+        cell.accessoryType = cell.isSelected ? .checkmark : .none
+        cell.selectionStyle = .none
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        
+        tableView.cellForRow(at: indexPath)?.accessoryType = .none
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete {
+            
+            let exercicioKeyRef = _exercicioRef.child(_exercicioArray[indexPath.row].autoKey)
+            
+            exercicioKeyRef.removeValue() {
+                (error, reference)  in
+                
+                if let errorRemoving = error {
+                    print(errorRemoving)
+                }
+                else {
+                    print("Exercicio Removed!")
+                }
+            }
+        }
+    }
+}
+
+extension ExercicioViewController: ExercicioDetalhesDelegate {
+    
+    func savedExercicio() {
+        recarregarTableView()
+    }
+}
+

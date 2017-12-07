@@ -165,7 +165,6 @@ class RotinaDetalhesViewController: BaseDetailsViewController {
             let ExercicioVC = segue.destination as! ExercicioViewController
             
             ExercicioVC.delegate = self;
-            
         }
     }
 }

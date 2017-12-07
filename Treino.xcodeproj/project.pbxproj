@@ -21,6 +21,8 @@
 		91793BAD1FCF070C008DC56B /* TreinoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91793BAC1FCF070C008DC56B /* TreinoViewController.swift */; };
 		91793BAF1FD06188008DC56B /* HistoricoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91793BAE1FD06188008DC56B /* HistoricoViewController.swift */; };
 		91793BB11FD061BC008DC56B /* RotinaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91793BB01FD061BC008DC56B /* RotinaViewController.swift */; };
+		919FE1621FD977E800EA9401 /* TreinoDetalhesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 919FE1611FD977E800EA9401 /* TreinoDetalhesViewController.swift */; };
+		919FE1641FD98AF800EA9401 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 919FE1631FD98AF800EA9401 /* Message.swift */; };
 		91D6B9CE1FD31E4A00F65538 /* BaseDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D6B9CD1FD31E4A00F65538 /* BaseDetailsViewController.swift */; };
 		91D6B9D11FD3203800F65538 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D6B9D01FD3203800F65538 /* BaseModel.swift */; };
 		91D6B9D31FD49B8D00F65538 /* RotinaExercicios.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D6B9D21FD49B8D00F65538 /* RotinaExercicios.swift */; };
@@ -56,6 +58,8 @@
 		91793BAC1FCF070C008DC56B /* TreinoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreinoViewController.swift; sourceTree = "<group>"; };
 		91793BAE1FD06188008DC56B /* HistoricoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoricoViewController.swift; sourceTree = "<group>"; };
 		91793BB01FD061BC008DC56B /* RotinaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotinaViewController.swift; sourceTree = "<group>"; };
+		919FE1611FD977E800EA9401 /* TreinoDetalhesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreinoDetalhesViewController.swift; sourceTree = "<group>"; };
+		919FE1631FD98AF800EA9401 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		91D6B9CD1FD31E4A00F65538 /* BaseDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDetailsViewController.swift; sourceTree = "<group>"; };
 		91D6B9D01FD3203800F65538 /* BaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
 		91D6B9D21FD49B8D00F65538 /* RotinaExercicios.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotinaExercicios.swift; sourceTree = "<group>"; };
@@ -109,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				91793BAC1FCF070C008DC56B /* TreinoViewController.swift */,
+				919FE1611FD977E800EA9401 /* TreinoDetalhesViewController.swift */,
 				91793BB01FD061BC008DC56B /* RotinaViewController.swift */,
 				91E49B111FD1E9850065E3D3 /* RotinaDetalhesViewController.swift */,
 				91793BAE1FD06188008DC56B /* HistoricoViewController.swift */,
@@ -221,6 +226,7 @@
 			isa = PBXGroup;
 			children = (
 				91D6B9E11FD5929000F65538 /* Extension */,
+				919FE1631FD98AF800EA9401 /* Message.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -404,6 +410,7 @@
 				91D6B9D11FD3203800F65538 /* BaseModel.swift in Sources */,
 				91D6B9DF1FD581B400F65538 /* ExercicioParteCorpoViewController.swift in Sources */,
 				91D6B9CE1FD31E4A00F65538 /* BaseDetailsViewController.swift in Sources */,
+				919FE1621FD977E800EA9401 /* TreinoDetalhesViewController.swift in Sources */,
 				91793BA91FCEF976008DC56B /* RegisterViewController.swift in Sources */,
 				91D6B9D51FD49D6A00F65538 /* Exercicio.swift in Sources */,
 				91793B931FCED6B8008DC56B /* InicialViewController.swift in Sources */,
@@ -419,6 +426,7 @@
 				9127B7AE1FD6E42E00AE3617 /* Array.swift in Sources */,
 				91D6B9DD1FD4A90400F65538 /* ExercicioDetalhesViewController.swift in Sources */,
 				91D6B9E31FD592A700F65538 /* String.swift in Sources */,
+				919FE1641FD98AF800EA9401 /* Message.swift in Sources */,
 				91793BAD1FCF070C008DC56B /* TreinoViewController.swift in Sources */,
 				91D6B9D81FD49E7800F65538 /* CustomRotinaExercicioCell.swift in Sources */,
 			);

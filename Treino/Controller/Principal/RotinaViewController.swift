@@ -10,11 +10,11 @@ import UIKit
 import FirebaseDatabase
 import ObjectMapper
 
-class RotinaViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class RotinaViewController: UIViewController {
 
     @IBOutlet weak var tableViewRotina: UITableView!
     
-    private var _rotinaRef = Database.database().reference().child("Rotinas")
+    private let _rotinaRef = Database.database().reference().child("Rotinas")
     
     private var _rotinaArray : [Rotina] = [Rotina]()
     
@@ -45,50 +45,6 @@ class RotinaViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @objc func btnIncluirPressed(sender: UIBarButtonItem) {
         
         performSegue(withIdentifier: "goToRotinaDetalhes", sender: nil)
-    }
-    
-    //MARK : tableViewRotina Events
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return _rotinaArray.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "customRotinaCell", for : indexPath) as! CustomRotinaCell
-        
-        cell.updateUI(rotina: _rotinaArray[indexPath.row])
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        performSegue(withIdentifier: "goToRotinaDetalhes", sender: _rotinaArray[indexPath.row])
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        
-        if editingStyle == .delete {
-            
-            let exercicioKeyRef = _rotinaRef.child(_rotinaArray[indexPath.row].autoKey)
-            
-            exercicioKeyRef.removeValue() {
-                (error, reference)  in
-                
-                if let errorRemoving = error {
-                    print(errorRemoving)
-                }
-                else {
-                    print("Exercicio Removed!")
-                    
-                    //self._exercicioArray.remove(at: indexPath.row)
-                    
-                    //tableView.deleteRows(at: [indexPath], with: .automatic)
-                }
-            }
-        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -172,5 +128,45 @@ class RotinaViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         tableViewRotina.reloadData()
     }
+}
 
+extension RotinaViewController: UITableViewDelegate, UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return _rotinaArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "customRotinaCell", for : indexPath) as! CustomRotinaCell
+        
+        cell.updateUI(rotina: _rotinaArray[indexPath.row])
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        performSegue(withIdentifier: "goToRotinaDetalhes", sender: _rotinaArray[indexPath.row])
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete {
+            
+            let exercicioKeyRef = _rotinaRef.child(_rotinaArray[indexPath.row].autoKey)
+            
+            exercicioKeyRef.removeValue() {
+                (error, reference)  in
+                
+                if let errorRemoving = error {
+                    print(errorRemoving)
+                }
+                else {
+                    print("Exercicio Removed!")
+                }
+            }
+        }
+    }
 }

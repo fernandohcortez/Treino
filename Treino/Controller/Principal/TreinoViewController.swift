@@ -7,39 +7,170 @@
 //
 
 import UIKit
+import Firebase
+import SVProgressHUD
 
-class TreinoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
-    //var treinoArray = 
+class TreinoViewController: UIViewController {
 
     @IBOutlet weak var tableViewTreino: UITableView!
     
+    private let _rotinaRef = Database.database().reference().child("Rotinas")
+    
+    private var _rotinaArray : [Rotina] = [Rotina]()
+    
     override func viewDidLoad() {
+        
         super.viewDidLoad()
 
+        configureTableView()
+        
+        addObserversRef()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+       hideBackButton()
+    }
+    
+    func configureTableView() {
+        
         tableViewTreino.delegate = self
         tableViewTreino.dataSource = self
         
-        self.tabBarController?.navigationItem.hidesBackButton = true
+        tableViewTreino.register(UINib(nibName : "CustomRotinaCell", bundle : nil), forCellReuseIdentifier: "customRotinaCell")
+        
+        tableViewTreino.separatorStyle = .none
+        
+        configureHeightCellTableView()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        self.tabBarController?.navigationItem.rightBarButtonItem = nil
+    func configureHeightCellTableView() {
+
+        tableViewTreino.rowHeight = UITableViewAutomaticDimension
+        tableViewTreino.estimatedRowHeight = 150.0
+    }
+    
+    func recarregarTableView() {
+        
+        configureHeightCellTableView()
+        
+        tableViewTreino.reloadData()
+    }
+    
+    func hideBackButton() {
+        
+         self.tabBarController?.navigationItem.rightBarButtonItem = nil
+         self.tabBarController?.navigationItem.hidesBackButton = true
     }
     
     @IBAction func btnNovaRotinaPressed(_ sender: UIButton) {
     
+        performSegue(withIdentifier: "goToRotinaDetalhes", sender: nil)
     }
     
-    //MARK: - tableViewTreino Events
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "goToTreinoDetalhes"
+        {
+            let treinoDetalhesVC = segue.destination as! TreinoDetalhesViewController
+            
+            if let rotina = sender as? Rotina {
+                treinoDetalhesVC.model = rotina
+            }
+        }
+        else if segue.identifier == "goToRotinaDetalhes" {
+            
+            let rotinaDetalhesVC = segue.destination as! RotinaDetalhesViewController
+            
+            if let rotina = sender as? Rotina {
+                rotinaDetalhesVC.model = rotina
+            }
+        }
+    }
+    
+    func addObserversRef() {
+        
+        let rotinaRefStatusAtivo = _rotinaRef.queryOrdered(byChild: "status").queryEqual(toValue: "A")
+        
+        rotinaRefStatusAtivo.observe(.childAdded) { (snapShot) in
+            
+            SVProgressHUD.show()
+            
+            if let jsonArray = snapShot.value as? [String : AnyObject] {
+                
+                let rotina = Rotina(JSON: jsonArray)!
+                
+                rotina.autoKey = snapShot.key
+                
+                self._rotinaArray.append(rotina)
+            }
+            
+            self.recarregarTableView()
+            
+            SVProgressHUD.dismiss()
+        }
+        
+        _rotinaRef.observe(.childChanged) { (snapShot) in
+            
+            SVProgressHUD.show()
+            
+            if let jsonArray = snapShot.value as? [String : AnyObject] {
+                
+                let rotina = Rotina(JSON: jsonArray)!
+                
+                rotina.autoKey = snapShot.key
+                
+                // Arquivado
+                if rotina.status == "Q" {
+
+                    self._rotinaArray.remove({ $0.autoKey == rotina.autoKey })
+                }
+                // Ativo
+                else if rotina.status == "A" {
+                    
+                    if let index = self._rotinaArray.index(where: { $0.autoKey == rotina.autoKey}) {
+                        self._rotinaArray[index] = rotina
+                    }
+                    else {
+                        self._rotinaArray.append(rotina)
+                    }
+                }
+            }
+            
+            self.recarregarTableView()
+            
+            SVProgressHUD.dismiss()
+        }
+        
+        _rotinaRef.observe(.childRemoved) { (snapShot) in
+            
+            SVProgressHUD.show()
+            
+            self._rotinaArray.remove({ $0.autoKey == snapShot.key })
+            
+            self.recarregarTableView()
+            
+            SVProgressHUD.dismiss()
+        }
+    }
+}
+
+extension TreinoViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return _rotinaArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "customRotinaCell", for : indexPath) as! CustomRotinaCell
+        
+        cell.updateUI(rotina: _rotinaArray[indexPath.row])
+        
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        performSegue(withIdentifier: "goToTreinoDetalhes", sender: _rotinaArray[indexPath.row])
+    }
 }
