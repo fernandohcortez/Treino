@@ -520,8 +520,8 @@
                     <tabBarItem key="tabBarItem" title="Treino" id="yJe-dj-YPD"/>
                     <connections>
                         <outlet property="tableViewTreino" destination="WLJ-6e-fAk" id="h18-Xo-14i"/>
-                        <segue destination="WnX-YU-G9u" kind="show" identifier="goToTreinoDetalhes" id="9Nr-9Z-MhX"/>
                         <segue destination="u9b-Gk-bxj" kind="show" identifier="goToRotinaDetalhes" id="Pdy-R8-psp"/>
+                        <segue destination="iwv-xI-Yan" kind="show" identifier="goToTreinoDetalhes" id="liv-qJ-c6m"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Ha-BZ-QQc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -531,19 +531,19 @@
         <!--Treino Detalhes View Controller-->
         <scene sceneID="gzG-C7-M9W">
             <objects>
-                <viewController id="WnX-YU-G9u" customClass="TreinoDetalhesViewController" customModule="Treino" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="treinoDetalhesViewController" id="WnX-YU-G9u" customClass="TreinoDetalhesViewController" customModule="Treino" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Irn-7D-FTc">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nome Exercício" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MMh-Fd-ldV">
-                                <rect key="frame" x="7" y="74" width="361" height="48"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="40"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nome Exercício" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MMh-Fd-ldV">
+                                <rect key="frame" x="7" y="30" width="361" height="36"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="30"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sets" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eJW-P9-GZU">
-                                <rect key="frame" x="7" y="132" width="361" height="30"/>
+                                <rect key="frame" x="7" y="76" width="361" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -581,25 +581,11 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Repetições" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kTU-Ok-zfo">
-                                <rect key="frame" x="7" y="172" width="361" height="24"/>
+                                <rect key="frame" x="7" y="116" width="361" height="24"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fam-A4-6l0">
-                                <rect key="frame" x="313" y="213" width="62" height="240"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="62" id="P1f-Jp-EDF"/>
-                                    <constraint firstAttribute="height" constant="240" id="wlm-I3-8Zm"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="100"/>
-                                <state key="normal" title="&gt;">
-                                    <color key="titleColor" red="0.32936131950000003" green="0.62782132629999998" blue="0.48678958420000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="btnProximoExercicioPressed:" destination="WnX-YU-G9u" eventType="touchUpInside" id="XbT-G5-ZGJ"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -608,13 +594,11 @@
                             <constraint firstItem="fQf-oP-xEN" firstAttribute="trailing" secondItem="kTU-Ok-zfo" secondAttribute="trailing" constant="7" id="8uc-Ev-vGd"/>
                             <constraint firstItem="DMw-ZX-WRC" firstAttribute="centerY" secondItem="Irn-7D-FTc" secondAttribute="centerY" id="DHP-Nx-yiq"/>
                             <constraint firstItem="l7C-BU-YHP" firstAttribute="top" secondItem="Nak-Yt-wWR" secondAttribute="bottom" constant="35" id="FuV-8T-AOJ"/>
-                            <constraint firstAttribute="trailing" secondItem="Fam-A4-6l0" secondAttribute="trailing" id="JUP-gG-7Bs"/>
                             <constraint firstItem="kTU-Ok-zfo" firstAttribute="top" secondItem="eJW-P9-GZU" secondAttribute="bottom" constant="10" id="Mvp-rw-9vc"/>
                             <constraint firstItem="fQf-oP-xEN" firstAttribute="trailing" secondItem="MMh-Fd-ldV" secondAttribute="trailing" constant="7" id="Q6T-Ex-uu8"/>
                             <constraint firstItem="MMh-Fd-ldV" firstAttribute="top" secondItem="fQf-oP-xEN" secondAttribute="top" constant="10" id="SIm-mf-MWN"/>
                             <constraint firstItem="kTU-Ok-zfo" firstAttribute="leading" secondItem="fQf-oP-xEN" secondAttribute="leading" constant="7" id="V17-ND-JX2"/>
                             <constraint firstItem="MMh-Fd-ldV" firstAttribute="leading" secondItem="fQf-oP-xEN" secondAttribute="leading" constant="7" id="Y6s-Wn-9Aw"/>
-                            <constraint firstItem="Fam-A4-6l0" firstAttribute="centerY" secondItem="Irn-7D-FTc" secondAttribute="centerY" id="aoR-bA-9NE"/>
                             <constraint firstItem="eJW-P9-GZU" firstAttribute="top" secondItem="MMh-Fd-ldV" secondAttribute="bottom" constant="10" id="iQR-LP-VO4"/>
                             <constraint firstItem="Nak-Yt-wWR" firstAttribute="centerX" secondItem="Irn-7D-FTc" secondAttribute="centerX" id="nWx-rV-hBL"/>
                             <constraint firstItem="DMw-ZX-WRC" firstAttribute="centerX" secondItem="Irn-7D-FTc" secondAttribute="centerX" id="pAr-mN-nup"/>
@@ -626,7 +610,6 @@
                     <connections>
                         <outlet property="imagemExercicioImageView" destination="DMw-ZX-WRC" id="DpA-OS-Aw1"/>
                         <outlet property="nomeExercicioLabel" destination="MMh-Fd-ldV" id="RoK-V6-nGE"/>
-                        <outlet property="proximoExercicioButton" destination="Fam-A4-6l0" id="B4x-4Y-gzG"/>
                         <outlet property="repeticoesLabel" destination="kTU-Ok-zfo" id="RPJ-uD-0QG"/>
                         <outlet property="setsLabel" destination="eJW-P9-GZU" id="Xmt-GK-fO9"/>
                         <outlet property="timerLabel" destination="Nak-Yt-wWR" id="0uK-Te-bAF"/>
@@ -634,7 +617,15 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ocC-XV-4cR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5292" y="-552.77361319340332"/>
+            <point key="canvasLocation" x="6129" y="-552"/>
+        </scene>
+        <!--Treino Detalhes Page View Controller-->
+        <scene sceneID="hI9-Ps-thF">
+            <objects>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="iwv-xI-Yan" customClass="TreinoDetalhesPageViewController" customModule="Treino" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="njs-9H-Qbp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5378" y="-566"/>
         </scene>
         <!--Treino-->
         <scene sceneID="Dil-sk-HMb">

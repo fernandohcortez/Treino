@@ -15,11 +15,22 @@ class TreinoDetalhesViewController: BaseDetailsViewController {
     @IBOutlet weak var repeticoesLabel: UILabel!
     @IBOutlet weak var imagemExercicioImageView: UIImageView!
     @IBOutlet weak var timerLabel: UILabel!
-    @IBOutlet weak var proximoExercicioButton: UIButton!
+    
+    var exercicio : RotinaExercicios!
+    var lastExercise : Bool = false
+    
+    private var _counterTimer = 0
+    private var _timer:Timer!
     
     private var _rotina: Rotina!{
         get { return model as! Rotina}
     }
+    
+//    private var _lastExercise: Bool{
+//        get {
+//            return _indexExercicioCorrente == _rotina.exercicios.count-1
+//        }
+//    }
     
     private var _indexExercicioCorrente = 0
     
@@ -30,35 +41,51 @@ class TreinoDetalhesViewController: BaseDetailsViewController {
         configureComponents()
         
         carregarModelTela()
+        
+        initializeTimer()
+        
+        startTimer()
     }
     
     func carregarModelTela () {
         
-        if _rotina.exercicios.isEmpty {
-            return;
-        }
-        
-        if _rotina.exercicios.indices.contains(_indexExercicioCorrente) {
-            
-            let exercicio = _rotina.exercicios[_indexExercicioCorrente]
-            
+//        if _rotina.exercicios.isEmpty {
+//            return;
+//        }
+
             nomeExercicioLabel.text = exercicio.nomeExercicio
             setsLabel.text = "\(exercicio.sets) Sets"
             repeticoesLabel.text = "\(exercicio.reps) Repetições"
             
-            if _rotina.exercicios.first?.nomeImagemExercicio == nil {
+            if exercicio.nomeImagemExercicio.isEmpty {
                 imagemExercicioImageView.image = nil }
             else {
                 imagemExercicioImageView.image = UIImage(named : exercicio.nomeImagemExercicio)
             }
-        }
         
-        let ultimoExercicio = _indexExercicioCorrente == _rotina.exercicios.count-1
         
-        proximoExercicioButton.isHidden = ultimoExercicio
+//        if _rotina.exercicios.indices.contains(_indexExercicioCorrente) {
+//
+//            let exercicio = _rotina.exercicios[_indexExercicioCorrente]
+//
+//            nomeExercicioLabel.text = exercicio.nomeExercicio
+//            setsLabel.text = "\(exercicio.sets) Sets"
+//            repeticoesLabel.text = "\(exercicio.reps) Repetições"
+//
+//            if _rotina.exercicios.first?.nomeImagemExercicio == nil {
+//                imagemExercicioImageView.image = nil }
+//            else {
+//                imagemExercicioImageView.image = UIImage(named : exercicio.nomeImagemExercicio)
+//            }
+//        }
     }
     
-    func configureComponents() {
+    private func configureComponents() {
+        
+        configureTopButtons()
+    }
+    
+    private func configureTopButtons() {
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(btnFinalizarPressed)
         )
@@ -67,23 +94,16 @@ class TreinoDetalhesViewController: BaseDetailsViewController {
         )
     }
     
-    @objc func btnFinalizarPressed(sender: UIBarButtonItem) {
+    @objc private func btnFinalizarPressed(sender: UIBarButtonItem) {
         
         finalizarTreino()
     }
     
     func finalizarTreino() {
         
-        Message.CreateQuestionYesNo(viewController: self, message: "Deseja finalizar o treino?", actionYes: { (action) in
-            
-            //        arquivadoSwitch.endEditing(true)
-            //        nomeRotinaTextField.isEnabled = false
-            //        observacoesTextField.isEnabled = false
-            //
-            //        _rotina.nome = nomeRotinaTextField.text!
-            //        _rotina.observacao = observacoesTextField.text!
-            //        _rotina.status = arquivadoSwitch.isOn ? "Q" : "A"
-            //        _rotina.exercicios = _rotinaExerciciosArray
+        let message = lastExercise ? "Deseja finalizar o treino?" : "Você não finalizou todos os exercícios. Deseja finalizar o treino mesmo assim?"
+        
+        Message.CreateQuestionYesNo(viewController: self, message: message, actionYes: { (action) in
             
             self.salvarDadosBancoDados()
             
@@ -91,7 +111,7 @@ class TreinoDetalhesViewController: BaseDetailsViewController {
         })
     }
     
-    @objc func btnCancelarPressed(sender: UIBarButtonItem) {
+    @objc private func btnCancelarPressed(sender: UIBarButtonItem) {
         
         Message.CreateQuestionYesNo(viewController: self, message: "Deseja abandonar o treino?", actionYes: { (action) in
             
@@ -99,7 +119,10 @@ class TreinoDetalhesViewController: BaseDetailsViewController {
         })
     }
     
-    func salvarDadosBancoDados() {
+    
+    
+    
+    private func salvarDadosBancoDados() {
         
 //        let rotinaRef = viewState == .Adding ? _rotinaRef.childByAutoId() : _rotinaRef.child(_rotina.autoKey)
 //
@@ -128,15 +151,50 @@ class TreinoDetalhesViewController: BaseDetailsViewController {
 //        }
     }
     
-    @IBAction func btnFinalizarTreinoPressed(_ sender: UIButton) {
+    @IBAction private func btnFinalizarTreinoPressed(_ sender: UIButton) {
         
         finalizarTreino()
     }
+}
+
+extension TreinoDetalhesViewController {
     
-    @IBAction func btnProximoExercicioPressed(_ sender: UIButton) {
+    private func initializeTimer() {
         
-        _indexExercicioCorrente+=1
+        _counterTimer = Int(0)
         
-        carregarModelTela()
+        updateLabelTimer()
+    }
+    
+    private func updateLabelTimer() {
+        
+        timerLabel.text = _counterTimer.fromSecondsToTimeString()
+        
+        _counterTimer += 1
+    }
+    
+    private func startTimer() {
+        
+        //btnStartStop.setImage(#imageLiteral(resourceName: "Stop"), for: .normal)
+        
+        _timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+    }
+    
+    private func stopTimer() {
+        
+        //btnStartStop.setImage(#imageLiteral(resourceName: "Start"), for: .normal)
+        
+        _timer.invalidate()
+        
+        initializeTimer()
+    }
+    
+    @objc private func updateTimer() {
+        
+        if _counterTimer > 0 {
+            updateLabelTimer()
+        } else {
+            stopTimer()
+        }
     }
 }

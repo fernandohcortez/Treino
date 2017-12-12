@@ -71,10 +71,21 @@ class TreinoViewController: UIViewController {
         
         if segue.identifier == "goToTreinoDetalhes"
         {
-            let treinoDetalhesVC = segue.destination as! TreinoDetalhesViewController
-            
             if let rotina = sender as? Rotina {
-                treinoDetalhesVC.model = rotina
+                
+                let treinoDetalhesPageVC = segue.destination as! TreinoDetalhesPageViewController
+                
+                for var exercicio in rotina.exercicios {
+                    
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let treinoDetalhesVC = storyboard.instantiateViewController(withIdentifier :"treinoDetalhesViewController") as! TreinoDetalhesViewController
+                    
+                    treinoDetalhesVC.model = rotina
+                    treinoDetalhesVC.exercicio = exercicio
+                    treinoDetalhesVC.lastExercise = exercicio === rotina.exercicios.last!
+                    
+                    treinoDetalhesPageVC.subViewControllers.append(treinoDetalhesVC)
+                }
             }
         }
         else if segue.identifier == "goToRotinaDetalhes" {
