@@ -74,17 +74,24 @@ class TreinoViewController: UIViewController {
             if let rotina = sender as? Rotina {
                 
                 let treinoDetalhesPageVC = segue.destination as! TreinoDetalhesPageViewController
-                
+
                 for var exercicio in rotina.exercicios {
                     
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    
                     let treinoDetalhesVC = storyboard.instantiateViewController(withIdentifier :"treinoDetalhesViewController") as! TreinoDetalhesViewController
                     
-                    treinoDetalhesVC.model = rotina
-                    treinoDetalhesVC.exercicio = exercicio
-                    treinoDetalhesVC.lastExercise = exercicio === rotina.exercicios.last!
+                    treinoDetalhesVC.delegate = treinoDetalhesPageVC
                     
-                    treinoDetalhesPageVC.subViewControllers.append(treinoDetalhesVC)
+                    treinoDetalhesVC.model = rotina
+                    
+                    treinoDetalhesVC.setRotinaExerciciosModel(exercicio)
+                    
+                    if exercicio === rotina.exercicios.last! {
+                        treinoDetalhesVC.setAsLastExercise()
+                    }
+                    
+                    treinoDetalhesPageVC.addTreinoDetalhesViewController(treinoDetalhesVC)
                 }
             }
         }

@@ -8,126 +8,176 @@
 
 import UIKit
 
-class TreinoDetalhesPageViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
+class TreinoDetalhesPageViewController: UIPageViewController {
     
-    var subViewControllers:[UIViewController] = [UIViewController]()
+    private var _subViewControllers:[UIViewController] = [UIViewController]()
     
     private var _currentViewController: TreinoDetalhesViewController!
+    private var _lastPendingViewController: TreinoDetalhesViewController!
     
-    //private var _currentViewController = -1
+    private var _counterTimer = 0
+    private var _timer:Timer!
+    private var _timerPaused:Bool = false
     
-    private var _lastViewController: Bool {
-        get {
-            return subViewControllers.last! === _currentViewController
-        }
-    }
+    //    required init?(coder: NSCoder) {
+    //
+    //        super.init(transitionStyle: .scroll, navigationOrientation: .vertical, options: nil)
+    //    }
+    
+//    private var _lastViewController: Bool {
+//        get {
+//            return _subViewControllers.last! === _currentViewController
+//        }
+//    }
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
         self.delegate = self
         self.dataSource = self
-        
-        configureSwipeGestureScreen()
 
+        configureButtons()
+        
         setInitialPage()
+        
+        initializeTimer()
+    }
+    
+    private func configureButtons() {
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(btnFinalizarPressed)
+        )
+        
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(btnCancelarPressed)
+        )
+    }
+
+    @objc private func btnFinalizarPressed(sender: UIBarButtonItem) {
+        
+        _currentViewController.finalizarTreino()
+    }
+    
+    @objc private func btnCancelarPressed(sender: UIBarButtonItem) {
+        
+        Message.CreateQuestionYesNo(viewController: self, message: "Deseja abandonar o treino?", actionYes: { (action) in
+            
+            self.navigationController?.popViewController(animated: true)
+        })
+    }
+    
+    func addTreinoDetalhesViewController(_ treinoDetalhesViewController: TreinoDetalhesViewController) {
+        
+        _subViewControllers.append(treinoDetalhesViewController)
     }
     
     private func setInitialPage() {
         
-        if let firstPage = subViewControllers.first {
+        if let firstPage = _subViewControllers.first as? TreinoDetalhesViewController {
             
             setViewControllers([firstPage], direction: .forward, animated: true, completion: nil)
+            
+            _currentViewController = firstPage
         }
     }
-    
-    func movePage(direction: UIPageViewControllerNavigationDirection) {
-        
-        let nextIndexViewController = subViewControllers.index(of: _currentViewController)! + 1
-        
-        if nextIndexViewController > subViewControllers.count+1 {
-            return
-        }
-        
-        setViewControllers([subViewControllers[nextIndexViewController]], direction: direction, animated: true, completion: nil)
-    }
-    
-//    required init?(coder: NSCoder) {
-//
-//        super.init(transitionStyle: .scroll, navigationOrientation: .vertical, options: nil)
-//    }
-    
+}
+
+extension TreinoDetalhesPageViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
+
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
-        return subViewControllers.count
+        
+        return _subViewControllers.count
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
-        let currentIndex = subViewControllers.index(of: viewController) ?? 0
+        let currentIndex = _subViewControllers.index(of: viewController) ?? 0
         if currentIndex <= 0 {
             return nil
         }
         
-        _currentViewController = subViewControllers[currentIndex-1] as! TreinoDetalhesViewController
-        
-        return subViewControllers[currentIndex-1]
+        return _subViewControllers[currentIndex-1]
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         
-        let currentIndex = subViewControllers.index(of: viewController) ?? 0
-        if currentIndex >= subViewControllers.count-1 {
+        let currentIndex = _subViewControllers.index(of: viewController) ?? 0
+        if currentIndex >= _subViewControllers.count-1 {
             return nil
         }
         
-        _currentViewController = subViewControllers[currentIndex+1] as! TreinoDetalhesViewController
-        
-        return subViewControllers[currentIndex+1]
+        return _subViewControllers[currentIndex+1]
     }
     
-    private func configureSwipeGestureScreen() {
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.swipeToNextExercise))
-        swipeRight.direction = UISwipeGestureRecognizerDirection.left
-        self.view.addGestureRecognizer(swipeRight)
-        
-        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.swipeToPreviousExercise))
-        swipeDown.direction = UISwipeGestureRecognizerDirection.right
-        self.view.addGestureRecognizer(swipeDown)
-    }
-    
-    @objc private func swipeToNextExercise(sender: UIBarButtonItem) {
-        
-        moveExercise(direction: .next)
-    }
-    
-    @objc private func swipeToPreviousExercise(sender: UIBarButtonItem) {
-        
-        moveExercise(direction: .previous)
-    }
-    
-    private enum Direction {
-        case previous
-        case next
-    }
-    
-    private func moveExercise(direction: Direction) {
-        
-        if _lastViewController {
+        if completed {
             
-            if direction == .next {
-                
-                _currentViewController.finalizarTreino()
-                return
-            }
+            _currentViewController = _lastPendingViewController
+            
+            updateTimerViewController()
         }
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
         
-        if direction == .next {
-            movePage(direction: .forward)
-        } else if direction == .previous {
-            movePage(direction: .reverse)
+        if let viewController = pendingViewControllers[0] as? TreinoDetalhesViewController {
+            
+            _lastPendingViewController = viewController
         }
+    }
+}
+
+extension TreinoDetalhesPageViewController: PauseResumeTimerTreinoDelegate {
+    
+    private func initializeTimer() {
         
-        _currentViewController.carregarModelTela()
+        _counterTimer = Int(0)
+        
+        startOrResumeTimer()
+    }
+
+    @objc private func updateTimer() {
+        
+        if !_timerPaused {
+            
+            _counterTimer += 1
+            
+            updateTimerViewController()
+        }
+    }
+    
+    private func updateTimerViewController() {
+        
+        _currentViewController.updateTimer(counterTimer: _counterTimer, timerPaused: _timerPaused)
+    }
+    
+    func pauseTimer() {
+        
+        _timer.invalidate()
+        
+        _timerPaused = true
+        
+        updateTimerViewController()
+    }
+    
+    func startOrResumeTimer() {
+        
+        _timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        
+        _timerPaused = false
+        
+        //updateTimerViewController()
+    }
+    
+    func stopTimer() {
+        
+        _timer.invalidate()
+        
+        _counterTimer = Int(0)
+        
+        _timerPaused = true
+        
+        updateTimerViewController()
     }
 }

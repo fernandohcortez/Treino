@@ -8,29 +8,33 @@
 
 import UIKit
 
+protocol PauseResumeTimerTreinoDelegate {
+    func pauseTimer()
+    func stopTimer()
+    func startOrResumeTimer()
+}
+
 class TreinoDetalhesViewController: BaseDetailsViewController {
     
-    @IBOutlet weak var nomeExercicioLabel: UILabel!
-    @IBOutlet weak var setsLabel: UILabel!
-    @IBOutlet weak var repeticoesLabel: UILabel!
-    @IBOutlet weak var imagemExercicioImageView: UIImageView!
-    @IBOutlet weak var timerLabel: UILabel!
+    @IBOutlet weak private var nomeExercicioLabel: UILabel!
+    @IBOutlet weak private var setsLabel: UILabel!
+    @IBOutlet weak private var repeticoesLabel: UILabel!
+    @IBOutlet weak private var imagemExercicioImageView: UIImageView!
+    @IBOutlet weak private var timerLabel: UILabel!
+    @IBOutlet weak private var finalizarTreinoButton: UIButton!
     
-    var exercicio : RotinaExercicios!
-    var lastExercise : Bool = false
+    @IBOutlet weak var pauseResumeTimerButton: UIButton!
+    private var _exercicio : RotinaExercicios!
+    private var _lastExercise : Bool = false
     
-    private var _counterTimer = 0
-    private var _timer:Timer!
+    private var _counterTimer: Int = 0
+    private var _timerPaused: Bool = false
+    
+    var delegate : PauseResumeTimerTreinoDelegate?
     
     private var _rotina: Rotina!{
         get { return model as! Rotina}
     }
-    
-//    private var _lastExercise: Bool{
-//        get {
-//            return _indexExercicioCorrente == _rotina.exercicios.count-1
-//        }
-//    }
     
     private var _indexExercicioCorrente = 0
     
@@ -39,69 +43,44 @@ class TreinoDetalhesViewController: BaseDetailsViewController {
         super.viewDidLoad()
         
         configureComponents()
-        
-        carregarModelTela()
-        
-        initializeTimer()
-        
-        startTimer()
     }
     
-    func carregarModelTela () {
-        
-//        if _rotina.exercicios.isEmpty {
-//            return;
-//        }
+    override func viewWillAppear(_ animated: Bool) {
 
-            nomeExercicioLabel.text = exercicio.nomeExercicio
-            setsLabel.text = "\(exercicio.sets) Sets"
-            repeticoesLabel.text = "\(exercicio.reps) Repetições"
+        updateDataScreen()
+    }
+    
+    private func updateDataScreen () {
+        
+        nomeExercicioLabel.text = _exercicio.nomeExercicio
+        setsLabel.text = "\(_exercicio.sets) Sets"
+        repeticoesLabel.text = "\(_exercicio.reps) Repetições"
+        
+        if _exercicio.nomeImagemExercicio.isEmpty {
+            imagemExercicioImageView.image = nil }
+        else {
+            imagemExercicioImageView.image = UIImage(named : _exercicio.nomeImagemExercicio)
+        }
+        
+        if _lastExercise {
             
-            if exercicio.nomeImagemExercicio.isEmpty {
-                imagemExercicioImageView.image = nil }
-            else {
-                imagemExercicioImageView.image = UIImage(named : exercicio.nomeImagemExercicio)
-            }
-        
-        
-//        if _rotina.exercicios.indices.contains(_indexExercicioCorrente) {
-//
-//            let exercicio = _rotina.exercicios[_indexExercicioCorrente]
-//
-//            nomeExercicioLabel.text = exercicio.nomeExercicio
-//            setsLabel.text = "\(exercicio.sets) Sets"
-//            repeticoesLabel.text = "\(exercicio.reps) Repetições"
-//
-//            if _rotina.exercicios.first?.nomeImagemExercicio == nil {
-//                imagemExercicioImageView.image = nil }
-//            else {
-//                imagemExercicioImageView.image = UIImage(named : exercicio.nomeImagemExercicio)
-//            }
-//        }
+            showFinalizarTreinoButton()
+        }
     }
     
     private func configureComponents() {
-        
-        configureTopButtons()
+
+        configureVisibilityFinalizarTreinoButton()
     }
     
-    private func configureTopButtons() {
-        
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(btnFinalizarPressed)
-        )
-        
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(btnCancelarPressed)
-        )
-    }
-    
-    @objc private func btnFinalizarPressed(sender: UIBarButtonItem) {
-        
-        finalizarTreino()
+    private func configureVisibilityFinalizarTreinoButton() {
+
+        finalizarTreinoButton.isHidden = !_lastExercise
     }
     
     func finalizarTreino() {
         
-        let message = lastExercise ? "Deseja finalizar o treino?" : "Você não finalizou todos os exercícios. Deseja finalizar o treino mesmo assim?"
+        let message = _lastExercise ? "Deseja finalizar o treino?" : "Você não finalizou todos os exercícios. Deseja finalizar o treino mesmo assim?"
         
         Message.CreateQuestionYesNo(viewController: self, message: message, actionYes: { (action) in
             
@@ -111,7 +90,7 @@ class TreinoDetalhesViewController: BaseDetailsViewController {
         })
     }
     
-    @objc private func btnCancelarPressed(sender: UIBarButtonItem) {
+    func cancelarTreino() {
         
         Message.CreateQuestionYesNo(viewController: self, message: "Deseja abandonar o treino?", actionYes: { (action) in
             
@@ -119,8 +98,23 @@ class TreinoDetalhesViewController: BaseDetailsViewController {
         })
     }
     
+    @IBAction func btnPauseResumeTimerPressed(_ sender: UIButton) {
+        
+        if _timerPaused {
+            delegate?.startOrResumeTimer()
+        } else {
+            delegate?.pauseTimer()
+        }
+    }
     
-    
+    private func updateImageButtonPauseResumeTimer() {
+        
+        if _timerPaused {
+            pauseResumeTimerButton.setImage(#imageLiteral(resourceName: "ResumeTimer"), for: .normal)
+        } else {
+            pauseResumeTimerButton.setImage(#imageLiteral(resourceName: "PauseTimer"), for: .normal)
+        }
+    }
     
     private func salvarDadosBancoDados() {
         
@@ -155,46 +149,37 @@ class TreinoDetalhesViewController: BaseDetailsViewController {
         
         finalizarTreino()
     }
-}
-
-extension TreinoDetalhesViewController {
     
-    private func initializeTimer() {
+   private  func showFinalizarTreinoButton() {
         
-        _counterTimer = Int(0)
-        
-        updateLabelTimer()
+        finalizarTreinoButton.isHidden = false
     }
     
     private func updateLabelTimer() {
         
         timerLabel.text = _counterTimer.fromSecondsToTimeString()
-        
-        _counterTimer += 1
     }
     
-    private func startTimer() {
+    func updateTimer(counterTimer: Int, timerPaused: Bool) {
         
-        //btnStartStop.setImage(#imageLiteral(resourceName: "Stop"), for: .normal)
+        _counterTimer = counterTimer
         
-        _timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        _timerPaused = timerPaused
+        
+        updateLabelTimer()
+        
+        updateImageButtonPauseResumeTimer()
     }
     
-    private func stopTimer() {
+    func setAsLastExercise() {
         
-        //btnStartStop.setImage(#imageLiteral(resourceName: "Start"), for: .normal)
-        
-        _timer.invalidate()
-        
-        initializeTimer()
+        _lastExercise = true
     }
     
-    @objc private func updateTimer() {
+    func setRotinaExerciciosModel(_ exercicio: RotinaExercicios) {
         
-        if _counterTimer > 0 {
-            updateLabelTimer()
-        } else {
-            stopTimer()
-        }
+        _exercicio = exercicio
     }
 }
+
+
