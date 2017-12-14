@@ -63,6 +63,8 @@ class RotinaDetalhesViewController: BaseDetailsViewController {
         
         tableViewExercises.separatorStyle = .none
         
+        tableViewExercises.setEditing(true, animated: false)
+        
         //configureHeightCellTableView()
     }
     
@@ -193,8 +195,25 @@ extension RotinaDetalhesViewController : UITableViewDelegate, UITableViewDataSou
             
             recarregarTableView()
         }
-        
     }
+    
+    // Reorder rows
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        
+        let movedExercised = self._rotinaExerciciosArray[sourceIndexPath.row]
+        _rotinaExerciciosArray.remove(at: sourceIndexPath.row)
+        _rotinaExerciciosArray.insert(movedExercised, at: destinationIndexPath.row)
+        
+        recarregarTableView()
+    }
+
+//    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+//        return .none
+//    }
+    
+//    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+//        return false
+//    }
 }
 
 extension RotinaDetalhesViewController : ExercicioDelegate {
