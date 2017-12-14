@@ -12,6 +12,7 @@
 		912E6C271FD066C700BCE057 /* PerfilViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 912E6C261FD066C700BCE057 /* PerfilViewController.swift */; };
 		9165E68B1FE0027B00827C15 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9165E68A1FE0027B00827C15 /* Int.swift */; };
 		9165E68D1FE0109A00827C15 /* TreinoDetalhesPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9165E68C1FE0109A00827C15 /* TreinoDetalhesPageViewController.swift */; };
+		9165E68F1FE2B29600827C15 /* RotinaDetalhesEdicaoExercicioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9165E68E1FE2B29600827C15 /* RotinaDetalhesEdicaoExercicioViewController.swift */; };
 		91793B911FCED6B8008DC56B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91793B901FCED6B8008DC56B /* AppDelegate.swift */; };
 		91793B931FCED6B8008DC56B /* InicialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91793B921FCED6B8008DC56B /* InicialViewController.swift */; };
 		91793B961FCED6B8008DC56B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91793B941FCED6B8008DC56B /* Main.storyboard */; };
@@ -49,6 +50,7 @@
 		912E6C261FD066C700BCE057 /* PerfilViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfilViewController.swift; sourceTree = "<group>"; };
 		9165E68A1FE0027B00827C15 /* Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
 		9165E68C1FE0109A00827C15 /* TreinoDetalhesPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreinoDetalhesPageViewController.swift; sourceTree = "<group>"; };
+		9165E68E1FE2B29600827C15 /* RotinaDetalhesEdicaoExercicioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotinaDetalhesEdicaoExercicioViewController.swift; sourceTree = "<group>"; };
 		91793B8D1FCED6B8008DC56B /* Treino.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Treino.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		91793B901FCED6B8008DC56B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		91793B921FCED6B8008DC56B /* InicialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InicialViewController.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 				91D6B9DE1FD581B400F65538 /* ExercicioParteCorpoViewController.swift */,
 				91793BB01FD061BC008DC56B /* RotinaViewController.swift */,
 				91E49B111FD1E9850065E3D3 /* RotinaDetalhesViewController.swift */,
+				9165E68E1FE2B29600827C15 /* RotinaDetalhesEdicaoExercicioViewController.swift */,
 				91793BAE1FD06188008DC56B /* HistoricoViewController.swift */,
 				912E6C261FD066C700BCE057 /* PerfilViewController.swift */,
 				91D6B9DA1FD4A8EF00F65538 /* ExercicioViewController.swift */,
@@ -426,6 +429,7 @@
 				91793B911FCED6B8008DC56B /* AppDelegate.swift in Sources */,
 				91E49B121FD1E9850065E3D3 /* RotinaDetalhesViewController.swift in Sources */,
 				91E49B051FD076A30065E3D3 /* Rotina.swift in Sources */,
+				9165E68F1FE2B29600827C15 /* RotinaDetalhesEdicaoExercicioViewController.swift in Sources */,
 				91793BB11FD061BC008DC56B /* RotinaViewController.swift in Sources */,
 				912E6C271FD066C700BCE057 /* PerfilViewController.swift in Sources */,
 				91D6B9D31FD49B8D00F65538 /* RotinaExercicios.swift in Sources */,

@@ -16,7 +16,6 @@ class RotinaDetalhesViewController: BaseDetailsViewController {
     @IBOutlet weak var arquivadoSwitch: UISwitch!
     @IBOutlet weak var nomeRotinaTextField: UITextField!
     @IBOutlet weak var observacoesTextField: UITextField!
-    
     @IBOutlet weak var tableViewExercises: UITableView!
 
     private var _rotina: Rotina!{
@@ -64,6 +63,8 @@ class RotinaDetalhesViewController: BaseDetailsViewController {
         tableViewExercises.separatorStyle = .none
         
         tableViewExercises.setEditing(true, animated: false)
+        
+        tableViewExercises.allowsSelectionDuringEditing = true
         
         //configureHeightCellTableView()
     }
@@ -164,9 +165,18 @@ class RotinaDetalhesViewController: BaseDetailsViewController {
         
         if segue.identifier == "goToExercicios" {
             
-            let ExercicioVC = segue.destination as! ExercicioViewController
+            let exercicioVC = segue.destination as! ExercicioViewController
             
-            ExercicioVC.delegate = self;
+            exercicioVC.delegate = self;
+        }
+        else if segue.identifier == "goToEdicaoExercicio" {
+            
+            let rotinaDetalhesEdicaoExercicioVC = segue.destination as! RotinaDetalhesEdicaoExercicioViewController
+            
+            let rotinaExercicioSelected = sender as! RotinaExercicios
+            
+            rotinaDetalhesEdicaoExercicioVC.model = rotinaExercicioSelected
+            rotinaDetalhesEdicaoExercicioVC.delegate = self;
         }
     }
 }
@@ -197,10 +207,15 @@ extension RotinaDetalhesViewController : UITableViewDelegate, UITableViewDataSou
         }
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        performSegue(withIdentifier: "goToEdicaoExercicio", sender: _rotinaExerciciosArray[indexPath.row])
+    }
+    
     // Reorder rows
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         
-        let movedExercised = self._rotinaExerciciosArray[sourceIndexPath.row]
+        let movedExercised = _rotinaExerciciosArray[sourceIndexPath.row]
         _rotinaExerciciosArray.remove(at: sourceIndexPath.row)
         _rotinaExerciciosArray.insert(movedExercised, at: destinationIndexPath.row)
         
@@ -222,12 +237,29 @@ extension RotinaDetalhesViewController : ExercicioDelegate {
         
         for exercicio in exercicioArray {
             
-            let rotinaExercicio : RotinaExercicios = RotinaExercicios()
+            let rotinaExercicio = RotinaExercicios()
             rotinaExercicio.nomeExercicio = exercicio.nomeExercicio
             rotinaExercicio.nomeImagemExercicio = exercicio.nomeImagemExercicio
             
             _rotinaExerciciosArray.append(rotinaExercicio)
         }
+        
+        recarregarTableView()
+    }
+}
+
+extension RotinaDetalhesViewController : ExerciseEditingDelegate {
+    
+    func savedEditingExercise(rotinaExercicio: RotinaExercicios) {
+        
+        let index = _rotinaExerciciosArray.index { (item) in
+            return item.nomeExercicio == rotinaExercicio.nomeExercicio
+        }
+        
+        guard let indexExercise = index else { return }
+        
+        _rotinaExerciciosArray[indexExercise].sets = rotinaExercicio.sets
+        _rotinaExerciciosArray[indexExercise].reps = rotinaExercicio.reps
         
         recarregarTableView()
     }

@@ -294,11 +294,66 @@
                         <outlet property="nomeRotinaTextField" destination="2HC-ff-cce" id="EjZ-rb-vex"/>
                         <outlet property="observacoesTextField" destination="ctM-bO-53X" id="CN0-qb-e7v"/>
                         <outlet property="tableViewExercises" destination="f8P-1j-nKT" id="P74-1H-gWY"/>
+                        <segue destination="niN-sL-es5" kind="show" identifier="goToEdicaoExercicio" id="Nz2-Vd-QQX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iEC-Nx-pJy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3357.5999999999999" y="1553.9730134932536"/>
+        </scene>
+        <!--Rotina Detalhes Edicao Exercicio View Controller-->
+        <scene sceneID="If2-ox-RK0">
+            <objects>
+                <viewController id="niN-sL-es5" customClass="RotinaDetalhesEdicaoExercicioViewController" customModule="Treino" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="got-SG-LLl">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Sets" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PYy-zV-Sbx">
+                                <rect key="frame" x="16" y="142" width="343" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Repetições" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6Zu-fd-sIc">
+                                <rect key="frame" x="16" y="188" width="343" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="21h-nQ-jhC">
+                                <rect key="frame" x="16" y="80" width="343" height="37"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="37" id="Vow-oc-WOg"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="XPD-Y7-bUI" firstAttribute="trailing" secondItem="6Zu-fd-sIc" secondAttribute="trailing" constant="16" id="1hr-0I-UOC"/>
+                            <constraint firstItem="XPD-Y7-bUI" firstAttribute="trailing" secondItem="PYy-zV-Sbx" secondAttribute="trailing" constant="16" id="Dhq-qX-BKQ"/>
+                            <constraint firstItem="XPD-Y7-bUI" firstAttribute="trailing" secondItem="21h-nQ-jhC" secondAttribute="trailing" constant="16" id="FkU-3s-42r"/>
+                            <constraint firstItem="PYy-zV-Sbx" firstAttribute="leading" secondItem="XPD-Y7-bUI" secondAttribute="leading" constant="16" id="MH3-fj-e6b"/>
+                            <constraint firstItem="6Zu-fd-sIc" firstAttribute="leading" secondItem="XPD-Y7-bUI" secondAttribute="leading" constant="16" id="Wpk-CT-Gi3"/>
+                            <constraint firstItem="21h-nQ-jhC" firstAttribute="top" secondItem="XPD-Y7-bUI" secondAttribute="top" constant="16" id="YcQ-fP-2QB"/>
+                            <constraint firstItem="6Zu-fd-sIc" firstAttribute="top" secondItem="PYy-zV-Sbx" secondAttribute="bottom" constant="16" id="ltG-9z-acY"/>
+                            <constraint firstItem="PYy-zV-Sbx" firstAttribute="top" secondItem="21h-nQ-jhC" secondAttribute="bottom" constant="25" id="pQK-Ud-Q3m"/>
+                            <constraint firstItem="21h-nQ-jhC" firstAttribute="leading" secondItem="XPD-Y7-bUI" secondAttribute="leading" constant="16" id="uT6-LQ-LLb"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="XPD-Y7-bUI"/>
+                    </view>
+                    <connections>
+                        <outlet property="nomeExercicioLabel" destination="21h-nQ-jhC" id="T7l-WW-s4r"/>
+                        <outlet property="repsTextField" destination="6Zu-fd-sIc" id="ayc-Tr-Esf"/>
+                        <outlet property="setsTextField" destination="PYy-zV-Sbx" id="90j-A7-OOw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mFT-2l-KN8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3557.5999999999999" y="2273.6131934032987"/>
         </scene>
         <!--Exercicio View Controller-->
         <scene sceneID="Xhc-96-VxO">
