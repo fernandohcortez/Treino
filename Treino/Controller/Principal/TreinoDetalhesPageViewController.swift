@@ -19,6 +19,8 @@ class TreinoDetalhesPageViewController: UIPageViewController {
     private var _timer:Timer!
     private var _timerPaused:Bool = false
     
+    var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
+    
     //    required init?(coder: NSCoder) {
     //
     //        super.init(transitionStyle: .scroll, navigationOrientation: .vertical, options: nil)
@@ -29,6 +31,21 @@ class TreinoDetalhesPageViewController: UIPageViewController {
 //            return _subViewControllers.last! === _currentViewController
 //        }
 //    }
+    
+    func registerBackgroundTask() {
+        
+        backgroundTask = UIApplication.shared.beginBackgroundTask { [weak self] in
+            self?.endBackgroundTask()
+        }
+        assert(backgroundTask != UIBackgroundTaskInvalid)
+    }
+    
+    func endBackgroundTask() {
+        
+        print("Background task ended.")
+        UIApplication.shared.endBackgroundTask(backgroundTask)
+        backgroundTask = UIBackgroundTaskInvalid
+    }
     
     override func viewDidLoad() {
         
@@ -149,10 +166,19 @@ extension TreinoDetalhesPageViewController: PauseResumeTimerTreinoDelegate {
     
     private func updateTimerViewController() {
         
-        _currentViewController.updateTimer(counterTimer: _counterTimer, timerPaused: _timerPaused)
+        switch UIApplication.shared.applicationState {
+        case .active:
+            _currentViewController.updateTimer(counterTimer: _counterTimer, timerPaused: _timerPaused)
+        case .background:
+            print("Background time remaining = \(UIApplication.shared.backgroundTimeRemaining) seconds")
+        case .inactive:
+            break
+        }
     }
     
     func pauseTimer() {
+        
+        endBackgroundTask()
         
         _timer.invalidate()
         
@@ -163,14 +189,16 @@ extension TreinoDetalhesPageViewController: PauseResumeTimerTreinoDelegate {
     
     func startOrResumeTimer() {
         
+        registerBackgroundTask()
+        
         _timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
         
         _timerPaused = false
-        
-        //updateTimerViewController()
     }
     
     func stopTimer() {
+        
+        endBackgroundTask()
         
         _timer.invalidate()
         
