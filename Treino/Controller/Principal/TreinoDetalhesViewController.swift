@@ -83,22 +83,23 @@ class TreinoDetalhesViewController: BaseDetailsViewController {
         let message = _lastExercise ? "Deseja finalizar o treino?" : "Você não finalizou todos os exercícios. Deseja finalizar o treino mesmo assim?"
         
         Message.CreateQuestionYesNo(viewController: self, message: message, actionYes: { (action) in
+            
+            self.delegate?.stopTimer()
+            
             self.salvarDadosBancoDados()
             
-            self.navigationController?.popViewController(animated: true)
+            self.navigationController?.popToRootViewController(animated: true)
         })
-        
-        delegate?.stopTimer()
     }
     
     func cancelarTreino() {
         
         Message.CreateQuestionYesNo(viewController: self, message: "Deseja abandonar o treino?", actionYes: { (action) in
             
-            self.navigationController?.popViewController(animated: true)
+            self.delegate?.stopTimer()
+            
+            self.navigationController?.popToRootViewController(animated: true)
         })
-        
-        delegate?.stopTimer()
     }
     
     @IBAction func btnPauseResumeTimerPressed(_ sender: UIButton) {

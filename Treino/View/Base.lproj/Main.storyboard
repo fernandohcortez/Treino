@@ -529,6 +529,73 @@
             </objects>
             <point key="canvasLocation" x="6023" y="1561"/>
         </scene>
+        <!--Treino Detalhes Iniciar View Controller-->
+        <scene sceneID="oc5-Ca-95a">
+            <objects>
+                <viewController id="K9x-xX-bOa" customClass="TreinoDetalhesIniciarViewController" customModule="Treino" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="EcK-e5-52c">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A18-Hr-yGe">
+                                <rect key="frame" x="9" y="616" width="357" height="42"/>
+                                <color key="backgroundColor" red="1" green="0.57810515169999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <state key="normal" title="Iniciar Treino">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnNovaRotinaPressed:" destination="vTZ-B8-V3c" eventType="touchUpInside" id="3WW-p7-rpk"/>
+                                    <segue destination="iwv-xI-Yan" kind="show" identifier="goToTreinoDetalhes" id="fHk-u8-3PK"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="OgT-nj-THY">
+                                <rect key="frame" x="0.0" y="142" width="375" height="465"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nome Treino" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YNO-P4-Ukz">
+                                <rect key="frame" x="9" y="73" width="357" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Observação Treino" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EsL-9c-Yf5">
+                                <rect key="frame" x="9" y="112" width="357" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="YNO-P4-Ukz" firstAttribute="centerX" secondItem="EcK-e5-52c" secondAttribute="centerX" id="BY8-bk-Hwa"/>
+                            <constraint firstItem="YNO-P4-Ukz" firstAttribute="top" secondItem="JmI-5L-Ij7" secondAttribute="top" constant="9" id="Go2-Nl-rqq"/>
+                            <constraint firstItem="EsL-9c-Yf5" firstAttribute="leading" secondItem="JmI-5L-Ij7" secondAttribute="leading" constant="9" id="HVa-zR-hAe"/>
+                            <constraint firstItem="YNO-P4-Ukz" firstAttribute="leading" secondItem="JmI-5L-Ij7" secondAttribute="leading" constant="9" id="Hba-mi-5SL"/>
+                            <constraint firstItem="OgT-nj-THY" firstAttribute="top" secondItem="EsL-9c-Yf5" secondAttribute="bottom" constant="9" id="LoI-Du-6yH"/>
+                            <constraint firstItem="EsL-9c-Yf5" firstAttribute="top" secondItem="YNO-P4-Ukz" secondAttribute="bottom" constant="9" id="RRW-Js-Yvn"/>
+                            <constraint firstItem="A18-Hr-yGe" firstAttribute="leading" secondItem="JmI-5L-Ij7" secondAttribute="leading" constant="9" id="Tgk-Ix-3zt"/>
+                            <constraint firstItem="JmI-5L-Ij7" firstAttribute="trailing" secondItem="A18-Hr-yGe" secondAttribute="trailing" constant="9" id="a0c-xa-pxc"/>
+                            <constraint firstItem="EsL-9c-Yf5" firstAttribute="centerX" secondItem="EcK-e5-52c" secondAttribute="centerX" id="eX1-7U-FWz"/>
+                            <constraint firstItem="JmI-5L-Ij7" firstAttribute="trailing" secondItem="YNO-P4-Ukz" secondAttribute="trailing" constant="9" id="h1O-3S-li0"/>
+                            <constraint firstItem="A18-Hr-yGe" firstAttribute="top" secondItem="OgT-nj-THY" secondAttribute="bottom" constant="9" id="ixZ-uB-hfQ"/>
+                            <constraint firstAttribute="bottom" secondItem="A18-Hr-yGe" secondAttribute="bottom" constant="9" id="n3k-TC-GsA"/>
+                            <constraint firstItem="OgT-nj-THY" firstAttribute="leading" secondItem="JmI-5L-Ij7" secondAttribute="leading" id="nL0-IH-ITW"/>
+                            <constraint firstItem="JmI-5L-Ij7" firstAttribute="trailing" secondItem="EsL-9c-Yf5" secondAttribute="trailing" constant="9" id="uV8-dt-XQS"/>
+                            <constraint firstItem="JmI-5L-Ij7" firstAttribute="trailing" secondItem="OgT-nj-THY" secondAttribute="trailing" id="x7r-GX-DQp"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="JmI-5L-Ij7"/>
+                    </view>
+                    <connections>
+                        <outlet property="nomeRotinaLabel" destination="YNO-P4-Ukz" id="HjV-DX-YEb"/>
+                        <outlet property="observacaoRotinaLabel" destination="EsL-9c-Yf5" id="GAn-n7-J0J"/>
+                        <outlet property="rotinaExerciciosTableView" destination="OgT-nj-THY" id="pba-Pi-ON5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FNM-qV-q9i" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4842" y="-582"/>
+        </scene>
         <!--Treino-->
         <scene sceneID="o9x-GO-722">
             <objects>
@@ -576,12 +643,12 @@
                     <connections>
                         <outlet property="tableViewTreino" destination="WLJ-6e-fAk" id="h18-Xo-14i"/>
                         <segue destination="u9b-Gk-bxj" kind="show" identifier="goToRotinaDetalhes" id="Pdy-R8-psp"/>
-                        <segue destination="iwv-xI-Yan" kind="show" identifier="goToTreinoDetalhes" id="liv-qJ-c6m"/>
+                        <segue destination="K9x-xX-bOa" kind="show" identifier="goToTreinoDetalhesIniciar" id="vuQ-8x-YYd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Ha-BZ-QQc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4454" y="-551"/>
+            <point key="canvasLocation" x="4089" y="-582"/>
         </scene>
         <!--Treino Detalhes View Controller-->
         <scene sceneID="gzG-C7-M9W">
@@ -695,7 +762,7 @@
                 <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="iwv-xI-Yan" customClass="TreinoDetalhesPageViewController" customModule="Treino" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="njs-9H-Qbp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5378" y="-566"/>
+            <point key="canvasLocation" x="5564" y="-582"/>
         </scene>
         <!--Treino-->
         <scene sceneID="Dil-sk-HMb">

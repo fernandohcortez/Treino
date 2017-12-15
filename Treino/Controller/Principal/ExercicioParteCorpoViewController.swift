@@ -18,7 +18,7 @@ class ExercicioParteCorpoViewController: UIViewController, UITableViewDelegate, 
     
     @IBOutlet weak var tableViewParteCorpo: UITableView!
     
-    private var _parteCorpoArray = ["Braço","Costa","Peito","Perna","Ombro","Abdomen","Corpo Inteiro","Cardio"]
+    private var _parteCorpoArray = ["Braço","Costas","Peito","Perna","Ombro","Abdomen","Corpo Inteiro","Cardio"]
     
     override func viewDidLoad() {
         
@@ -37,7 +37,6 @@ class ExercicioParteCorpoViewController: UIViewController, UITableViewDelegate, 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return _parteCorpoArray.count
-        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -47,7 +46,6 @@ class ExercicioParteCorpoViewController: UIViewController, UITableViewDelegate, 
         cell.textLabel?.text = _parteCorpoArray[indexPath.row]
         
         return cell
-        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -55,6 +53,5 @@ class ExercicioParteCorpoViewController: UIViewController, UITableViewDelegate, 
         delegate?.selectedParteCorpo(parteCorpo: _parteCorpoArray[indexPath.row])
         
         self.navigationController?.popViewController(animated: true)
-        
     }
 }

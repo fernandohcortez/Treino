@@ -69,30 +69,13 @@ class TreinoViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == "goToTreinoDetalhes"
+        if segue.identifier == "goToTreinoDetalhesIniciar"
         {
             if let rotina = sender as? Rotina {
                 
-                let treinoDetalhesPageVC = segue.destination as! TreinoDetalhesPageViewController
-
-                for var exercicio in rotina.exercicios {
-                    
-                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    
-                    let treinoDetalhesVC = storyboard.instantiateViewController(withIdentifier :"treinoDetalhesViewController") as! TreinoDetalhesViewController
-                    
-                    treinoDetalhesVC.delegate = treinoDetalhesPageVC
-                    
-                    treinoDetalhesVC.model = rotina
-                    
-                    treinoDetalhesVC.setRotinaExerciciosModel(exercicio)
-                    
-                    if exercicio === rotina.exercicios.last! {
-                        treinoDetalhesVC.setAsLastExercise()
-                    }
-                    
-                    treinoDetalhesPageVC.addTreinoDetalhesViewController(treinoDetalhesVC)
-                }
+                let treinoDetalhesIniciarVC = segue.destination as! TreinoDetalhesIniciarViewController
+                
+                treinoDetalhesIniciarVC.model = rotina
             }
         }
         else if segue.identifier == "goToRotinaDetalhes" {
@@ -189,6 +172,6 @@ extension TreinoViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        performSegue(withIdentifier: "goToTreinoDetalhes", sender: _rotinaArray[indexPath.row])
+        performSegue(withIdentifier: "goToTreinoDetalhesIniciar", sender: _rotinaArray[indexPath.row])
     }
 }
