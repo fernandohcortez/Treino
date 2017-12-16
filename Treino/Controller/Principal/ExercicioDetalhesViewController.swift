@@ -8,6 +8,8 @@
 
 import UIKit
 import Firebase
+import FirebaseStorage
+import SVProgressHUD
 
 protocol ExercicioDetalhesDelegate {
     func savedExercicio()
@@ -19,12 +21,17 @@ class ExercicioDetalhesViewController: BaseDetailsViewController {
     
     @IBOutlet weak var nomeExercicioTextField: UITextField!
     @IBOutlet weak var tableViewParteCorpo: UITableView!
+    @IBOutlet weak var imageExercicioImageView: UIImageView!
     
     private var _exercicio: Exercicio!{
         get { return model as! Exercicio}
     }
     
     private let _exercicioRef = Database.database().reference().child("Exercicios")
+    
+    private let _storageRef = Storage.storage().reference()
+
+    private var _imageHasChangedByUser = false
     
     override func viewDidLoad() {
         
@@ -37,20 +44,45 @@ class ExercicioDetalhesViewController: BaseDetailsViewController {
         
         configureTableView()
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(btnSalvarPressed)
-        )
+        configureNavBarButtons()
+        
+        configureImageView()
         
         if viewState == .Adding {
             model = Exercicio()
         }
         
-        carregarModelTela()
+        updateDataScreen()
     }
     
-    func configureTableView() {
+    private func configureTableView() {
         
         tableViewParteCorpo.delegate = self
         tableViewParteCorpo.dataSource = self
+    }
+    
+    private func configureNavBarButtons() {
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(btnSalvarPressed)
+        )
+    }
+    
+    private func configureImageView() {
+        
+        imageExercicioImageView.isUserInteractionEnabled = true
+        
+        imageExercicioImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imagemExercicioTapped)))
+    }
+    
+    @objc func imagemExercicioTapped() {
+        
+        let picker = UIImagePickerController()
+        
+        picker.delegate = self
+        
+        picker.allowsEditing = true
+        
+        present(picker, animated: true, completion: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -63,34 +95,84 @@ class ExercicioDetalhesViewController: BaseDetailsViewController {
         }
     }
     
-    func carregarModelTela () {
+    func updateDataScreen () {
         
         nomeExercicioTextField.text = _exercicio.nomeExercicio
     }
     
     @objc func btnSalvarPressed(sender: UIBarButtonItem) {
         
-        nomeExercicioTextField.isEnabled = false
+        enableDisableComponents(enable: false)
         
         _exercicio.nomeExercicio = nomeExercicioTextField.text!
         
+        if (_imageHasChangedByUser) {
+            saveImageAndDataExercicio()
+        }
+        else {
+            saveDataExercicio()
+        }
+    }
+    
+    private func saveImageAndDataExercicio() {
+        
+        if let uploadData = UIImagePNGRepresentation(imageExercicioImageView.image!) {
+            
+            let imageName = NSUUID().uuidString
+            
+            let storageImageRef = _storageRef.child(imageName)
+            
+            storageImageRef.putData(uploadData, metadata: nil, completion: { (metadata, error) in
+                
+                if error != nil {
+                    print(error!)
+                }
+                else {
+                    
+                    if let urlDownload = metadata?.downloadURL()?.absoluteString {
+                        self._exercicio.urlImagem = urlDownload
+                    }
+                    
+                    self.saveDataExercicio()
+                }
+            })
+        }
+    }
+    
+    private func saveDataExercicio() {
+        
         let exercicioRef = viewState == .Adding ? _exercicioRef.childByAutoId() : _exercicioRef.child(_exercicio.autoKey)
         
-        exercicioRef.setValue(_exercicio.toJSONString()) { (error, reference) in
+        exercicioRef.setValue(_exercicio.toJSON()) { (error, reference) in
+            
+            self.enableDisableComponents(enable: true)
             
             if let errorSaving = error {
+
                 print(errorSaving)
             }
             else {
+                
                 print("Exercicio Updated!")
                 
-                self.nomeExercicioTextField.isEnabled = true
+                self.delegate?.savedExercicio()
+
+                self.navigationController?.popViewController(animated: true)
             }
         }
+    }
+    
+    private func enableDisableComponents(enable: Bool) {
         
-        delegate?.savedExercicio()
+        self.navigationItem.rightBarButtonItem?.isEnabled = enable
+        self.navigationItem.leftBarButtonItem?.isEnabled = enable
+        self.nomeExercicioTextField.isEnabled = enable
         
-        self.navigationController?.popViewController(animated: true)
+        if enable {
+            SVProgressHUD.dismiss()
+        } else {
+            SVProgressHUD.show()
+        }
     }
     
     func recarregarTableViewParteCorpo() {
@@ -124,6 +206,35 @@ extension ExercicioDetalhesViewController: UITableViewDataSource, UITableViewDel
         detailTextLabel?.text = _exercicio.parteCorpo
         
         tableView.reloadRows(at: [indexPath], with: .automatic)
+    }
+}
+
+extension ExercicioDetalhesViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        var selectedPickerFromPicker: UIImage?
+        
+        if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
+            selectedPickerFromPicker = editedImage
+        }
+        else if let originalImage = info["UIImagePickerControllerOriginalImage"] as? UIImage {
+            selectedPickerFromPicker = originalImage
+        }
+        
+        if let selectedImage = selectedPickerFromPicker {
+            
+            imageExercicioImageView.image = selectedImage
+            
+            _imageHasChangedByUser = true
+        }
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        
+        dismiss(animated: true, completion: nil)
     }
 }
 

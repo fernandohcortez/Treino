@@ -13,14 +13,14 @@ class Exercicio : BaseModel {
     
     var nomeExercicio : String = ""
     var parteCorpo : String = ""
-    var nomeImagemExercicio : String = ""
+    var urlImagem : String = ""
     var dataCriacao : Date = Date()
     var dataUltimaAtualizacao : Date = Date()
     
     override func mapping(map: Map) {
         nomeExercicio <- map["nomeExercicio"]
         parteCorpo <- map["parteCorpo"]
-        nomeImagemExercicio <- map["nomeImagemExercicio"]
+        urlImagem <- map["urlImagem"]
         dataCriacao <- (map["dataCriacao"], DateTransform())
         dataUltimaAtualizacao <- (map["dataUltimaAtualizacao"], DateTransform())
     }

@@ -458,19 +458,29 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ImagemPadraoExercicio" translatesAutoresizingMaskIntoConstraints="NO" id="0M1-dv-dEf">
+                                <rect key="frame" x="60" y="206" width="254" height="254"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="254" id="MYQ-Jf-DHu"/>
+                                    <constraint firstAttribute="height" constant="254" id="NGe-W0-0SH"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="0M1-dv-dEf" firstAttribute="centerX" secondItem="iZD-bx-x46" secondAttribute="centerX" id="8Hd-JR-Y1l"/>
                             <constraint firstItem="ZCH-dr-3uo" firstAttribute="leading" secondItem="9pj-of-kVv" secondAttribute="leading" constant="16" id="ESe-1p-NLa"/>
                             <constraint firstItem="qmZ-nt-eOL" firstAttribute="top" secondItem="ZCH-dr-3uo" secondAttribute="bottom" constant="16" id="S58-0O-6IY"/>
                             <constraint firstItem="qmZ-nt-eOL" firstAttribute="leading" secondItem="9pj-of-kVv" secondAttribute="leading" id="afA-zt-oip"/>
                             <constraint firstItem="9pj-of-kVv" firstAttribute="trailing" secondItem="ZCH-dr-3uo" secondAttribute="trailing" constant="16" id="dgh-vl-RZ3"/>
+                            <constraint firstItem="0M1-dv-dEf" firstAttribute="centerY" secondItem="iZD-bx-x46" secondAttribute="centerY" id="gAa-eB-ruZ"/>
                             <constraint firstItem="qmZ-nt-eOL" firstAttribute="trailing" secondItem="9pj-of-kVv" secondAttribute="trailing" id="gbX-40-aCJ"/>
                             <constraint firstItem="ZCH-dr-3uo" firstAttribute="top" secondItem="9pj-of-kVv" secondAttribute="top" constant="16" id="giV-J2-Kgy"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="9pj-of-kVv"/>
                     </view>
                     <connections>
+                        <outlet property="imageExercicioImageView" destination="0M1-dv-dEf" id="KzJ-sO-EaA"/>
                         <outlet property="nomeExercicioTextField" destination="ZCH-dr-3uo" id="FpL-NO-nTh"/>
                         <outlet property="tableViewParteCorpo" destination="qmZ-nt-eOL" id="MTn-LJ-Ge6"/>
                         <segue destination="5QL-GD-SVt" kind="show" identifier="goToParteCorpo" id="Apm-GF-hpd"/>
@@ -907,6 +917,7 @@
     </scenes>
     <resources>
         <image name="BackgroundHome" width="320" height="568"/>
+        <image name="ImagemPadraoExercicio" width="145" height="130"/>
         <image name="PauseTimer" width="64" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>

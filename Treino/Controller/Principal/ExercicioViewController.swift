@@ -70,16 +70,17 @@ class ExercicioViewController: UIViewController {
     }
     
     func addObserversRef() {
-        
+
         _exercicioRef.observe(.childAdded) { (snapShot) in
             
-            let exercicio = Exercicio(JSONString: snapShot.value as! String)!
-            
-            exercicio.autoKey = snapShot.key
-            
-            self._exercicioArray.append(exercicio)
-            
-            self.configureHeightCellTableView()
+            if let jsonArray = snapShot.value as? [String : AnyObject] {
+                
+                let exercicio = Exercicio(JSON: jsonArray)!
+                
+                exercicio.autoKey = snapShot.key
+                
+                self._exercicioArray.append(exercicio)
+            }
             
             self.recarregarTableView()
         }
@@ -88,13 +89,11 @@ class ExercicioViewController: UIViewController {
             
             self._exercicioArray.remove({ $0.autoKey == snapShot.key })
             
-            self.configureHeightCellTableView()
-            
             self.recarregarTableView()
         }
     }
     
-    func configureTableView() {
+    private func configureTableView() {
         
         tableViewExercicio.delegate = self
         tableViewExercicio.dataSource = self
@@ -117,6 +116,8 @@ class ExercicioViewController: UIViewController {
     func recarregarTableView() {
         
         tableViewExercicio.reloadData()
+        
+        configureHeightCellTableView()
     }
     
     @IBAction func btnNovoExercicioPressed(_ sender: UIButton) {

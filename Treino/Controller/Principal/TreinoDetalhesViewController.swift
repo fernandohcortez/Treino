@@ -56,11 +56,11 @@ class TreinoDetalhesViewController: BaseDetailsViewController {
         setsLabel.text = "\(_exercicio.sets) Sets"
         repeticoesLabel.text = "\(_exercicio.reps) Repetições"
         
-        if _exercicio.nomeImagemExercicio.isEmpty {
-            imagemExercicioImageView.image = nil }
-        else {
-            imagemExercicioImageView.image = UIImage(named : _exercicio.nomeImagemExercicio)
-        }
+//        if _exercicio.nomeImagemExercicio.isEmpty {
+//            imagemExercicioImageView.image = nil }
+//        else {
+//            imagemExercicioImageView.image = UIImage(named : _exercicio.nomeImagemExercicio)
+//        }
         
         if _lastExercise {
             

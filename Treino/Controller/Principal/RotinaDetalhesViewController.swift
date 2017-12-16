@@ -239,7 +239,7 @@ extension RotinaDetalhesViewController : ExercicioDelegate {
             
             let rotinaExercicio = RotinaExercicios()
             rotinaExercicio.nomeExercicio = exercicio.nomeExercicio
-            rotinaExercicio.nomeImagemExercicio = exercicio.nomeImagemExercicio
+            rotinaExercicio.urlImagem = exercicio.urlImagem
             
             _rotinaExerciciosArray.append(rotinaExercicio)
         }

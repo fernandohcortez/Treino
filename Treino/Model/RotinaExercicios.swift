@@ -14,14 +14,14 @@ class RotinaExercicios : BaseModel {
     var nomeExercicio : String = ""
     var sets : Int = 3
     var reps : String = "12,10,8"
-    var nomeImagemExercicio : String = ""
+    var urlImagem : String = ""
     var dataCriacao : Date = Date()
     
     override func mapping(map: Map) {
         nomeExercicio <- map["nomeExercicio"]
         sets <- map["sets"]
         reps <- map["reps"]
-        nomeImagemExercicio <- map["nomeImagemExercicio"]
+        urlImagem <- map["urlImagem"]
         dataCriacao <- (map["dataCriacao"], DateTransform())
     }
 }
