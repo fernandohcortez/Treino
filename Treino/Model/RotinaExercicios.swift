@@ -14,7 +14,7 @@ class RotinaExercicios : BaseModel {
     var nomeExercicio : String = ""
     var sets : Int = 3
     var reps : String = "12,10,8"
-    var urlImagem : String = ""
+    var urlImagem : String?
     var dataCriacao : Date = Date()
     
     override func mapping(map: Map) {

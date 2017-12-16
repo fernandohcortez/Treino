@@ -56,15 +56,31 @@ class TreinoDetalhesViewController: BaseDetailsViewController {
         setsLabel.text = "\(_exercicio.sets) Sets"
         repeticoesLabel.text = "\(_exercicio.reps) Repetições"
         
-//        if _exercicio.nomeImagemExercicio.isEmpty {
-//            imagemExercicioImageView.image = nil }
-//        else {
-//            imagemExercicioImageView.image = UIImage(named : _exercicio.nomeImagemExercicio)
-//        }
-        
+        if let url = _exercicio.urlImagem {
+            downloadImageAndUpdateImageView(imageUrl: url)
+        }
+    
         if _lastExercise {
-            
             showFinalizarTreinoButton()
+        }
+    }
+    
+    private func downloadImageAndUpdateImageView(imageUrl: String) {
+        
+        if let url = URL(string: imageUrl) {
+            
+            URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
+                
+                if error != nil {
+                    print(error!)
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.imagemExercicioImageView.image = UIImage(data: data!)
+                }
+                
+            }).resume()
         }
     }
     

@@ -13,7 +13,7 @@ class Exercicio : BaseModel {
     
     var nomeExercicio : String = ""
     var parteCorpo : String = ""
-    var urlImagem : String = ""
+    var urlImagem : String?
     var dataCriacao : Date = Date()
     var dataUltimaAtualizacao : Date = Date()
     

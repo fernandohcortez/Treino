@@ -20,13 +20,34 @@ class CustomRotinaExercicioCell: UITableViewCell {
         super.awakeFromNib()
     }
     
+    private func downloadImageAndUpdateImageView(imageUrl: String) {
+
+        if let url = URL(string: imageUrl) {
+            
+            URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
+                
+                if error != nil {
+                    print(error!)
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.imageViewFotoExercicio.image = UIImage(data: data!)
+                }
+                
+            }).resume()
+        }
+    }
+    
     func updateUI(rotinaExercicios: RotinaExercicios) {
         
         labelNomeExercicio.text = rotinaExercicios.nomeExercicio
         labelSets.text = "\(rotinaExercicios.sets) Sets"
         labelReps.text = "\(rotinaExercicios.reps) Repetições"
-//        imageViewFotoExercicio.image = rotinaExercicios.nomeImagemExercicio.isEmptyOrWhiteSpace ? nil : UIImage(named: rotinaExercicios.nomeImagemExercicio)
-
+        
+        if let url = rotinaExercicios.urlImagem {
+            downloadImageAndUpdateImageView(imageUrl: url)
+        }
     }
     
     func updateUI(exercicio: Exercicio) {
@@ -34,7 +55,9 @@ class CustomRotinaExercicioCell: UITableViewCell {
         labelNomeExercicio.text = exercicio.nomeExercicio
         labelSets.text = ""
         labelReps.text = exercicio.parteCorpo.isEmptyOrWhiteSpace ? "Nenhum >" : "\(exercicio.parteCorpo) >"
-//        imageViewFotoExercicio.image = exercicio.nomeImagemExercicio.isEmptyOrWhiteSpace ? nil : UIImage(named: exercicio.nomeImagemExercicio)
-        
+
+        if let url = exercicio.urlImagem {
+            downloadImageAndUpdateImageView(imageUrl: url)
+        }
     }
 }

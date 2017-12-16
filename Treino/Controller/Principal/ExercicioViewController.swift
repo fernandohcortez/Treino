@@ -42,15 +42,16 @@ class ExercicioViewController: UIViewController {
     
     @objc func btnDonePressed(sender: UIBarButtonItem) {
         
-        let indexPathArraySelectedExercicios = tableViewExercicio.indexPathsForSelectedRows
-        
-        var selectedExerciciosArray : [Exercicio] = [Exercicio]()
-        
-        for indexPath in indexPathArraySelectedExercicios! {
-            selectedExerciciosArray.append(_exercicioArray[indexPath.row])
+        if let indexPathArraySelectedExercicios = tableViewExercicio.indexPathsForSelectedRows {
+            
+            var selectedExerciciosArray : [Exercicio] = [Exercicio]()
+            
+            for indexPath in indexPathArraySelectedExercicios {
+                selectedExerciciosArray.append(_exercicioArray[indexPath.row])
+            }
+            
+            delegate?.selectedExercicio(exercicioArray: selectedExerciciosArray)
         }
-        
-        delegate?.selectedExercicio(exercicioArray: selectedExerciciosArray)
         
         self.navigationController?.popViewController(animated: true)
     }
