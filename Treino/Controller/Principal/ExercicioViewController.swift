@@ -16,6 +16,7 @@ protocol ExercicioDelegate {
 class ExercicioViewController: UIViewController {
 
     @IBOutlet weak var tableViewExercicio: UITableView!
+    @IBOutlet weak var newExerciseButton: UIButton!
     
     var delegate : ExercicioDelegate?
     
@@ -23,37 +24,108 @@ class ExercicioViewController: UIViewController {
 
     private var _exercicioArray : [Exercicio] = [Exercicio]()
     
+    private var _editMode : Bool = false
+    
+    private enum ScreenMode {
+        case Editing
+        case Selecting
+    }
+    
+    private var _screenMode: ScreenMode = .Selecting
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
         configureTableView()
         
-        configureDoneButton()
+        configureScreenAsSelectingMode()
         
         addObserversRef()
     }
     
-    func configureDoneButton() {
+    func setNavBarButtonAsDone() {
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(btnDonePressed)
         )
     }
     
-    @objc func btnDonePressed(sender: UIBarButtonItem) {
+    private func setNavBarButtonAsEdit() {
         
-        if let indexPathArraySelectedExercicios = tableViewExercicio.indexPathsForSelectedRows {
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(btnEditPressed)
+        )
+    }
+    
+    private func showOrHideBackButton(show: Bool) {
+        
+        self.navigationItem.hidesBackButton = !show;
+    }
+    
+    private func enableOrDisableNewExerciseButton(enable: Bool) {
+        
+        newExerciseButton.isEnabled = enable;
+    }
+    
+    @objc private func btnDonePressed(sender: UIBarButtonItem) {
+        
+        if _screenMode == .Selecting {
             
-            var selectedExerciciosArray : [Exercicio] = [Exercicio]()
-            
-            for indexPath in indexPathArraySelectedExercicios {
-                selectedExerciciosArray.append(_exercicioArray[indexPath.row])
+            if let indexPathArraySelectedExercicios = tableViewExercicio.indexPathsForSelectedRows {
+                
+                var selectedExerciciosArray : [Exercicio] = [Exercicio]()
+                
+                for indexPath in indexPathArraySelectedExercicios {
+                    selectedExerciciosArray.append(_exercicioArray[indexPath.row])
+                }
+                
+                delegate?.selectedExercicio(exercicioArray: selectedExerciciosArray)
             }
             
-            delegate?.selectedExercicio(exercicioArray: selectedExerciciosArray)
+            self.navigationController?.popViewController(animated: true)
         }
+        else if _screenMode == .Editing {
+            
+            configureScreenAsSelectingMode()
+        }
+    }
+    
+    @objc private func btnEditPressed(sender: UIBarButtonItem) {
         
-        self.navigationController?.popViewController(animated: true)
+        configureScreenAsEditingMode()
+    }
+    
+    private func configureScreenAsEditingMode() {
+        
+        _screenMode = .Editing
+        
+        showOrHideBackButton(show: false)
+        
+        enableOrDisableNewExerciseButton(enable: false)
+        
+        setNavBarButtonAsDone()
+        
+        tableViewExercicio.allowsMultipleSelection = false
+        
+        tableViewExercicio.allowsSelectionDuringEditing = true
+        
+        tableViewExercicio.setEditing(true, animated: true)
+    }
+    
+    private func configureScreenAsSelectingMode() {
+        
+        _screenMode = .Selecting
+        
+        showOrHideBackButton(show: true)
+        
+        enableOrDisableNewExerciseButton(enable: true)
+        
+        setNavBarButtonAsEdit()
+        
+        tableViewExercicio.allowsMultipleSelection = true
+        
+        tableViewExercicio.allowsSelectionDuringEditing = false
+        
+        tableViewExercicio.setEditing(false, animated: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -71,7 +143,7 @@ class ExercicioViewController: UIViewController {
     }
     
     func addObserversRef() {
-
+			
         _exercicioRef.observe(.childAdded) { (snapShot) in
             
             if let jsonArray = snapShot.value as? [String : AnyObject] {
@@ -81,6 +153,8 @@ class ExercicioViewController: UIViewController {
                 exercicio.autoKey = snapShot.key
                 
                 self._exercicioArray.append(exercicio)
+                
+                self._exercicioArray.sort{$0.nomeExercicio < $1.nomeExercicio}
             }
             
             self.recarregarTableView()
@@ -98,8 +172,6 @@ class ExercicioViewController: UIViewController {
         
         tableViewExercicio.delegate = self
         tableViewExercicio.dataSource = self
-        
-        tableViewExercicio.allowsMultipleSelection = true
         
         tableViewExercicio.register(UINib(nibName : "CustomRotinaExercicioCell", bundle : nil), forCellReuseIdentifier: "customRotinaExercicioCell")
         
@@ -138,7 +210,7 @@ extension ExercicioViewController: UITableViewDelegate, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "customRotinaExercicioCell", for : indexPath) as! CustomRotinaExercicioCell
         
-        cell.updateUI(exercicio: _exercicioArray[indexPath.row])
+        cell.updateUI(withExercicio: _exercicioArray[indexPath.row])
         
         cell.accessoryType = cell.isSelected ? .checkmark : .none
         cell.selectionStyle = .none
@@ -149,11 +221,29 @@ extension ExercicioViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+        
+        if _screenMode == .Selecting {
+            setNavBarButtonAsDone()
+        } else {
+            performSegue(withIdentifier: "goToExercicioDetalhes", sender: _exercicioArray[indexPath.row])
+        }
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         
+        if _screenMode == .Editing {
+            return
+        }
+        
         tableView.cellForRow(at: indexPath)?.accessoryType = .none
+        
+        let anyRowSelected = tableViewExercicio.indexPathsForSelectedRows != nil
+        
+        if anyRowSelected {
+            setNavBarButtonAsDone()
+        } else {
+            setNavBarButtonAsEdit()
+        }
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {

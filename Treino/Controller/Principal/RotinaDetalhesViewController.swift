@@ -192,7 +192,7 @@ extension RotinaDetalhesViewController : UITableViewDelegate, UITableViewDataSou
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "customRotinaExercicioCell", for : indexPath) as! CustomRotinaExercicioCell
         
-        cell.updateUI(rotinaExercicios: _rotinaExerciciosArray[indexPath.row])
+        cell.updateUI(withRotinaExercicios: _rotinaExerciciosArray[indexPath.row])
         
         return cell
     }
@@ -236,6 +236,12 @@ extension RotinaDetalhesViewController : ExercicioDelegate {
     func selectedExercicio(exercicioArray: [Exercicio]) {
         
         for exercicio in exercicioArray {
+            
+            if _rotinaExerciciosArray.contains(where: { (rotinaExercicio) -> Bool in
+                return rotinaExercicio.nomeExercicio == exercicio.nomeExercicio
+            }) {
+                continue
+            }
             
             let rotinaExercicio = RotinaExercicios()
             rotinaExercicio.nomeExercicio = exercicio.nomeExercicio

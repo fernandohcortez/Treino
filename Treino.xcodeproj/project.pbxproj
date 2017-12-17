@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2B866E30184DE2A13E1909F8 /* Pods_Treino.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82902081D33945100EA920BD /* Pods_Treino.framework */; };
+		911EAA001FE6A0BF00EB1930 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911EA9FF1FE6A0BF00EB1930 /* UIImageView.swift */; };
 		9127B7AE1FD6E42E00AE3617 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9127B7AD1FD6E42E00AE3617 /* Array.swift */; };
 		912E6C271FD066C700BCE057 /* PerfilViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 912E6C261FD066C700BCE057 /* PerfilViewController.swift */; };
 		9165E68B1FE0027B00827C15 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9165E68A1FE0027B00827C15 /* Int.swift */; };
@@ -47,6 +48,7 @@
 /* Begin PBXFileReference section */
 		012090F0686E944B1EED0EC9 /* Pods-Treino.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Treino.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Treino/Pods-Treino.debug.xcconfig"; sourceTree = "<group>"; };
 		82902081D33945100EA920BD /* Pods_Treino.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Treino.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		911EA9FF1FE6A0BF00EB1930 /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		9127B7AD1FD6E42E00AE3617 /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		912E6C261FD066C700BCE057 /* PerfilViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfilViewController.swift; sourceTree = "<group>"; };
 		9165E68A1FE0027B00827C15 /* Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
@@ -248,6 +250,7 @@
 				91D6B9E21FD592A700F65538 /* String.swift */,
 				9127B7AD1FD6E42E00AE3617 /* Array.swift */,
 				9165E68A1FE0027B00827C15 /* Int.swift */,
+				911EA9FF1FE6A0BF00EB1930 /* UIImageView.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -425,6 +428,7 @@
 				91793BAB1FCEF985008DC56B /* LoginViewController.swift in Sources */,
 				91E49B0F1FD07CCC0065E3D3 /* CustomRotinaCell.swift in Sources */,
 				91D6B9D11FD3203800F65538 /* BaseModel.swift in Sources */,
+				911EAA001FE6A0BF00EB1930 /* UIImageView.swift in Sources */,
 				91D6B9DF1FD581B400F65538 /* ExercicioParteCorpoViewController.swift in Sources */,
 				91D6B9CE1FD31E4A00F65538 /* BaseDetailsViewController.swift in Sources */,
 				9165E6911FE33C4600827C15 /* TreinoDetalhesIniciarViewController.swift in Sources */,

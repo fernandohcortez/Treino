@@ -104,13 +104,42 @@ class ExercicioDetalhesViewController: BaseDetailsViewController {
         
         enableDisableComponents(enable: false)
         
-        _exercicio.nomeExercicio = nomeExercicioTextField.text!
+        updateModelWithComponentsValue()
         
-        if (_imageHasChangedByUser) {
-            saveImageAndDataExercicio()
+        checkIfExerciseNameDoesntExist {
+            
+            self.saveData()
+        }
+    }
+    
+    private func updateModelWithComponentsValue() {
+        
+        _exercicio.nomeExercicio = nomeExercicioTextField.text!
+    }
+    
+    private func checkIfExerciseNameDoesntExist(actionSave: @escaping () -> Void) {
+        
+        _exercicioRef.queryOrdered(byChild: "nomeExercicio").queryEqual(toValue: _exercicio.nomeExercicio).observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            if !snapshot.exists() {
+                actionSave()
+            }
+            else {
+                
+                self.enableDisableComponents(enable: true)
+
+                Message.CreateAlert(viewController: self, message: "Um exercício com este nome já existe!")
+            }
+        })
+    }
+
+    private func saveData() {
+
+        if (self._imageHasChangedByUser) {
+            self.saveImageAndDataExercicio()
         }
         else {
-            saveDataExercicio()
+            self.saveDataExercicio()
         }
     }
     

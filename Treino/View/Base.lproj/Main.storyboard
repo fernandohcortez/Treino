@@ -403,6 +403,7 @@
                         <viewLayoutGuide key="safeArea" id="yXd-vc-aA8"/>
                     </view>
                     <connections>
+                        <outlet property="newExerciseButton" destination="lvH-Vu-xQE" id="Kcf-Gn-o4F"/>
                         <outlet property="tableViewExercicio" destination="Ohi-7n-iwP" id="zNE-5X-CMD"/>
                         <segue destination="cW8-a7-gkz" kind="show" identifier="goToExercicioDetalhes" id="Zp3-oB-h4P"/>
                     </connections>

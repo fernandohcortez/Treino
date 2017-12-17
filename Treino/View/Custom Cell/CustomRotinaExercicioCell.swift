@@ -10,7 +10,6 @@ import UIKit
 
 class CustomRotinaExercicioCell: UITableViewCell {
 
-    
     @IBOutlet weak var imageViewFotoExercicio: UIImageView!
     @IBOutlet weak var labelNomeExercicio: UILabel!
     @IBOutlet weak var labelSets: UILabel!
@@ -20,44 +19,21 @@ class CustomRotinaExercicioCell: UITableViewCell {
         super.awakeFromNib()
     }
     
-    private func downloadImageAndUpdateImageView(imageUrl: String) {
-
-        if let url = URL(string: imageUrl) {
-            
-            URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
-                
-                if error != nil {
-                    print(error!)
-                    return
-                }
-                
-                DispatchQueue.main.async {
-                    self.imageViewFotoExercicio.image = UIImage(data: data!)
-                }
-                
-            }).resume()
-        }
+    func updateUI(withRotinaExercicios: RotinaExercicios) {
+        
+        labelNomeExercicio.text = withRotinaExercicios.nomeExercicio
+        labelSets.text = "\(withRotinaExercicios.sets) Sets"
+        labelReps.text = "\(withRotinaExercicios.reps) Repetições"
+        
+        imageViewFotoExercicio.loadImageUsingCache(withImageUrlString: withRotinaExercicios.urlImagem)
     }
     
-    func updateUI(rotinaExercicios: RotinaExercicios) {
+    func updateUI(withExercicio: Exercicio) {
         
-        labelNomeExercicio.text = rotinaExercicios.nomeExercicio
-        labelSets.text = "\(rotinaExercicios.sets) Sets"
-        labelReps.text = "\(rotinaExercicios.reps) Repetições"
-        
-        if let url = rotinaExercicios.urlImagem {
-            downloadImageAndUpdateImageView(imageUrl: url)
-        }
-    }
-    
-    func updateUI(exercicio: Exercicio) {
-        
-        labelNomeExercicio.text = exercicio.nomeExercicio
+        labelNomeExercicio.text = withExercicio.nomeExercicio
         labelSets.text = ""
-        labelReps.text = exercicio.parteCorpo.isEmptyOrWhiteSpace ? "Nenhum >" : "\(exercicio.parteCorpo) >"
-
-        if let url = exercicio.urlImagem {
-            downloadImageAndUpdateImageView(imageUrl: url)
-        }
+        labelReps.text = withExercicio.parteCorpo.isEmptyOrWhiteSpace ? "Nenhum" : withExercicio.parteCorpo
+        
+        imageViewFotoExercicio.loadImageUsingCache(withImageUrlString: withExercicio.urlImagem)
     }
 }
