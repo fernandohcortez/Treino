@@ -70,9 +70,11 @@ class RotinaViewController: UIViewController {
                 rotina.autoKey = snapShot.key
                 
                 self._rotinaArray.append(rotina)
+                
+                self._rotinaArray.sort{$0.dataCriacao > $1.dataCriacao}
+                
+                self.recarregarTableView()
             }
-            
-            self.recarregarTableView()
         }
         
         _rotinaRef.observe(.childChanged) { (snapShot) in
@@ -99,6 +101,11 @@ class RotinaViewController: UIViewController {
         }
     }
     
+    private func orderRotinaArray() {
+        
+        _rotinaArray.sort{ ($1.status,$0.dataCriacao) > ($0.status,$1.dataCriacao) }
+    }
+    
     func removeObserversRef() {
         
         _rotinaRef.removeAllObservers()
@@ -123,6 +130,8 @@ class RotinaViewController: UIViewController {
     }
     
     func recarregarTableView() {
+        
+        orderRotinaArray()
         
         configureHeightCellTableView()
         
