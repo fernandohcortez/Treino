@@ -12,6 +12,7 @@ import ObjectMapper
 class BaseModel : Mappable {
     
     var autoKey : String = ""
+    var selected : Bool = false
     
     func mapping(map: Map) {
     }

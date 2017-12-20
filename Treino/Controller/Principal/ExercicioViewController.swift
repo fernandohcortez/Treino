@@ -33,6 +33,8 @@ class ExercicioViewController: UIViewController {
     
     private var _screenMode: ScreenMode = .Selecting
     
+    private var _indexExercisedRecentlyAdded: Int?
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -155,9 +157,9 @@ class ExercicioViewController: UIViewController {
                 self._exercicioArray.append(exercicio)
                 
                 self._exercicioArray.sort{$0.nomeExercicio < $1.nomeExercicio}
+                
+                self.recarregarTableView()
             }
-            
-            self.recarregarTableView()
         }
         
         _exercicioRef.observe(.childRemoved) { (snapShot) in
@@ -212,7 +214,8 @@ extension ExercicioViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.updateUI(withExercicio: _exercicioArray[indexPath.row])
         
-        cell.accessoryType = cell.isSelected ? .checkmark : .none
+        cell.accessoryType = _exercicioArray[indexPath.row].selected ? .checkmark : .none
+        
         cell.selectionStyle = .none
         
         return cell
@@ -221,6 +224,8 @@ extension ExercicioViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+        
+        _exercicioArray[indexPath.row].selected = true
         
         if _screenMode == .Selecting {
             setNavBarButtonAsDone()
@@ -236,6 +241,8 @@ extension ExercicioViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         tableView.cellForRow(at: indexPath)?.accessoryType = .none
+        
+        _exercicioArray[indexPath.row].selected = false
         
         let anyRowSelected = tableViewExercicio.indexPathsForSelectedRows != nil
         
@@ -268,8 +275,11 @@ extension ExercicioViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension ExercicioViewController: ExercicioDetalhesDelegate {
     
-    func savedExercicio() {
-        recarregarTableView()
+    func savedExercicio(exercicio: Exercicio) {
+        
+        _exercicioArray.first { (exercicioResult) -> Bool in
+            exercicioResult.autoKey == exercicio.autoKey
+        }?.selected = true
     }
 }
 
