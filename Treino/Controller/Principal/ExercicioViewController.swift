@@ -21,8 +21,10 @@ class ExercicioViewController: UIViewController {
     var delegate : ExercicioDelegate?
     
     private let _exercicioRef = Database.database().reference().child("Exercicios")
-
-    private var _exercicioArray : [Exercicio] = [Exercicio]()
+    
+    private var _exercicioArray = [Exercicio]()
+    
+    private var _exercicioByParteCorpoArray = [ExercicioByParteCorpo]()
     
     private var _editMode : Bool = false
     
@@ -43,19 +45,17 @@ class ExercicioViewController: UIViewController {
         
         configureScreenAsSelectingMode()
         
-        addObserversRef()
+        retrieveAllExercises()
     }
     
-    func setNavBarButtonAsDone() {
+    private func setNavBarButtonAsDone() {
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(btnDonePressed)
-        )
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(btnDonePressed))
     }
     
     private func setNavBarButtonAsEdit() {
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(btnEditPressed)
-        )
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(btnEditPressed))
     }
     
     private func showOrHideBackButton(show: Bool) {
@@ -72,18 +72,12 @@ class ExercicioViewController: UIViewController {
         
         if _screenMode == .Selecting {
             
-            if let indexPathArraySelectedExercicios = tableViewExercicio.indexPathsForSelectedRows {
-                
-                var selectedExerciciosArray : [Exercicio] = [Exercicio]()
-                
-                for indexPath in indexPathArraySelectedExercicios {
-                    selectedExerciciosArray.append(_exercicioArray[indexPath.row])
-                }
-                
-                delegate?.selectedExercicio(exercicioArray: selectedExerciciosArray)
-            }
+            let selectedExericisesArray = _exercicioArray.filter{$0.selected}.sorted{$0.nomeExercicio < $1.nomeExercicio}
+            
+            delegate?.selectedExercicio(exercicioArray: selectedExericisesArray)
             
             self.navigationController?.popViewController(animated: true)
+            
         }
         else if _screenMode == .Editing {
             
@@ -144,29 +138,25 @@ class ExercicioViewController: UIViewController {
         }
     }
     
-    func addObserversRef() {
-			
-        _exercicioRef.observe(.childAdded) { (snapShot) in
+    private func retrieveAllExercises() {
+     
+        _exercicioRef.observeSingleEvent(of: .value) { (snapShot) in
             
-            if let jsonArray = snapShot.value as? [String : AnyObject] {
+            if let jsonDictExercicios = snapShot.value as? [String : AnyObject] {
                 
-                let exercicio = Exercicio(JSON: jsonArray)!
+                for jsonExercicio in jsonDictExercicios {
+                    
+                    if let jsonDictExercicio = jsonExercicio.value as? [String : AnyObject] {
+                        
+                        let exercicio = Exercicio(JSON: jsonDictExercicio)!
+                        
+                        exercicio.autoKey = jsonExercicio.key
+                        
+                        self._exercicioArray.append(exercicio)
+                    }
+                }
                 
-                exercicio.autoKey = snapShot.key
-                
-                self._exercicioArray.append(exercicio)
-                
-                self._exercicioArray.sort{$0.nomeExercicio < $1.nomeExercicio}
-                
-                self.recarregarTableView()
-            }
-        }
-        
-        _exercicioRef.observe(.childRemoved) { (snapShot) in
-            
-            self._exercicioArray.remove({ $0.autoKey == snapShot.key })
-            
-            self.recarregarTableView()
+                self.reloadDataTableView()            }
         }
     }
     
@@ -182,13 +172,29 @@ class ExercicioViewController: UIViewController {
         configureHeightCellTableView()
     }
     
-    func configureHeightCellTableView() {
+    private func configureHeightCellTableView() {
         
         tableViewExercicio.rowHeight = UITableViewAutomaticDimension
         tableViewExercicio.estimatedRowHeight = 150.0
     }
     
-    func recarregarTableView() {
+    private func populateArrayGroupedByParteCorpo() {
+        
+        _exercicioByParteCorpoArray.removeAll()
+        
+        let partesCorpo = Set<String>(_exercicioArray.map{$0.parteCorpo}).sorted{$0 < $1}
+        
+        for parte in partesCorpo {
+            
+            let exercicios = _exercicioArray.filter {$0.parteCorpo == parte}.sorted {$0.nomeExercicio < $1.nomeExercicio}
+            
+            _exercicioByParteCorpoArray.append(ExercicioByParteCorpo(parteCorpo: parte, exercicios: exercicios))
+        }
+    }
+    
+    private func reloadDataTableView() {
+        
+        populateArrayGroupedByParteCorpo()
         
         tableViewExercicio.reloadData()
         
@@ -203,18 +209,30 @@ class ExercicioViewController: UIViewController {
 
 extension ExercicioViewController: UITableViewDelegate, UITableViewDataSource {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
-        return _exercicioArray.count
+        return _exercicioByParteCorpoArray[section].parteCorpo
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        
+        return _exercicioByParteCorpoArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+       
+        return _exercicioByParteCorpoArray[section].exercicios.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "customRotinaExercicioCell", for : indexPath) as! CustomRotinaExercicioCell
         
-        cell.updateUI(withExercicio: _exercicioArray[indexPath.row])
+        let exercicio = _exercicioByParteCorpoArray[indexPath.section].exercicios[indexPath.row]
         
-        cell.accessoryType = _exercicioArray[indexPath.row].selected ? .checkmark : .none
+        cell.updateUI(withExercicio: exercicio)
+        
+        cell.accessoryType = exercicio.selected ? .checkmark : .none
         
         cell.selectionStyle = .none
         
@@ -225,12 +243,14 @@ extension ExercicioViewController: UITableViewDelegate, UITableViewDataSource {
         
         tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
         
-        _exercicioArray[indexPath.row].selected = true
+        let exercicio = _exercicioByParteCorpoArray[indexPath.section].exercicios[indexPath.row]
+        
+        exercicio.selected = true
         
         if _screenMode == .Selecting {
             setNavBarButtonAsDone()
         } else {
-            performSegue(withIdentifier: "goToExercicioDetalhes", sender: _exercicioArray[indexPath.row])
+            performSegue(withIdentifier: "goToExercicioDetalhes", sender: exercicio)
         }
     }
     
@@ -242,7 +262,9 @@ extension ExercicioViewController: UITableViewDelegate, UITableViewDataSource {
         
         tableView.cellForRow(at: indexPath)?.accessoryType = .none
         
-        _exercicioArray[indexPath.row].selected = false
+        let exercicio = _exercicioByParteCorpoArray[indexPath.section].exercicios[indexPath.row]
+        
+        exercicio.selected = false
         
         let anyRowSelected = tableViewExercicio.indexPathsForSelectedRows != nil
         
@@ -257,7 +279,9 @@ extension ExercicioViewController: UITableViewDelegate, UITableViewDataSource {
         
         if editingStyle == .delete {
             
-            let exercicioKeyRef = _exercicioRef.child(_exercicioArray[indexPath.row].autoKey)
+            let exercicio = _exercicioByParteCorpoArray[indexPath.section].exercicios[indexPath.row]
+            
+            let exercicioKeyRef = _exercicioRef.child(exercicio.autoKey)
             
             exercicioKeyRef.removeValue() {
                 (error, reference)  in
@@ -266,7 +290,10 @@ extension ExercicioViewController: UITableViewDelegate, UITableViewDataSource {
                     print(errorRemoving)
                 }
                 else {
-                    print("Exercicio Removed!")
+                    
+                    self._exercicioArray.remove { $0.autoKey == exercicio.autoKey}
+                    
+                    self.reloadDataTableView()
                 }
             }
         }
@@ -275,11 +302,21 @@ extension ExercicioViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension ExercicioViewController: ExercicioDetalhesDelegate {
     
-    func savedExercicio(exercicio: Exercicio) {
+    func savedExercicio(exercicio: Exercicio, viewState: BaseDetailsViewController.ViewState) {
         
-        _exercicioArray.first { (exercicioResult) -> Bool in
-            exercicioResult.autoKey == exercicio.autoKey
-        }?.selected = true
+        if viewState == .Editing {
+            _exercicioArray.remove { $0.autoKey == exercicio.autoKey}
+        }
+        else if viewState == .Adding {
+            
+            exercicio.selected = true
+            
+            setNavBarButtonAsDone()
+        }
+        
+        _exercicioArray.append(exercicio)
+        
+        reloadDataTableView()
     }
 }
 

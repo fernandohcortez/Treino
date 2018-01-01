@@ -12,7 +12,7 @@ import FirebaseStorage
 import SVProgressHUD
 
 protocol ExercicioDetalhesDelegate {
-    func savedExercicio(exercicio: Exercicio)
+    func savedExercicio(exercicio: Exercicio, viewState: BaseDetailsViewController.ViewState)
 }
 
 class ExercicioDetalhesViewController: BaseDetailsViewController {
@@ -188,7 +188,7 @@ class ExercicioDetalhesViewController: BaseDetailsViewController {
                     self._exercicio.autoKey = reference.key
                 }
                 
-                self.delegate?.savedExercicio(exercicio: self._exercicio)
+                self.delegate?.savedExercicio(exercicio: self._exercicio, viewState: self.viewState)
 
                 self.navigationController?.popViewController(animated: true)
             }

@@ -25,3 +25,13 @@ class Exercicio : BaseModel {
         dataUltimaAtualizacao <- (map["dataUltimaAtualizacao"], DateTransform())
     }
 }
+
+struct ExercicioByParteCorpo {
+    var parteCorpo : String!
+    var exercicios : [Exercicio]!
+    
+//    init(parteCorpo: String, exercicios: [Exercicio]) {
+//        self.parteCorpo = parteCorpo
+//        self.exercicios = exercicios
+//    }
+}
