@@ -52,7 +52,7 @@ class TreinoDetalhesIniciarViewController: BaseDetailsViewController {
         {
             let treinoDetalhesPageVC = segue.destination as! TreinoDetalhesPageViewController
             
-            for var exercicio in _rotina.exercicios {
+            for exercicio in _rotina.exercicios {
                 
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 

@@ -16,6 +16,8 @@ class RotinaDetalhesViewController: BaseDetailsViewController {
     @IBOutlet weak var arquivadoSwitch: UISwitch!
     @IBOutlet weak var nomeRotinaTextField: UITextField!
     @IBOutlet weak var observacoesTextField: UITextField!
+    @IBOutlet weak var dataInclusaoLabel: UILabel!
+    @IBOutlet weak var dataArquivadoLabel: UILabel!
     @IBOutlet weak var tableViewExercises: UITableView!
 
     private var _rotina: Rotina!{
@@ -27,6 +29,8 @@ class RotinaDetalhesViewController: BaseDetailsViewController {
     private let _rotinaExercicioRef = Database.database().reference().child("RotinaExercicios")
     
     private var _rotinaExerciciosArray : [RotinaExercicios] = [RotinaExercicios]()
+    
+    private var _archivedWhenLoaded : Bool = false
     
     override func viewDidLoad() {
         
@@ -50,6 +54,7 @@ class RotinaDetalhesViewController: BaseDetailsViewController {
             
             arquivadoSwitch.isHidden = true
             arquivadoLabel.isHidden = true
+            dataArquivadoLabel.isHidden = true
         }
     }
     
@@ -86,7 +91,16 @@ class RotinaDetalhesViewController: BaseDetailsViewController {
         
         nomeRotinaTextField.text = _rotina.nome
         observacoesTextField.text = _rotina.observacao
-        arquivadoSwitch.isOn = _rotina.status == "Q"
+        
+        _archivedWhenLoaded = _rotina.status == "Q"
+        arquivadoSwitch.isOn = _archivedWhenLoaded
+        dataArquivadoLabel.isHidden = !arquivadoSwitch.isOn
+        
+        if let dataArquivado = _rotina.dataArquivado {
+            dataArquivadoLabel.text = "Arquivada em \(DateFormatter.localizedString(from: dataArquivado, dateStyle: .medium, timeStyle: .none))"
+        }
+        
+        dataInclusaoLabel.text = "Criada em \(DateFormatter.localizedString(from: _rotina.dataCriacao, dateStyle: .medium, timeStyle: .none))"
         
         _rotinaExerciciosArray = _rotina.exercicios
         
@@ -125,6 +139,11 @@ class RotinaDetalhesViewController: BaseDetailsViewController {
         _rotina.nome = nomeRotinaTextField.text!
         _rotina.observacao = observacoesTextField.text!
         _rotina.status = arquivadoSwitch.isOn ? "Q" : "A"
+        
+        if arquivadoSwitch.isOn != _archivedWhenLoaded  {
+            _rotina.dataArquivado = arquivadoSwitch.isOn ? Date() : nil
+        }
+        
         _rotina.exercicios = _rotinaExerciciosArray
         
         salvarDadosBancoDados()
@@ -178,6 +197,13 @@ class RotinaDetalhesViewController: BaseDetailsViewController {
             rotinaDetalhesEdicaoExercicioVC.model = rotinaExercicioSelected
             rotinaDetalhesEdicaoExercicioVC.delegate = self;
         }
+    }
+    
+    @IBAction func arquivadoSwitchValueChanged(_ sender: UISwitch) {
+        
+        if _rotina.dataArquivado == nil { return }
+        
+        dataArquivadoLabel.isHidden = !sender.isOn
     }
 }
 

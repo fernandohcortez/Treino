@@ -16,6 +16,7 @@ class Rotina : BaseModel {
     var status : String = "A"
     var dataCriacao : Date = Date()
     var dataUltimaAtualizacao : Date = Date()
+    var dataArquivado : Date?
     
     var exercicios : [RotinaExercicios] = [RotinaExercicios]()
     
@@ -25,6 +26,7 @@ class Rotina : BaseModel {
         status <- map["status"]
         dataCriacao <- (map["dataCriacao"], DateTransform())
         dataUltimaAtualizacao <- (map["dataUltimaAtualizacao"], DateTransform())
+        dataArquivado <- (map["dataArquivado"], DateTransform())
         exercicios <- (map["exercicios"])
     }
 }
