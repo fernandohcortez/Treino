@@ -139,7 +139,7 @@ class ExercicioViewController: UIViewController {
     }
     
     private func retrieveAllExercises() {
-     
+        
         _exercicioRef.observeSingleEvent(of: .value) { (snapShot) in
             
             if let jsonDictExercicios = snapShot.value as? [String : AnyObject] {
@@ -156,7 +156,8 @@ class ExercicioViewController: UIViewController {
                     }
                 }
                 
-                self.reloadDataTableView()            }
+                self.reloadDataTableView()
+            }
         }
     }
     

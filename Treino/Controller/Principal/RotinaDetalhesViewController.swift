@@ -80,7 +80,7 @@ class RotinaDetalhesViewController: BaseDetailsViewController {
         tableViewExercises.estimatedRowHeight = 150.0
     }
     
-    func recarregarTableView() {
+    func reloadTableView() {
         
         configureHeightCellTableView()
         
@@ -104,7 +104,7 @@ class RotinaDetalhesViewController: BaseDetailsViewController {
         
         _rotinaExerciciosArray = _rotina.exercicios
         
-        recarregarTableView()
+        reloadTableView()
         
 //        addObserversRef()
     }
@@ -146,12 +146,12 @@ class RotinaDetalhesViewController: BaseDetailsViewController {
         
         _rotina.exercicios = _rotinaExerciciosArray
         
-        salvarDadosBancoDados()
+        saveData()
         
         navigationController?.popViewController(animated: true)
     }
     
-    func salvarDadosBancoDados() {
+    private func saveData() {
         
         let rotinaRef = viewState == .Adding ? _rotinaRef.childByAutoId() : _rotinaRef.child(_rotina.autoKey)
         
@@ -229,7 +229,7 @@ extension RotinaDetalhesViewController : UITableViewDelegate, UITableViewDataSou
             
             _rotinaExerciciosArray.remove(at: indexPath.row)
             
-            recarregarTableView()
+            reloadTableView()
         }
     }
     
@@ -238,23 +238,19 @@ extension RotinaDetalhesViewController : UITableViewDelegate, UITableViewDataSou
         performSegue(withIdentifier: "goToEdicaoExercicio", sender: _rotinaExerciciosArray[indexPath.row])
     }
     
-    // Reorder rows
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        
+        reorderRowTableView(sourceIndexPath: sourceIndexPath, destinationIndexPath: destinationIndexPath)
+    }
+
+    private func reorderRowTableView(sourceIndexPath: IndexPath, destinationIndexPath: IndexPath) {
         
         let movedExercised = _rotinaExerciciosArray[sourceIndexPath.row]
         _rotinaExerciciosArray.remove(at: sourceIndexPath.row)
         _rotinaExerciciosArray.insert(movedExercised, at: destinationIndexPath.row)
         
-        recarregarTableView()
+        reloadTableView()
     }
-
-//    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-//        return .none
-//    }
-    
-//    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
-//        return false
-//    }
 }
 
 extension RotinaDetalhesViewController : ExercicioDelegate {
@@ -276,7 +272,7 @@ extension RotinaDetalhesViewController : ExercicioDelegate {
             _rotinaExerciciosArray.append(rotinaExercicio)
         }
         
-        recarregarTableView()
+        reloadTableView()
     }
 }
 
@@ -293,7 +289,7 @@ extension RotinaDetalhesViewController : ExerciseEditingDelegate {
         _rotinaExerciciosArray[indexExercise].sets = rotinaExercicio.sets
         _rotinaExerciciosArray[indexExercise].reps = rotinaExercicio.reps
         
-        recarregarTableView()
+        reloadTableView()
     }
 }
 

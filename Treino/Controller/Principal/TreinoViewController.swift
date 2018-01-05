@@ -22,16 +22,52 @@ class TreinoViewController: UIViewController {
         
         super.viewDidLoad()
 
-        configureTableView()
+        configureComponents()
         
         addObserversRef()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-       hideBackButton()
+        
+        hideBackButton()
+        
+        configureRightNavBarButtonAsReorder()
     }
     
-    func configureTableView() {
+    private func configureComponents() {
+
+        configureTableView()
+    }
+    
+    private func configureRightNavBarButtonAsReorder() {
+        
+        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(btnReorderPressed)
+        )
+    }
+    
+    private func configureRightNavBarButtonAsDone() {
+        
+        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(btnReorderDonePressed)
+        )
+    }
+    
+    @objc private func btnReorderPressed(sender: UIBarButtonItem) {
+        
+        configureRightNavBarButtonAsDone()
+        
+        tableViewTreino.setEditing(true, animated: false)
+    }
+    
+    @objc private func btnReorderDonePressed(sender: UIBarButtonItem) {
+        
+        saveDataWithTransaction()
+        
+        configureRightNavBarButtonAsReorder()
+        
+        tableViewTreino.setEditing(false, animated: false)
+    }
+    
+    private func configureTableView() {
         
         tableViewTreino.delegate = self
         tableViewTreino.dataSource = self
@@ -43,22 +79,22 @@ class TreinoViewController: UIViewController {
         configureHeightCellTableView()
     }
     
-    func configureHeightCellTableView() {
+    private func configureHeightCellTableView() {
 
         tableViewTreino.rowHeight = UITableViewAutomaticDimension
         tableViewTreino.estimatedRowHeight = 150.0
     }
     
-    func recarregarTableView() {
+    private func reloadTableView() {
         
         configureHeightCellTableView()
         
         tableViewTreino.reloadData()
     }
     
-    func hideBackButton() {
+    private func hideBackButton() {
         
-         self.tabBarController?.navigationItem.rightBarButtonItem = nil
+         //self.tabBarController?.navigationItem.rightBarButtonItem = nil
          self.tabBarController?.navigationItem.hidesBackButton = true
     }
     
@@ -88,13 +124,13 @@ class TreinoViewController: UIViewController {
         }
     }
     
-    func addObserversRef() {
+    private func addObserversRef() {
         
         let rotinaRefStatusAtivo = _rotinaRef.queryOrdered(byChild: "status").queryEqual(toValue: "A")
         
         rotinaRefStatusAtivo.observe(.childAdded) { (snapShot) in
             
-            SVProgressHUD.show()
+            self.enableDisableComponentsDuringProcessing(enable: false)
             
             if let jsonArray = snapShot.value as? [String : AnyObject] {
                 
@@ -103,16 +139,18 @@ class TreinoViewController: UIViewController {
                 rotina.autoKey = snapShot.key
                 
                 self._rotinaArray.append(rotina)
+                
+                self._rotinaArray.sort {$0.ordem < $1.ordem}
+                
+                self.reloadTableView()
             }
             
-            self.recarregarTableView()
-            
-            SVProgressHUD.dismiss()
+            self.enableDisableComponentsDuringProcessing(enable: true)
         }
         
         _rotinaRef.observe(.childChanged) { (snapShot) in
             
-            SVProgressHUD.show()
+            self.enableDisableComponentsDuringProcessing(enable: false)
             
             if let jsonArray = snapShot.value as? [String : AnyObject] {
                 
@@ -137,21 +175,83 @@ class TreinoViewController: UIViewController {
                 }
             }
             
-            self.recarregarTableView()
+            self.reloadTableView()
             
-            SVProgressHUD.dismiss()
+            self.enableDisableComponentsDuringProcessing(enable: true)
         }
         
         _rotinaRef.observe(.childRemoved) { (snapShot) in
             
-            SVProgressHUD.show()
+            self.enableDisableComponentsDuringProcessing(enable: false)
             
             self._rotinaArray.remove({ $0.autoKey == snapShot.key })
             
-            self.recarregarTableView()
+            self.reloadTableView()
             
-            SVProgressHUD.dismiss()
+            self.enableDisableComponentsDuringProcessing(enable: true)
         }
+    }
+    
+    private func saveDataWithTransaction() {
+        
+        enableDisableComponentsDuringProcessing(enable: false)
+        
+        let rotinaRefStatusAtivoRef = _rotinaRef.queryOrdered(byChild: "status").queryEqual(toValue: "A").ref
+        
+        rotinaRefStatusAtivoRef.runTransactionBlock(
+            { currentData in
+                return self.saveDataTransactionBlock(with: currentData)
+                
+        }) { error, completion, snapshot in
+            
+            self.saveDataTransactionBlockCompleted(error, completion)
+        }
+    }
+    
+    private func saveDataTransactionBlock(with currentData: MutableData) -> TransactionResult {
+        
+        guard let jsonDictRotinas = currentData.value as? [String : AnyObject] else { return .abort() }
+        
+        var jsonDictRotinasOrdered = [String : AnyObject]()
+        
+        for jsonRotina in jsonDictRotinas {
+            
+            if let jsonDictRotina = jsonRotina.value as? [String : AnyObject],
+                let ordemArray = self._rotinaArray.index(where: {$0.autoKey == jsonRotina.key}),
+                let rotina = Rotina(JSON: jsonDictRotina) {
+                
+                rotina.autoKey = jsonRotina.key
+                rotina.ordem = ordemArray
+                
+                jsonDictRotinasOrdered.updateValue(rotina.toJSON() as AnyObject, forKey: jsonRotina.key)
+            }
+        }
+        
+        currentData.value = jsonDictRotinasOrdered
+        
+        return .success(withValue: currentData)
+    }
+    
+    private func saveDataTransactionBlockCompleted(_ error: Error?, _ completion: Bool){
+        
+        if let error = error {
+            Message.CreateAlert(viewController: self, message: error.localizedDescription)
+        }
+        else if !completion {
+            Message.CreateAlert(viewController: self, message: "Rotinas não encontradas. O processo foi abortado.")
+        }
+        
+        self.enableDisableComponentsDuringProcessing(enable: true)
+    }
+    
+    private func enableDisableComponentsDuringProcessing(enable:Bool) {
+        
+        self.tabBarController?.navigationItem.rightBarButtonItem?.isEnabled = enable
+        self.tabBarController?.navigationItem.leftBarButtonItem?.isEnabled = enable
+        
+        tableViewTreino.isUserInteractionEnabled = enable
+        
+        enable ? SVProgressHUD.dismiss() : SVProgressHUD.show()
     }
 }
 
@@ -173,5 +273,29 @@ extension TreinoViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         performSegue(withIdentifier: "goToTreinoDetalhesIniciar", sender: _rotinaArray[indexPath.row])
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        
+        return .none
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        
+        reorderRowTableView(sourceIndexPath: sourceIndexPath, destinationIndexPath: destinationIndexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+        
+        return false
+    }
+    
+    private func reorderRowTableView(sourceIndexPath: IndexPath, destinationIndexPath: IndexPath) {
+        
+        let movedTreino = _rotinaArray[sourceIndexPath.row]
+        _rotinaArray.remove(at: sourceIndexPath.row)
+        _rotinaArray.insert(movedTreino, at: destinationIndexPath.row)
+        
+        reloadTableView()
     }
 }

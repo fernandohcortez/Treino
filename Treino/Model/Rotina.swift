@@ -17,6 +17,7 @@ class Rotina : BaseModel {
     var dataCriacao : Date = Date()
     var dataUltimaAtualizacao : Date = Date()
     var dataArquivado : Date?
+    var ordem : Int = 0
     
     var exercicios : [RotinaExercicios] = [RotinaExercicios]()
     
@@ -27,6 +28,7 @@ class Rotina : BaseModel {
         dataCriacao <- (map["dataCriacao"], DateTransform())
         dataUltimaAtualizacao <- (map["dataUltimaAtualizacao"], DateTransform())
         dataArquivado <- (map["dataArquivado"], DateTransform())
+        ordem <- map["ordem"]
         exercicios <- (map["exercicios"])
     }
 }
