@@ -26,6 +26,7 @@
 		91793BAD1FCF070C008DC56B /* TreinoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91793BAC1FCF070C008DC56B /* TreinoViewController.swift */; };
 		91793BAF1FD06188008DC56B /* HistoricoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91793BAE1FD06188008DC56B /* HistoricoViewController.swift */; };
 		91793BB11FD061BC008DC56B /* RotinaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91793BB01FD061BC008DC56B /* RotinaViewController.swift */; };
+		9198D1B620023D7100F862E4 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9198D1B520023D7100F862E4 /* Date.swift */; };
 		919FE1621FD977E800EA9401 /* TreinoDetalhesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 919FE1611FD977E800EA9401 /* TreinoDetalhesViewController.swift */; };
 		919FE1641FD98AF800EA9401 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 919FE1631FD98AF800EA9401 /* Message.swift */; };
 		91D6B9CE1FD31E4A00F65538 /* BaseDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D6B9CD1FD31E4A00F65538 /* BaseDetailsViewController.swift */; };
@@ -68,6 +69,7 @@
 		91793BAC1FCF070C008DC56B /* TreinoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreinoViewController.swift; sourceTree = "<group>"; };
 		91793BAE1FD06188008DC56B /* HistoricoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoricoViewController.swift; sourceTree = "<group>"; };
 		91793BB01FD061BC008DC56B /* RotinaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotinaViewController.swift; sourceTree = "<group>"; };
+		9198D1B520023D7100F862E4 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		919FE1611FD977E800EA9401 /* TreinoDetalhesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreinoDetalhesViewController.swift; sourceTree = "<group>"; };
 		919FE1631FD98AF800EA9401 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		91D6B9CD1FD31E4A00F65538 /* BaseDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDetailsViewController.swift; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 				9127B7AD1FD6E42E00AE3617 /* Array.swift */,
 				9165E68A1FE0027B00827C15 /* Int.swift */,
 				911EA9FF1FE6A0BF00EB1930 /* UIImageView.swift */,
+				9198D1B520023D7100F862E4 /* Date.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -426,6 +429,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				91793BAB1FCEF985008DC56B /* LoginViewController.swift in Sources */,
+				9198D1B620023D7100F862E4 /* Date.swift in Sources */,
 				91E49B0F1FD07CCC0065E3D3 /* CustomRotinaCell.swift in Sources */,
 				91D6B9D11FD3203800F65538 /* BaseModel.swift in Sources */,
 				911EAA001FE6A0BF00EB1930 /* UIImageView.swift in Sources */,

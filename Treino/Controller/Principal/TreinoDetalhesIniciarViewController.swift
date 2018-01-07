@@ -52,24 +52,7 @@ class TreinoDetalhesIniciarViewController: BaseDetailsViewController {
         {
             let treinoDetalhesPageVC = segue.destination as! TreinoDetalhesPageViewController
             
-            for exercicio in _rotina.exercicios {
-                
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                
-                let treinoDetalhesVC = storyboard.instantiateViewController(withIdentifier :"treinoDetalhesViewController") as! TreinoDetalhesViewController
-                
-                treinoDetalhesVC.delegate = treinoDetalhesPageVC
-                
-                treinoDetalhesVC.model = _rotina
-                
-                treinoDetalhesVC.setRotinaExerciciosModel(exercicio)
-                
-                if exercicio === _rotina.exercicios.last! {
-                    treinoDetalhesVC.setAsLastExercise()
-                }
-                
-                treinoDetalhesPageVC.addTreinoDetalhesViewController(treinoDetalhesVC)
-            }
+            treinoDetalhesPageVC.startTreino(from: _rotina)
         }
     }
 }

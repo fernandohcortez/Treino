@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Firebase
+import SVProgressHUD
 
 class TreinoDetalhesPageViewController: UIPageViewController {
     
@@ -19,18 +21,51 @@ class TreinoDetalhesPageViewController: UIPageViewController {
     private var _timer:Timer!
     private var _timerPaused:Bool = false
     
+    private var _treino : Treino!
+    
+    private let _treinoRef = Database.database().reference().child("Treinos")
+    
     var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
     
-    //    required init?(coder: NSCoder) {
-    //
-    //        super.init(transitionStyle: .scroll, navigationOrientation: .vertical, options: nil)
-    //    }
+    func startTreino(from rotina: Rotina) {
+        
+        createTreino(from: rotina)
+        
+        createPagesForAllExercises()
+    }
     
-//    private var _lastViewController: Bool {
-//        get {
-//            return _subViewControllers.last! === _currentViewController
-//        }
-//    }
+    private func createTreino(from rotina: Rotina) {
+        
+        _treino = Treino()
+        _treino.rotina = rotina
+    }
+    
+    private func createPagesForAllExercises() {
+        
+        if let rotina = _treino.rotina {
+
+            for exercicio in rotina.exercicios {
+                createPage(to: exercicio)
+            }
+        }
+    }
+    
+    private func createPage(to exercicio : RotinaExercicios) {
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let treinoDetalhesVC = storyboard.instantiateViewController(withIdentifier :"treinoDetalhesViewController") as! TreinoDetalhesViewController
+        
+        treinoDetalhesVC.delegate = self
+        
+        treinoDetalhesVC.model = exercicio
+        
+        if exercicio === _treino.rotina!.exercicios.last! {
+            treinoDetalhesVC.setAsLastExercise()
+        }
+        
+        addTreinoDetalhesViewController(treinoDetalhesVC)
+    }
     
     func registerBackgroundTask() {
         
@@ -71,20 +106,79 @@ class TreinoDetalhesPageViewController: UIPageViewController {
     }
 
     @objc private func btnFinalizarPressed(sender: UIBarButtonItem) {
-        
-        _currentViewController.finalizarTreino()
+        finalizarTreino()
     }
     
-    @objc private func btnCancelarPressed(sender: UIBarButtonItem) {
+    private func finalizarTreino() {
         
-        Message.CreateQuestionYesNo(viewController: self, message: "Deseja abandonar o treino?", actionYes: { (action) in
+        let treinoFinalizado = _currentViewController.isLastExercise()
+        
+        let message = treinoFinalizado ? "Deseja finalizar o treino?" : "Você não finalizou todos os exercícios. Deseja finalizar o treino mesmo assim?"
+        
+        Message.CreateQuestionYesNo(viewController: self, message: message, actionYes: { (action) in
             
-            self.navigationController?.popViewController(animated: true)
+            self.endTreino(finalizado: treinoFinalizado)
         })
     }
     
-    func addTreinoDetalhesViewController(_ treinoDetalhesViewController: TreinoDetalhesViewController) {
+    @objc private func btnCancelarPressed(sender: UIBarButtonItem) {
+        cancelarTreino()
+    }
+    
+    private func cancelarTreino() {
         
+        Message.CreateQuestionYesNo(viewController: self, message: "Deseja abandonar o treino?", actionYes: { (action) in
+            
+            self.endTreino(finalizado: false)
+        })
+    }
+    
+    private func endTreino(finalizado: Bool) {
+        
+        setTreinoAsEnded(finalizado: finalizado)
+        
+        stopTimerButtonPressed()
+        
+        saveDataTreino()
+    }
+    
+    private func setTreinoAsEnded(finalizado: Bool) {
+        
+        _treino.finalizado = finalizado
+        _treino.timer = _counterTimer.fromSecondsToHoursMinutesSecondsString()
+        _treino.dataHoraTermino = Date()
+    }
+    
+    private func saveDataTreino() {
+
+        enableDisableComponents(enable: false)
+        
+        _treinoRef.childByAutoId().setValue(_treino.toJSON()) { (error, reference) in
+            
+            self.enableDisableComponents(enable: true)
+            
+            if let error = error {
+                Message.CreateAlert(viewController: self, message: error.localizedDescription)
+            }
+            else {
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
+    }
+    
+    private func enableDisableComponents(enable: Bool) {
+        
+        self.navigationItem.rightBarButtonItem?.isEnabled = enable
+        self.navigationItem.leftBarButtonItem?.isEnabled = enable
+        
+        if enable {
+            SVProgressHUD.dismiss()
+        } else {
+            SVProgressHUD.show()
+        }
+    }
+    
+    private func addTreinoDetalhesViewController(_ treinoDetalhesViewController: TreinoDetalhesViewController) {
         _subViewControllers.append(treinoDetalhesViewController)
     }
     
@@ -97,12 +191,40 @@ class TreinoDetalhesPageViewController: UIPageViewController {
             _currentViewController = firstPage
         }
     }
+    
+    private func initializeTimer() {
+        
+        _counterTimer = Int(0)
+        
+        startOrResumeTimerButtonPressed()
+    }
+    
+    @objc private func updateTimer() {
+        
+        if !_timerPaused {
+            
+            _counterTimer += 1
+            
+            updateTimerViewController()
+        }
+    }
+    
+    private func updateTimerViewController() {
+        
+        switch UIApplication.shared.applicationState {
+        case .active:
+            _currentViewController.updateTimer(counterTimer: _counterTimer, timerPaused: _timerPaused)
+        case .background:
+            print("Background time remaining = \(UIApplication.shared.backgroundTimeRemaining) seconds")
+        case .inactive:
+            break
+        }
+    }
 }
 
 extension TreinoDetalhesPageViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
 
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
-        
         return _subViewControllers.count
     }
     
@@ -145,38 +267,13 @@ extension TreinoDetalhesPageViewController: UIPageViewControllerDataSource, UIPa
     }
 }
 
-extension TreinoDetalhesPageViewController: PauseResumeTimerTreinoDelegate {
+extension TreinoDetalhesPageViewController: ExercicioTreinoDelegate {
     
-    private func initializeTimer() {
-        
-        _counterTimer = Int(0)
-        
-        startOrResumeTimer()
-    }
-
-    @objc private func updateTimer() {
-        
-        if !_timerPaused {
-            
-            _counterTimer += 1
-            
-            updateTimerViewController()
-        }
+    func finalizarTreinoButtonPressed() {
+        finalizarTreino()
     }
     
-    private func updateTimerViewController() {
-        
-        switch UIApplication.shared.applicationState {
-        case .active:
-            _currentViewController.updateTimer(counterTimer: _counterTimer, timerPaused: _timerPaused)
-        case .background:
-            print("Background time remaining = \(UIApplication.shared.backgroundTimeRemaining) seconds")
-        case .inactive:
-            break
-        }
-    }
-    
-    func pauseTimer() {
+    func pauseTimerButtonPressed() {
         
         endBackgroundTask()
         
@@ -187,7 +284,7 @@ extension TreinoDetalhesPageViewController: PauseResumeTimerTreinoDelegate {
         updateTimerViewController()
     }
     
-    func startOrResumeTimer() {
+    func startOrResumeTimerButtonPressed() {
         
         registerBackgroundTask()
         
@@ -196,7 +293,7 @@ extension TreinoDetalhesPageViewController: PauseResumeTimerTreinoDelegate {
         _timerPaused = false
     }
     
-    func stopTimer() {
+    func stopTimerButtonPressed() {
         
         endBackgroundTask()
         

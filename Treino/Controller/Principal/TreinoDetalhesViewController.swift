@@ -8,10 +8,11 @@
 
 import UIKit
 
-protocol PauseResumeTimerTreinoDelegate {
-    func pauseTimer()
-    func stopTimer()
-    func startOrResumeTimer()
+protocol ExercicioTreinoDelegate {
+    func finalizarTreinoButtonPressed()
+    func pauseTimerButtonPressed()
+    func stopTimerButtonPressed()
+    func startOrResumeTimerButtonPressed()
 }
 
 class TreinoDetalhesViewController: BaseDetailsViewController {
@@ -24,16 +25,15 @@ class TreinoDetalhesViewController: BaseDetailsViewController {
     @IBOutlet weak private var finalizarTreinoButton: UIButton!
     
     @IBOutlet weak var pauseResumeTimerButton: UIButton!
-    private var _exercicio : RotinaExercicios!
     private var _lastExercise : Bool = false
     
     private var _counterTimer: Int = 0
     private var _timerPaused: Bool = false
     
-    var delegate : PauseResumeTimerTreinoDelegate?
-    
-    private var _rotina: Rotina!{
-        get { return model as! Rotina}
+    var delegate : ExercicioTreinoDelegate?
+
+    private var _exercicio: RotinaExercicios!{
+        get { return model as! RotinaExercicios}
     }
     
     private var _indexExercicioCorrente = 0
@@ -46,7 +46,6 @@ class TreinoDetalhesViewController: BaseDetailsViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-
         updateDataScreen()
     }
     
@@ -85,45 +84,43 @@ class TreinoDetalhesViewController: BaseDetailsViewController {
     }
     
     private func configureComponents() {
-
         configureVisibilityFinalizarTreinoButton()
     }
     
     private func configureVisibilityFinalizarTreinoButton() {
-
         finalizarTreinoButton.isHidden = !_lastExercise
     }
     
-    func finalizarTreino() {
-        
-        let message = _lastExercise ? "Deseja finalizar o treino?" : "Você não finalizou todos os exercícios. Deseja finalizar o treino mesmo assim?"
-        
-        Message.CreateQuestionYesNo(viewController: self, message: message, actionYes: { (action) in
-            
-            self.delegate?.stopTimer()
-            
-            self.salvarDadosBancoDados()
-            
-            self.navigationController?.popToRootViewController(animated: true)
-        })
-    }
-    
-    func cancelarTreino() {
-        
-        Message.CreateQuestionYesNo(viewController: self, message: "Deseja abandonar o treino?", actionYes: { (action) in
-            
-            self.delegate?.stopTimer()
-            
-            self.navigationController?.popToRootViewController(animated: true)
-        })
-    }
+//    func finalizarTreino() {
+//        
+//        let message = _lastExercise ? "Deseja finalizar o treino?" : "Você não finalizou todos os exercícios. Deseja finalizar o treino mesmo assim?"
+//        
+//        Message.CreateQuestionYesNo(viewController: self, message: message, actionYes: { (action) in
+//            
+//            self.delegate?.stopTimer()
+//            
+//            self.saveDataTreino()
+//            
+//            self.navigationController?.popToRootViewController(animated: true)
+//        })
+//    }
+//    
+//    func cancelarTreino() {
+//        
+//        Message.CreateQuestionYesNo(viewController: self, message: "Deseja abandonar o treino?", actionYes: { (action) in
+//            
+//            self.delegate?.stopTimer()
+//            
+//            self.navigationController?.popToRootViewController(animated: true)
+//        })
+//    }
     
     @IBAction func btnPauseResumeTimerPressed(_ sender: UIButton) {
         
         if _timerPaused {
-            delegate?.startOrResumeTimer()
+            delegate?.startOrResumeTimerButtonPressed()
         } else {
-            delegate?.pauseTimer()
+            delegate?.pauseTimerButtonPressed()
         }
     }
     
@@ -136,48 +133,43 @@ class TreinoDetalhesViewController: BaseDetailsViewController {
         }
     }
     
-    private func salvarDadosBancoDados() {
-        
-//        let rotinaRef = viewState == .Adding ? _rotinaRef.childByAutoId() : _rotinaRef.child(_rotina.autoKey)
+//    private func saveDataTreino() {
 //
-//        rotinaRef.runTransactionBlock(
-//            { (currentData) -> TransactionResult in
 //
-//                currentData.value = self._rotina.toJSON()
+//        _treinoRef.childByAutoId().setValue(_treino.toJSON()) { (error, reference) in
 //
-//                return .success(withValue: currentData)
-//
-//        })  { (error, completion, snapshot) in
+//            self.enableDisableComponents(enable: true)
 //
 //            if let errorSaving = error {
-//                print(errorSaving.localizedDescription)
+//
+//                print(errorSaving)
 //            }
-//            else if completion {
+//            else {
 //
-//                print("Rotina Updated!")
+//                print("Exercicio Updated!")
 //
-//                self._rotina.autoKey = (snapshot?.key)!;
+//                if self.viewState == .Adding {
+//                    self._exercicio.autoKey = reference.key
+//                }
 //
-//                self.arquivadoSwitch.endEditing(false)
-//                self.nomeRotinaTextField.isEnabled = true
-//                self.observacoesTextField.isEnabled = true
+//                self.delegate?.savedExercicio(exercicio: self._exercicio, viewState: self.viewState)
+//
+//                self.navigationController?.popViewController(animated: true)
 //            }
 //        }
-    }
+//    }
+
     
     @IBAction private func btnFinalizarTreinoPressed(_ sender: UIButton) {
-        
-        finalizarTreino()
+        delegate?.finalizarTreinoButtonPressed()
     }
     
-   private  func showFinalizarTreinoButton() {
-        
+    private  func showFinalizarTreinoButton() {
         finalizarTreinoButton.isHidden = false
     }
     
     private func updateLabelTimer() {
-        
-        timerLabel.text = _counterTimer.fromSecondsToTimeString()
+        timerLabel.text = _counterTimer.fromSecondsToHoursMinutesSecondsString()
     }
     
     func updateTimer(counterTimer: Int, timerPaused: Bool) {
@@ -191,14 +183,12 @@ class TreinoDetalhesViewController: BaseDetailsViewController {
         updateImageButtonPauseResumeTimer()
     }
     
-    func setAsLastExercise() {
-        
-        _lastExercise = true
+    func isLastExercise() -> Bool {
+        return _lastExercise
     }
     
-    func setRotinaExerciciosModel(_ exercicio: RotinaExercicios) {
-        
-        _exercicio = exercicio
+    func setAsLastExercise() {
+        _lastExercise = true
     }
 }
 

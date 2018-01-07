@@ -10,7 +10,7 @@ import Foundation
 
 extension Int {
     
-    func fromMinutesToTimeString() -> String {
+    func fromMinutesToMinutesSecondsString() -> String {
         
         let minutes = String(self).leftPadding(toLength: 2, withPad: "0")
         let seconds = "00"
@@ -18,11 +18,62 @@ extension Int {
         return minutes + ":" + seconds
     }
     
-    func fromSecondsToTimeString() -> String {
+    func fromMinutesToHoursMinutesSecondsString() -> String {
         
-        let minutes = String(self / 60).leftPadding(toLength: 2, withPad: "0")
-        let seconds = String(self % 60).leftPadding(toLength: 2, withPad: "0")
+        let hours = self / 60
+        let minutes = self % 60
+        let seconds = 0
         
-        return minutes + ":" + seconds
+        let hoursFormatted = String(hours).leftPadding(toLength: 2, withPad: "0")
+        let minutesFormatted = String(minutes).leftPadding(toLength: 2, withPad: "0")
+        let secondsFormatted = String(seconds).leftPadding(toLength: 2, withPad: "0")
+        
+        return "\(hoursFormatted):\(minutesFormatted):\(secondsFormatted)"
+    }
+    
+//    func fromSecondsToMinutesSecondsString() -> String {
+//
+//        let minutes = String(self / 60).leftPadding(toLength: 2, withPad: "0")
+//        let seconds = String(self % 60).leftPadding(toLength: 2, withPad: "0")
+//
+//        return minutes + ":" + seconds
+//    }
+    
+//    func fromSecondsToHoursMinutesSecondsString() -> String {
+//
+//        let seconds = self
+//        let minutes = seconds / 60
+//        let hours = minutes % 60
+//
+//        let hoursFormatted = String(hours).leftPadding(toLength: 2, withPad: "0")
+//        let minutesFormatted = String(minutes).leftPadding(toLength: 2, withPad: "0")
+//        let secondsFormatted = String(seconds).leftPadding(toLength: 2, withPad: "0")
+//
+//        return "\(hoursFormatted):\(minutesFormatted):\(secondsFormatted)"
+//    }
+    
+    func fromSecondsToHoursMinutesSeconds() -> (Int, Int, Int) {
+        return (self / 3600, (self % 3600) / 60, (self % 3600) % 60)
+    }
+    
+    func fromSecondsToHoursMinutesSecondsString() -> String {
+        
+        let (hours,minutes,seconds) = fromSecondsToHoursMinutesSeconds()
+        
+        let hoursFormatted = String(hours).leftPadding(toLength: 2, withPad: "0")
+        let minutesFormatted = String(minutes).leftPadding(toLength: 2, withPad: "0")
+        let secondsFormatted = String(seconds).leftPadding(toLength: 2, withPad: "0")
+        
+        return "\(hoursFormatted):\(minutesFormatted):\(secondsFormatted)"
+    }
+    
+    func fromSecondsToMinutesSecondsString() -> String {
+        
+        let (_,minutes,seconds) = fromSecondsToHoursMinutesSeconds()
+        
+        let minutesFormatted = String(minutes).leftPadding(toLength: 2, withPad: "0")
+        let secondsFormatted = String(seconds).leftPadding(toLength: 2, withPad: "0")
+        
+        return "\(minutesFormatted):\(secondsFormatted)"
     }
 }

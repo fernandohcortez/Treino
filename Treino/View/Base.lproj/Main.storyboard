@@ -749,11 +749,11 @@
                                     <action selector="btnPauseResumeTimerPressed:" destination="WnX-YU-G9u" eventType="touchUpInside" id="LNg-12-5cl"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nak-Yt-wWR">
-                                <rect key="frame" x="102" y="489" width="171" height="40"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nak-Yt-wWR">
+                                <rect key="frame" x="62.5" y="489" width="250" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="NBz-e3-uBJ"/>
-                                    <constraint firstAttribute="width" constant="170.5" id="PEj-tB-hl7"/>
+                                    <constraint firstAttribute="width" constant="250" id="PEj-tB-hl7"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="50"/>
                                 <nil key="textColor"/>
