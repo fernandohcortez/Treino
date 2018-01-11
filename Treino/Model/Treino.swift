@@ -26,6 +26,7 @@ class Treino: BaseModel {
     }
     var timer : String = "00:00"
     var finalizado : Bool = false
+    var observacao : String = ""
     var rotina : Rotina?
     
     override func mapping(map: Map) {
@@ -34,6 +35,7 @@ class Treino: BaseModel {
         duracao <- map["duracao"]
         timer <- map["timer"]
         finalizado <- map["finalizado"]
+        observacao <- map["observacao"]
         rotina <- map["rotina"]
     }
 }

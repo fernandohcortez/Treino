@@ -14,13 +14,15 @@ class TreinoViewController: UIViewController {
 
     @IBOutlet weak var tableViewTreino: UITableView!
     
-    private let _rotinaRef = Database.database().reference().child("Rotinas")
+    private var _rotinaRef : DatabaseReference!
     
     private var _rotinaArray : [Rotina] = [Rotina]()
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        configureDatabaseReferenceByUser()
 
         configureComponents()
         
@@ -32,6 +34,20 @@ class TreinoViewController: UIViewController {
         hideBackButton()
         
         configureRightNavBarButtonAsReorder()
+    }
+    
+    private func configureDatabaseReferenceByUser() {
+        
+        guard let userUID = Auth.auth().currentUser?.uid else {
+            
+            Message.CreateAlert(viewController: self, message: "Usuário não autenticado. Refaça o login.")
+            
+            dismiss(animated: true, completion: nil)
+            
+            return
+        }
+        
+        _rotinaRef = Database.database().reference().child("Rotinas").child(userUID)
     }
     
     private func configureComponents() {
@@ -271,22 +287,18 @@ extension TreinoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         performSegue(withIdentifier: "goToTreinoDetalhesIniciar", sender: _rotinaArray[indexPath.row])
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-        
         return .none
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        
         reorderRowTableView(sourceIndexPath: sourceIndexPath, destinationIndexPath: destinationIndexPath)
     }
     
     func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
-        
         return false
     }
     

@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseDatabase
+import FirebaseAuth
 import ObjectMapper
 
 class RotinaDetalhesViewController: BaseDetailsViewController {
@@ -24,9 +25,9 @@ class RotinaDetalhesViewController: BaseDetailsViewController {
         get { return model as! Rotina}
     }
     
-    private let _rotinaRef = Database.database().reference().child("Rotinas")
+    private var _rotinaRef : DatabaseReference!
     
-    private let _rotinaExercicioRef = Database.database().reference().child("RotinaExercicios")
+    private var _rotinaExercicioRef : DatabaseReference!
     
     private var _rotinaExerciciosArray : [RotinaExercicios] = [RotinaExercicios]()
     
@@ -36,12 +37,32 @@ class RotinaDetalhesViewController: BaseDetailsViewController {
         
         super.viewDidLoad()
 
+        configureDatabaseReferenceByUser()
+        
         configureComponents()
 
         carregarModelTela()
     }
     
-    func configureComponents() {
+    private func configureDatabaseReferenceByUser() {
+        
+        guard let userUID = Auth.auth().currentUser?.uid else {
+            
+            Message.CreateAlert(viewController: self, message: "Usuário não autenticado. Refaça o login.")
+            
+            dismiss(animated: true, completion: nil)
+            
+            //navigationController?.popViewController(animated: true)
+            
+            return
+        }
+        
+        _rotinaRef = Database.database().reference().child("Rotinas").child(userUID)
+        
+        _rotinaExercicioRef = Database.database().reference().child("RotinaExercicios").child(userUID)
+    }
+    
+    private func configureComponents() {
         
         configureTableView()
         

@@ -27,6 +27,9 @@
 		91793BAF1FD06188008DC56B /* HistoricoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91793BAE1FD06188008DC56B /* HistoricoViewController.swift */; };
 		91793BB11FD061BC008DC56B /* RotinaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91793BB01FD061BC008DC56B /* RotinaViewController.swift */; };
 		9198D1B620023D7100F862E4 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9198D1B520023D7100F862E4 /* Date.swift */; };
+		9198D1B92006C96800F862E4 /* CustomHistoricoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9198D1B72006C96800F862E4 /* CustomHistoricoCell.swift */; };
+		9198D1BA2006C96800F862E4 /* CustomHistoricoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9198D1B82006C96800F862E4 /* CustomHistoricoCell.xib */; };
+		9198D1BC2006CF0500F862E4 /* HistoricoDetalhesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9198D1BB2006CF0500F862E4 /* HistoricoDetalhesViewController.swift */; };
 		919FE1621FD977E800EA9401 /* TreinoDetalhesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 919FE1611FD977E800EA9401 /* TreinoDetalhesViewController.swift */; };
 		919FE1641FD98AF800EA9401 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 919FE1631FD98AF800EA9401 /* Message.swift */; };
 		91D6B9CE1FD31E4A00F65538 /* BaseDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D6B9CD1FD31E4A00F65538 /* BaseDetailsViewController.swift */; };
@@ -70,6 +73,9 @@
 		91793BAE1FD06188008DC56B /* HistoricoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoricoViewController.swift; sourceTree = "<group>"; };
 		91793BB01FD061BC008DC56B /* RotinaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotinaViewController.swift; sourceTree = "<group>"; };
 		9198D1B520023D7100F862E4 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		9198D1B72006C96800F862E4 /* CustomHistoricoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomHistoricoCell.swift; sourceTree = "<group>"; };
+		9198D1B82006C96800F862E4 /* CustomHistoricoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomHistoricoCell.xib; sourceTree = "<group>"; };
+		9198D1BB2006CF0500F862E4 /* HistoricoDetalhesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoricoDetalhesViewController.swift; sourceTree = "<group>"; };
 		919FE1611FD977E800EA9401 /* TreinoDetalhesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreinoDetalhesViewController.swift; sourceTree = "<group>"; };
 		919FE1631FD98AF800EA9401 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		91D6B9CD1FD31E4A00F65538 /* BaseDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDetailsViewController.swift; sourceTree = "<group>"; };
@@ -133,6 +139,7 @@
 				91E49B111FD1E9850065E3D3 /* RotinaDetalhesViewController.swift */,
 				9165E68E1FE2B29600827C15 /* RotinaDetalhesEdicaoExercicioViewController.swift */,
 				91793BAE1FD06188008DC56B /* HistoricoViewController.swift */,
+				9198D1BB2006CF0500F862E4 /* HistoricoDetalhesViewController.swift */,
 				912E6C261FD066C700BCE057 /* PerfilViewController.swift */,
 				91D6B9DA1FD4A8EF00F65538 /* ExercicioViewController.swift */,
 				91D6B9DC1FD4A90400F65538 /* ExercicioDetalhesViewController.swift */,
@@ -265,6 +272,8 @@
 				91E49B0E1FD07CCC0065E3D3 /* CustomRotinaCell.xib */,
 				91D6B9D61FD49E7800F65538 /* CustomRotinaExercicioCell.swift */,
 				91D6B9D71FD49E7800F65538 /* CustomRotinaExercicioCell.xib */,
+				9198D1B72006C96800F862E4 /* CustomHistoricoCell.swift */,
+				9198D1B82006C96800F862E4 /* CustomHistoricoCell.xib */,
 			);
 			path = "Custom Cell";
 			sourceTree = "<group>";
@@ -350,6 +359,7 @@
 				91D6B9D91FD49E7800F65538 /* CustomRotinaExercicioCell.xib in Resources */,
 				91793B961FCED6B8008DC56B /* Main.storyboard in Resources */,
 				91793BA71FCEE4BB008DC56B /* GoogleService-Info.plist in Resources */,
+				9198D1BA2006C96800F862E4 /* CustomHistoricoCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -443,6 +453,7 @@
 				91E49B031FD076170065E3D3 /* Treino.swift in Sources */,
 				91D6B9DB1FD4A8EF00F65538 /* ExercicioViewController.swift in Sources */,
 				91793BAF1FD06188008DC56B /* HistoricoViewController.swift in Sources */,
+				9198D1B92006C96800F862E4 /* CustomHistoricoCell.swift in Sources */,
 				91793B911FCED6B8008DC56B /* AppDelegate.swift in Sources */,
 				91E49B121FD1E9850065E3D3 /* RotinaDetalhesViewController.swift in Sources */,
 				91E49B051FD076A30065E3D3 /* Rotina.swift in Sources */,
@@ -456,6 +467,7 @@
 				91D6B9E31FD592A700F65538 /* String.swift in Sources */,
 				919FE1641FD98AF800EA9401 /* Message.swift in Sources */,
 				9165E68B1FE0027B00827C15 /* Int.swift in Sources */,
+				9198D1BC2006CF0500F862E4 /* HistoricoDetalhesViewController.swift in Sources */,
 				91793BAD1FCF070C008DC56B /* TreinoViewController.swift in Sources */,
 				91D6B9D81FD49E7800F65538 /* CustomRotinaExercicioCell.swift in Sources */,
 			);

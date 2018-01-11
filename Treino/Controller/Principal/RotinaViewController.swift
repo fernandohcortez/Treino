@@ -8,19 +8,21 @@
 
 import UIKit
 import FirebaseDatabase
+import FirebaseAuth
 import ObjectMapper
 
 class RotinaViewController: UIViewController {
 
     @IBOutlet weak var tableViewRotina: UITableView!
     
-    private let _rotinaRef = Database.database().reference().child("Rotinas")
-    
+    private var _rotinaRef : DatabaseReference!
     private var _rotinaArray : [Rotina] = [Rotina]()
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        configureDatabaseReferenceByUser()
         
         configureTableView()
         
@@ -28,7 +30,6 @@ class RotinaViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-
         configureAddButton()
     }
     
@@ -36,13 +37,41 @@ class RotinaViewController: UIViewController {
         //removeObserversRef()
     }
     
-    func configureAddButton() {
+    private func configureDatabaseReferenceByUser() {
+        
+        guard let userUID = Auth.auth().currentUser?.uid else {
+            
+            Message.CreateAlert(viewController: self, message: "Usuário não autenticado. Refaça o login.")
+            
+            dismiss(animated: true, completion: nil)
+            
+            //navigationController?.popViewController(animated: true)
+            
+            return
+        }
+        
+        _rotinaRef = Database.database().reference().child("Rotinas").child(userUID)
+    }
+    
+    private func configureTableView() {
+        
+        tableViewRotina.delegate = self
+        tableViewRotina.dataSource = self
+        
+        tableViewRotina.register(UINib(nibName : "CustomRotinaCell", bundle : nil), forCellReuseIdentifier: "customRotinaCell")
+        
+        tableViewRotina.separatorStyle = .none
+        
+        configureHeightCellTableView()
+    }
+    
+    private func configureAddButton() {
         
         self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(btnIncluirPressed)
         )
     }
     
-    @objc func btnIncluirPressed(sender: UIBarButtonItem) {
+    @objc private func btnIncluirPressed(sender: UIBarButtonItem) {
         
         performSegue(withIdentifier: "goToRotinaDetalhes", sender: nil)
     }
@@ -59,7 +88,7 @@ class RotinaViewController: UIViewController {
         }
     }
     
-    func addObserversRef() {
+    private func addObserversRef() {
 
         _rotinaRef.observe(.childAdded) { (snapShot) in
             
@@ -106,30 +135,18 @@ class RotinaViewController: UIViewController {
         _rotinaArray.sort{ ($1.status,$0.dataCriacao) > ($0.status,$1.dataCriacao) }
     }
     
-    func removeObserversRef() {
+    private func removeObserversRef() {
         
         _rotinaRef.removeAllObservers()
     }
     
-    func configureTableView() {
-        
-        tableViewRotina.delegate = self
-        tableViewRotina.dataSource = self
-        
-        tableViewRotina.register(UINib(nibName : "CustomRotinaCell", bundle : nil), forCellReuseIdentifier: "customRotinaCell")
-        
-        tableViewRotina.separatorStyle = .none
-        
-        configureHeightCellTableView()
-    }
-    
-    func configureHeightCellTableView() {
+    private func configureHeightCellTableView() {
         
         tableViewRotina.rowHeight = UITableViewAutomaticDimension
         tableViewRotina.estimatedRowHeight = 150.0
     }
     
-    func recarregarTableView() {
+    private func recarregarTableView() {
         
         orderRotinaArray()
         

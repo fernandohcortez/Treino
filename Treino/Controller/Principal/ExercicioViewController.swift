@@ -20,7 +20,7 @@ class ExercicioViewController: UIViewController {
     
     var delegate : ExercicioDelegate?
     
-    private let _exercicioRef = Database.database().reference().child("Exercicios")
+    private var _exercicioRef : DatabaseReference!
     
     private var _exercicioArray = [Exercicio]()
     
@@ -41,11 +41,27 @@ class ExercicioViewController: UIViewController {
         
         super.viewDidLoad()
         
+        configureDatabaseReferenceByUser()
+        
         configureTableView()
         
         configureScreenAsSelectingMode()
         
         retrieveAllExercises()
+    }
+    
+    private func configureDatabaseReferenceByUser() {
+        
+        guard let userUID = Auth.auth().currentUser?.uid else {
+            
+            Message.CreateAlert(viewController: self, message: "Usuário não autenticado. Refaça o login.")
+            
+            dismiss(animated: true, completion: nil)
+            
+            return
+        }
+        
+        _exercicioRef = Database.database().reference().child("Exercicios").child(userUID)
     }
     
     private func setNavBarButtonAsDone() {

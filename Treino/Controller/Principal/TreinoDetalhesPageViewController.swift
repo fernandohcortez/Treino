@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import FirebaseAuth
 import SVProgressHUD
 
 class TreinoDetalhesPageViewController: UIPageViewController {
@@ -23,7 +24,7 @@ class TreinoDetalhesPageViewController: UIPageViewController {
     
     private var _treino : Treino!
     
-    private let _treinoRef = Database.database().reference().child("Treinos")
+    private var _treinoRef : DatabaseReference!
     
     var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
     
@@ -67,7 +68,7 @@ class TreinoDetalhesPageViewController: UIPageViewController {
         addTreinoDetalhesViewController(treinoDetalhesVC)
     }
     
-    func registerBackgroundTask() {
+    private func registerBackgroundTask() {
         
         backgroundTask = UIApplication.shared.beginBackgroundTask { [weak self] in
             self?.endBackgroundTask()
@@ -75,7 +76,7 @@ class TreinoDetalhesPageViewController: UIPageViewController {
         assert(backgroundTask != UIBackgroundTaskInvalid)
     }
     
-    func endBackgroundTask() {
+    private func endBackgroundTask() {
         
         print("Background task ended.")
         UIApplication.shared.endBackgroundTask(backgroundTask)
@@ -85,15 +86,36 @@ class TreinoDetalhesPageViewController: UIPageViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
-        self.delegate = self
-        self.dataSource = self
 
-        configureButtons()
+        configureDatabaseReferenceByUser()
+        
+        configureComponents()
         
         setInitialPage()
         
         initializeTimer()
+    }
+    
+    private func configureDatabaseReferenceByUser() {
+        
+        guard let userUID = Auth.auth().currentUser?.uid else {
+            
+            Message.CreateAlert(viewController: self, message: "Usuário não autenticado. Refaça o login.")
+            
+            dismiss(animated: true, completion: nil)
+            
+            return
+        }
+        
+        _treinoRef = Database.database().reference().child("Treinos").child(userUID)
+    }
+    
+    private func configureComponents() {
+        
+        self.delegate = self
+        self.dataSource = self
+        
+        configureButtons()
     }
     
     private func configureButtons() {

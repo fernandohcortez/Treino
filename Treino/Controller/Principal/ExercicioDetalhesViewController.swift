@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import FirebaseAuth
 import FirebaseStorage
 import SVProgressHUD
 
@@ -27,7 +28,7 @@ class ExercicioDetalhesViewController: BaseDetailsViewController {
         get { return model as! Exercicio}
     }
     
-    private let _exercicioRef = Database.database().reference().child("Exercicios")
+    private var _exercicioRef : DatabaseReference!
     
     private let _storageRef = Storage.storage().reference()
 
@@ -37,10 +38,26 @@ class ExercicioDetalhesViewController: BaseDetailsViewController {
         
         super.viewDidLoad()
 
+        configureDatabaseReferenceByUser()
+        
         configureComponents()
     }
     
-    func configureComponents() {
+    private func configureDatabaseReferenceByUser() {
+        
+        guard let userUID = Auth.auth().currentUser?.uid else {
+            
+            Message.CreateAlert(viewController: self, message: "Usuário não autenticado. Refaça o login.")
+            
+            dismiss(animated: true, completion: nil)
+            
+            return
+        }
+        
+        _exercicioRef = Database.database().reference().child("Exercicios").child(userUID)
+    }
+    
+    private func configureComponents() {
         
         configureTableView()
         
