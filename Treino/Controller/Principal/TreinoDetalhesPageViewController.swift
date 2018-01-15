@@ -26,7 +26,66 @@ class TreinoDetalhesPageViewController: UIPageViewController {
     
     private var _treinoRef : DatabaseReference!
     
-    var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
+    private let _notificationCenter = NotificationCenter.default
+    private var _timeEnteredBackgroundMode : Date?
+    
+    //var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
+    
+    override func viewDidLoad() {
+        
+        super.viewDidLoad()
+
+        configureDatabaseReferenceByUser()
+        
+        configureComponents()
+        
+        setInitialPage()
+        
+        initializeTimer()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        registerNotificationsForControllingTimeWhenInBackgroundMode()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        unregisterNotificationsForControllingTimeWhenInBackgroundMode()
+    }
+    
+    private func registerNotificationsForControllingTimeWhenInBackgroundMode() {
+        
+        _notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: Notification.Name.UIApplicationWillResignActive, object: nil)
+        
+        _notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: Notification.Name.UIApplicationWillEnterForeground, object: nil)
+    }
+    
+    private func unregisterNotificationsForControllingTimeWhenInBackgroundMode() {
+        
+        _notificationCenter.removeObserver(Notification.Name.UIApplicationWillResignActive)
+        _notificationCenter.removeObserver(Notification.Name.UIApplicationWillEnterForeground)
+    }
+    
+    @objc private func appMovedToBackground() {
+        
+        guard !_timerPaused else { return }
+        
+        pauseTimerButtonPressed()
+        
+        _timeEnteredBackgroundMode = Date()
+    }
+    
+    @objc private func appMovedToForeground() {
+        
+        guard _timeEnteredBackgroundMode != nil else { return }
+        
+        let secondsInBackgroundMode = Date().seconds(from: _timeEnteredBackgroundMode!)
+        
+        _timeEnteredBackgroundMode = nil
+        
+        _counterTimer += secondsInBackgroundMode
+        
+        startOrResumeTimerButtonPressed()
+    }
     
     func startTreino(from rotina: Rotina) {
         
@@ -68,33 +127,20 @@ class TreinoDetalhesPageViewController: UIPageViewController {
         addTreinoDetalhesViewController(treinoDetalhesVC)
     }
     
-    private func registerBackgroundTask() {
-        
-        backgroundTask = UIApplication.shared.beginBackgroundTask { [weak self] in
-            self?.endBackgroundTask()
-        }
-        assert(backgroundTask != UIBackgroundTaskInvalid)
-    }
-    
-    private func endBackgroundTask() {
-        
-        print("Background task ended.")
-        UIApplication.shared.endBackgroundTask(backgroundTask)
-        backgroundTask = UIBackgroundTaskInvalid
-    }
-    
-    override func viewDidLoad() {
-        
-        super.viewDidLoad()
-
-        configureDatabaseReferenceByUser()
-        
-        configureComponents()
-        
-        setInitialPage()
-        
-        initializeTimer()
-    }
+//    private func registerBackgroundTask() {
+//
+//        backgroundTask = UIApplication.shared.beginBackgroundTask { [weak self] in
+//            self?.endBackgroundTask()
+//        }
+//        assert(backgroundTask != UIBackgroundTaskInvalid)
+//    }
+//
+//    private func endBackgroundTask() {
+//
+//        print("Background task ended.")
+//        UIApplication.shared.endBackgroundTask(backgroundTask)
+//        backgroundTask = UIBackgroundTaskInvalid
+//    }
     
     private func configureDatabaseReferenceByUser() {
         
@@ -151,17 +197,22 @@ class TreinoDetalhesPageViewController: UIPageViewController {
         
         Message.CreateQuestionYesNo(viewController: self, message: "Deseja abandonar o treino?", actionYes: { (action) in
             
-            self.endTreino(finalizado: false)
+            self.endTreino(finalizado: false, canceled: true)
         })
     }
     
-    private func endTreino(finalizado: Bool) {
+    private func endTreino(finalizado: Bool, canceled: Bool = false) {
         
         setTreinoAsEnded(finalizado: finalizado)
         
         stopTimerButtonPressed()
         
-        saveDataTreino()
+        if !canceled {
+            saveDataTreino()
+        }
+        else {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     
     private func setTreinoAsEnded(finalizado: Bool) {
@@ -233,14 +284,14 @@ class TreinoDetalhesPageViewController: UIPageViewController {
     
     private func updateTimerViewController() {
         
-        switch UIApplication.shared.applicationState {
-        case .active:
+//        switch UIApplication.shared.applicationState {
+//        case .active:
             _currentViewController.updateTimer(counterTimer: _counterTimer, timerPaused: _timerPaused)
-        case .background:
-            print("Background time remaining = \(UIApplication.shared.backgroundTimeRemaining) seconds")
-        case .inactive:
-            break
-        }
+//        case .background:
+//            print("Background time remaining = \(UIApplication.shared.backgroundTimeRemaining) seconds")
+//        case .inactive:
+//            break
+//        }
     }
 }
 
@@ -297,7 +348,7 @@ extension TreinoDetalhesPageViewController: ExercicioTreinoDelegate {
     
     func pauseTimerButtonPressed() {
         
-        endBackgroundTask()
+        //endBackgroundTask()
         
         _timer.invalidate()
         
@@ -308,16 +359,18 @@ extension TreinoDetalhesPageViewController: ExercicioTreinoDelegate {
     
     func startOrResumeTimerButtonPressed() {
         
-        registerBackgroundTask()
-        
-        _timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        //registerBackgroundTask()
         
         _timerPaused = false
+        
+        updateTimer()
+        
+        _timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
     }
     
     func stopTimerButtonPressed() {
         
-        endBackgroundTask()
+        //endBackgroundTask()
         
         _timer.invalidate()
         

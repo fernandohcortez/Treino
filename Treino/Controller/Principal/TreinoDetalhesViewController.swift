@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 protocol ExercicioTreinoDelegate {
     func finalizarTreinoButtonPressed()
@@ -46,6 +47,13 @@ class TreinoDetalhesViewController: BaseDetailsViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
+        SVProgressHUD.show()
+        
+        defer {
+            SVProgressHUD.dismiss()
+        }
+        
         updateDataScreen()
     }
     
@@ -122,6 +130,8 @@ class TreinoDetalhesViewController: BaseDetailsViewController {
         } else {
             delegate?.pauseTimerButtonPressed()
         }
+        
+        updateImageButtonPauseResumeTimer()
     }
     
     private func updateImageButtonPauseResumeTimer() {
@@ -161,6 +171,13 @@ class TreinoDetalhesViewController: BaseDetailsViewController {
 
     
     @IBAction private func btnFinalizarTreinoPressed(_ sender: UIButton) {
+        
+        SVProgressHUD.show()
+        
+        defer {
+            SVProgressHUD.dismiss()
+        }
+        
         delegate?.finalizarTreinoButtonPressed()
     }
     
@@ -178,9 +195,9 @@ class TreinoDetalhesViewController: BaseDetailsViewController {
         
         _timerPaused = timerPaused
         
-        updateLabelTimer()
+        //updateImageButtonPauseResumeTimer()
         
-        updateImageButtonPauseResumeTimer()
+        updateLabelTimer()
     }
     
     func isLastExercise() -> Bool {

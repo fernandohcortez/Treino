@@ -10,6 +10,7 @@ import UIKit
 import FirebaseDatabase
 import FirebaseAuth
 import ObjectMapper
+import SVProgressHUD
 
 class HistoricoViewController: UIViewController {
 
@@ -26,10 +27,19 @@ class HistoricoViewController: UIViewController {
         
         configureTableView()
         
-        retrieveAllTreinos()
+        
     }
 
     override func viewDidAppear(_ animated: Bool) {
+        
+        SVProgressHUD.show()
+        
+        defer {
+            SVProgressHUD.dismiss()
+        }
+        
+        retrieveAllTreinos()
+        
         configureAddButton()
     }
     
@@ -102,6 +112,8 @@ class HistoricoViewController: UIViewController {
                         treino.autoKey = jsonTreino.key
                         
                         self._treinoArray.append(treino)
+                        
+                        self._treinoArray.sort { $0.dataHoraInicio < $1.dataHoraInicio }
                     }
                 }
                 

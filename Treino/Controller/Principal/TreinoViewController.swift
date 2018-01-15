@@ -30,7 +30,7 @@ class TreinoViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
+
         hideBackButton()
         
         configureRightNavBarButtonAsReorder()

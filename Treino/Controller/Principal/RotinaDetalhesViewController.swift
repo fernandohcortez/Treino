@@ -79,7 +79,7 @@ class RotinaDetalhesViewController: BaseDetailsViewController {
         }
     }
     
-    func configureTableView() {
+    private func configureTableView() {
         
         tableViewExercises.delegate = self
         tableViewExercises.dataSource = self
@@ -95,20 +95,20 @@ class RotinaDetalhesViewController: BaseDetailsViewController {
         //configureHeightCellTableView()
     }
     
-    func configureHeightCellTableView() {
+    private func configureHeightCellTableView() {
         
         tableViewExercises.rowHeight = UITableViewAutomaticDimension
         tableViewExercises.estimatedRowHeight = 150.0
     }
     
-    func reloadTableView() {
+    private func reloadTableView() {
         
         configureHeightCellTableView()
         
         tableViewExercises.reloadData()
     }
     
-    func carregarModelTela () {
+    private func carregarModelTela () {
         
         nomeRotinaTextField.text = _rotina.nome
         observacoesTextField.text = _rotina.observacao
@@ -151,7 +151,7 @@ class RotinaDetalhesViewController: BaseDetailsViewController {
 //        }
 //    }
     
-    @objc func btnSalvarPressed(sender: UIBarButtonItem) {
+    @objc private func btnSalvarPressed(sender: UIBarButtonItem) {
         
         arquivadoSwitch.endEditing(true)
         nomeRotinaTextField.isEnabled = false
